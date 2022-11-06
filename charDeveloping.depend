@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1660620231 source:d:\descargas\chardeveloping\resource.rc
+	"resource.h"
+
+1666367892 d:\descargas\chardeveloping\resource.h
+	<windows.h>
+
+1663118608 source:d:\descargas\chardeveloping\main.cpp
+	<windows.h>
+	"resource.h"
+	"funciones.c"
+
+1663119591 d:\descargas\chardeveloping\funciones.c
+	<stdio.h>
+	<windows.h>
+	<time.h>
+	<stdlib.h>
+

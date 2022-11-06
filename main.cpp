@@ -1,0 +1,713 @@
+#define WIN32_LEAN_AND_MEAN
+
+#include <windows.h>
+
+#include "resource.h"
+#include "funciones.c"
+
+typedef char Public;
+typedef char String[500];
+
+Public bye[] = "exit.program";
+Public screen[] = "clear.screen";
+Public view[] = "view.texture";
+Public pplayer[] = "player";
+Public loadScene[] = "read.scene";
+Public scenesCreator[] = "open.creator.scenes";
+
+void InsertarMenu(HWND hWnd);
+
+HINSTANCE hInst;
+
+BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    String user1, user2;/*, user3, user4;
+    int UserX = 0 , UserY = 0;
+    float N1, N2, N3, num1, num2, result;*/
+
+    char MainFile[] = "main.c";
+    char cpngFile[] = "cpng.h";
+    char structs[] = "objects.h";
+    char registros[] = "game.ty";
+
+    switch(uMsg)
+    {
+        case WM_INITDIALOG:
+            /*
+             * TODO: Add code to initialize the dialog.
+             */
+             InsertarMenu(hwndDlg);
+             SetTitle("Char Developing : cmd : start");
+             printf("Stringgame : open! : ");
+
+            return TRUE;
+
+        case WM_CLOSE:
+
+             printf("Stringgame : ");
+             yReadFile("User.dat");
+             printf(" : desea salir?\n");
+             if (MessageBox(hwndDlg, "Desea cerrar Char Developing", "Salir", MB_ICONQUESTION | MB_YESNO) == IDYES)
+             {
+                sFile2(registros,"Command: ");
+                sFile(registros,"User Exit:");
+                EndDialog(hwndDlg, 0);
+             }
+             printf("Stringgame : ");
+             yReadFile("User.dat");
+             printf(" : cancelo la salida de Char Developing\n");
+
+            return TRUE;
+
+
+
+        case WM_COMMAND:
+            switch(LOWORD(wParam))
+            {
+                /*
+                 * TODO: Add more control ID's, when needed.
+                 */
+                            case CM_PRUEBA:
+
+            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+
+            sFile2(registros,"Command: option -> user -> delete file -> FILE: ");
+            sFile(registros,user1);
+
+            if (remove(user1) == -1)
+                {
+                    sFile2(registros,"Command: error -> file no delete");
+                    sFile(registros,"User bad Adress!:");
+                    SetTitle("Stringgame : cmd : error");
+
+                    MessageBox(hwndDlg, "El Archivo no se pudo eliminar...", "Stringgame : delete file : error", MB_ICONERROR);
+
+                    SetTitle("Stringgame : cmd");
+                }
+
+                else
+                {
+                    MessageBox(hwndDlg, "Archivo Eliminado con exito", "Stringgame : delete file", MB_ICONINFORMATION);
+                }
+            return TRUE;
+
+            case CM_ARCHIVOS:
+
+            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+
+            return TRUE;
+
+            case CM_CREADOR_PROJECTS:
+
+            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, MainFile, 100);
+
+            sFile("mainScene.sce","StartScene");
+
+            sFile(MainFile,"#include \"include\\stringgame.h\"");
+            sFile(MainFile,"");
+            sFile(MainFile,"void paint_game (struct _scenes_ * Scene);");
+            sFile(MainFile,"");
+            sFile(MainFile,"int main (void){");
+            sFile(MainFile,"");
+            sFile(MainFile,"     //Struct of main scene");
+            sFile(MainFile,"     struct _scenes_ mainScene;");
+            sFile(MainFile,"");
+            sFile(MainFile,"     strcpy(mainScene.name,\"mainScene\");");
+            sFile(MainFile,"     mainScene.id = 0;");
+            sFile(MainFile,"     mainScene.actives = 1;//never 0");
+            sFile(MainFile,"");
+            sFile(MainFile,"     while(true){");
+            sFile(MainFile,"");
+            sFile(MainFile,"          paint_game(&mainScene);");
+            sFile(MainFile,"");
+            sFile(MainFile,"  }");
+            sFile(MainFile,"}");
+            sFile(MainFile,"");
+            sFile(MainFile,"void paint_game (struct _scenes_ * Scene){");
+            sFile(MainFile,"");
+            sFile(MainFile,"     StrLoad_scene_(Scene);");
+            sFile(MainFile,"");
+            sFile(MainFile,"}");
+            sFile(MainFile,"");
+
+             MessageBox(hwndDlg, "Se ha generado un codigo ","CharDeveloping : create file *c", MB_ICONINFORMATION);
+
+            return TRUE;
+
+            case CM_CREADOR_CPNG:
+
+                   GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                   GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+
+                   sFile2(cpngFile,"//this is a cpng the ");
+                   sFile(cpngFile,user1);
+                   sFile(cpngFile,"");
+                   sFile2(cpngFile,"char cpng_");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile," (void){");
+                   sFile(cpngFile,"");
+                   sFile(cpngFile,"       // TODO: Implement this function");
+                   sFile2(cpngFile,"    struct cpng ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,";");
+                   sFile(cpngFile,"");
+                   sFile(cpngFile,"    ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,".X = (int)NULL; // o 0");
+                   sFile(cpngFile,"");
+                   sFile(cpngFile,"    ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,".Y = (int)NULL; // o 0");
+                   sFile(cpngFile,"");
+                   sFile2(cpngFile,"    ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,".Top = 1;");
+                   sFile2(cpngFile,"    ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,".Down = 1;");
+                   sFile2(cpngFile,"    ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,".Letf = 1;");
+                   sFile2(cpngFile,"    ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,".Right = 1;");
+                   sFile2(cpngFile,"    ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,".ID = 1;");
+                   sFile2(cpngFile,"    ");
+                   sFile2(cpngFile,"strcpy(");
+                   sFile2(cpngFile,user1);
+                   sFile2(cpngFile,".Name , \"");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,"\");");
+                   sFile(cpngFile,"");
+                   sFile2(cpngFile,"    ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,".color = 3;");
+                   sFile(cpngFile,"");
+                   sFile2(cpngFile,"    ");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,".range = 0;");
+                   sFile2(cpngFile,"    ");
+                   sFile2(cpngFile,"strcpy(");
+                   sFile2(cpngFile,user1);
+                   sFile2(cpngFile,".data , \"");
+                   sFile2(cpngFile,user2);
+                   sFile(cpngFile,"\");");
+                   sFile(cpngFile,"");
+                   sFile2(cpngFile,"    StrStartCpng(&");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,");");
+                   sFile2(cpngFile,"    StrPaintCpng(&");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,");");
+                   sFile2(cpngFile,"    StrEndCpng(&");
+                   sFile2(cpngFile,user1);
+                   sFile(cpngFile,");");
+                   sFile(cpngFile,"");
+                   sFile(cpngFile,"}");
+                   MessageBox(hwndDlg , "Se ha guardado el cpng en el archivo 'cpng.h" , "Stringame : save cpng" , MB_ICONINFORMATION);
+
+            return TRUE;
+
+            case CM_CREADOR_SCENE:
+
+                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+
+                 sFile2("scenes.h","void scene_");
+                 sFile2("scenes.h",user1);
+                 sFile("scenes.h"," (struct _scenes_ * Scenes){");
+                 sFile("scenes.h","");
+                 sFile("scenes.h","    StrLoad_scene_(Scenes);");
+                 sFile("scenes.h","");
+                 sFile("scenes.h","}");
+
+                 MessageBox(hwndDlg,"Se ha creado la funcion", "Escrity : functions", MB_ICONINFORMATION);
+
+            return TRUE;
+
+            case CM_CREADOR_NEWOBJECT:
+
+                   sFile2(structs,"//This is newObject the ");
+                        sFile(structs,user1);
+                        sFile(structs,"");
+                        sFile2(structs,"struct newObject ");
+                        sFile2(structs,user1);
+                        sFile(structs,";");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".ID = 1;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".positionX = 0;");
+                        sFile(structs,user1);
+                        sFile(structs,".positionY = 0");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXTop = 0;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXDown = 0;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXLetf = 1;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXright = 0;");
+
+                        sFile(structs,"");
+
+            return TRUE;
+
+            case CM_CREADOR_CPNGS:
+
+                     GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                     MessageBox(hwndDlg , "Se ha cargado el editador" , "Escrity : load edit" , MB_ICONINFORMATION);
+                     cpngs(user1);
+
+            return TRUE;
+
+            case CM_CREADOR_OBJECT:
+
+                    GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+
+                    if(strcasecmp(user1,pplayer) == 0){
+
+                        sFile(structs,"#ifndef OBJECTS_H");
+                        sFile(structs,"#define OBJECTS_H");
+                        sFile(structs,"#include \"include/stringgame.h\"");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,"//This is object the ");
+                        sFile(structs,user1);
+                        sFile(structs,"");
+                        sFile2(structs,"struct Object ");
+                        sFile2(structs,user1);
+                        sFile(structs,";");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".ID = 1;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".positionX = 0;");
+                        sFile2(structs,user1);
+                        sFile(structs,".positionY = 0");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXTop = 0;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXDown = 0;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXLetf = 1;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXright = 0;");
+
+                        sFile(structs,"");
+
+                MessageBox(hwndDlg , "" , "" , MB_ICONINFORMATION);
+
+                    }
+
+                    sFile2(structs,"//This is object the ");
+                        sFile(structs,user1);
+                        sFile(structs,"");
+                        sFile2(structs,"struct Object ");
+                        sFile2(structs,user1);
+                        sFile(structs,";");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".ID = 1;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".positionX = 0;");
+                        sFile2(structs,user1);
+                        sFile(structs,".positionY = 0");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXTop = 0;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXDown = 0;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXLetf = 1;");
+
+                        sFile(structs,"");
+
+                        sFile2(structs,user1);
+                        sFile(structs,".BOXright = 0;");
+
+                        sFile(structs,"");
+
+                    MessageBox(hwndDlg , "Se han escrito el object en el archivo 'objects.h" , "Stringame : save object" , MB_ICONINFORMATION);
+
+            return TRUE;
+
+            case CM_USE_TEXTURE:
+
+           GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+           GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+
+           sFile2("main.c","        //print or paint texture ");
+           sFile2("main.c",user2);
+           sFile2("main.c","        Coordinates ");
+           sFile("main.c",user1);
+           sFile2("main.c","        StrGotoXY(");
+           sFile2("main.c",user1);
+           sFile("main.c",");");
+           sFile2("main.c","        texture_");
+           sFile2("main.c",user2);
+           sFile("main.c","();");
+
+           MessageBox(hwndDlg , "Se ha escrito la texture" , "Stringame : add texture" , MB_ICONINFORMATION);
+
+        return TRUE;
+
+        case CM_CREADOR_TEXTURE:
+
+            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+
+            if(strcmp(user1,pplayer) == 0){
+
+                sFile2("textures.h","//this is a texture the ");
+            sFile("textures.h",user1);
+            sFile("textures.h","//This is very import texture , is the player");
+            sFile2("textures.h","char * ");
+            sFile2("textures.h","texture_");
+            sFile2("textures.h",user1);
+            sFile("textures.h"," (void){");
+            sFile("textures.h","    // TODO: Implement this function");
+            sFile2("textures.h","    struct texture ");
+            sFile2("textures.h",user1);
+            sFile("textures.h",";");
+            sFile2("textures.h","    ");
+            sFile2("textures.h",user1);
+            sFile("textures.h",".ID = 1;");
+            sFile2("textures.h","    ");
+            sFile2("textures.h",user1);
+            sFile("textures.h",".mode = 1;");
+            sFile2("textures.h","    ");
+            sFile2("textures.h","strcpy(");
+            sFile2("textures.h",user1);
+            sFile2("textures.h",".name");
+            sFile2("textures.h",",\"Object_");
+            sFile2("textures.h",user1);
+            sFile("textures.h","\");");
+            sFile2("textures.h","    ");
+            sFile2("textures.h","strcpy(");
+            sFile2("textures.h",user1);
+            sFile2("textures.h",".nameFile");
+            sFile2("textures.h",",\"");
+            sFile2("textures.h",user1);
+            sFile("textures.h","\");");
+            sFile2("textures.h","    ");
+            sFile2("textures.h","strcpy(");
+            sFile2("textures.h",user1);
+            sFile2("textures.h",".content");
+            sFile2("textures.h",",\"");
+            sFile2("textures.h",user2);
+            sFile("textures.h","\"); //Here you data or strings");
+            sFile2("textures.h","    StrPrintTexture(&");
+            sFile2("textures.h",user1);
+            sFile("textures.h",");");
+            sFile("textures.h","}");
+            sFile("textures.h","");
+            sFile("textures.dat",user2);
+            MessageBox(hwndDlg , "Se ha guardado la texture en el archivo 'textures.h" , "Stringame : save texture" , MB_ICONINFORMATION);
+            }
+
+            sFile2("textures.h","//this is a texture the ");
+            sFile("textures.h",user1);
+            sFile2("textures.h","void ");
+            sFile2("textures.h","texture_");
+            sFile2("textures.h",user1);
+            sFile("textures.h"," (void){");
+            sFile("textures.h","    // TODO: Implement this function");
+            sFile2("textures.h","    struct texture ");
+            sFile2("textures.h",user1);
+            sFile("textures.h",";");
+            sFile2("textures.h","    ");
+            sFile2("textures.h",user1);
+            sFile("textures.h",".ID = 1;");
+            sFile2("textures.h","    ");
+            sFile2("textures.h",user1);
+            sFile("textures.h",".mode = 1;");
+            sFile2("textures.h","    ");
+            sFile2("textures.h","strcpy(");
+            sFile2("textures.h",user1);
+            sFile2("textures.h",".name");
+            sFile2("textures.h",",\"Object_");
+            sFile2("textures.h",user1);
+            sFile("textures.h","\");");
+            sFile2("textures.h","    ");
+            sFile2("textures.h","strcpy(");
+            sFile2("textures.h",user1);
+            sFile2("textures.h",".nameFile");
+            sFile2("textures.h",",\"");
+            sFile2("textures.h",user1);
+            sFile("textures.h","\");");
+            sFile2("textures.h","    ");
+            sFile2("textures.h","strcpy(");
+            sFile2("textures.h",user1);
+            sFile2("textures.h",".content");
+            sFile2("textures.h",",\"");
+            sFile2("textures.h",user2);
+            sFile("textures.h","\"); //Here you data or strings");
+            sFile2("textures.h","    StrPrintTexture(&");
+            sFile2("textures.h",user1);
+            sFile("textures.h",");");
+            sFile("textures.h","}");
+            sFile("textures.h","");
+            sFile("textures.dat",user2);
+            MessageBox(hwndDlg , "Se ha guardado la texture en el archivo 'textures.h" , "Stringame : save texture" , MB_ICONINFORMATION);
+
+
+        return TRUE;
+
+        case CM_NEW_FUCTIONS:
+
+                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);//Edit para el nombre de la funcion
+                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user2, 100);//Archivo donde se guarda la funcion
+
+                 sFile2(user2,user1);
+                 sFile(user2,"{");
+                 sFile(user2,"    ");
+                 sFile(user2,"}");
+
+                 sFile2(registros,"TYP_");
+                 sFile2(registros,user1);
+                 sFile2(registros,"();");
+
+        return TRUE;
+
+        case CM_NAME_PROJECT:
+
+                GetDlgItemText(hwndDlg, IDC_EDIT_INPUT , user1, 100);
+
+                //registros = user1;
+
+
+        return TRUE;
+
+        case CM_SALIR:
+               sFile2(registros,"Command: User Exit: ");
+            EndDialog(hwndDlg, 0);
+            return TRUE;
+
+        case CM_CREADOR_ASSET:
+
+            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+
+            sFile2("Assets.h","//this is a asset the ");
+            sFile("Assets.h",user1);
+            sFile2("Assets.h","void ");
+            sFile2("Assets.h","asset_");
+            sFile2("Assets.h",user1);
+            sFile("Assets.h"," (void){");
+            sFile("Assets.h","    // TODO: Implement this function");
+            sFile2("Assets.h","    struct asset ");
+            sFile2("Assets.h",user1);
+            sFile("Assets.h",";");
+            sFile2("Assets.h","    ");
+            sFile2("Assets.h",user1);
+            sFile("Assets.h",".ID = 1;");
+            sFile2("Assets.h","    ");
+            sFile2("Assets.h",user1);
+            sFile("Assets.h",".color = 1;");
+            sFile2("Assets.h","    ");
+            sFile2("Assets.h","strcpy(");
+            sFile2("Assets.h",user1);
+            sFile2("Assets.h",".name,\"asset_");
+            sFile2("Assets.h",user1);
+            sFile("Assets.h","\");");
+            sFile2("Assets.h","    ");
+            sFile2("Assets.h","strcpy(");
+            sFile2("Assets.h",user1);
+            sFile2("Assets.h",".data,");
+            sFile2("Assets.h","\"");
+            sFile2("Assets.h",user2);
+            sFile("Assets.h","\");");
+            sFile2("Assets.h","    ");
+            sFile2("Assets.h","StrAssetStart(&");
+            sFile2("Assets.h",user1);
+            sFile("Assets.h",");");
+            sFile2("Assets.h","    ");
+            sFile2("Assets.h","StrAssetPaint(&");
+            sFile2("Assets.h",user1);
+            sFile("Assets.h",");");
+            sFile2("Assets.h","    ");
+            sFile2("Assets.h","StrAssetEnd(&");
+            sFile2("Assets.h",user1);
+            sFile("Assets.h",");");
+            sFile("Assets.h","}");
+            sFile("Assets.h","");
+
+            sFile2("assets.dat","Name Asset: ");
+            sFile2("assets.dat","asset_");
+            sFile("assets.dat",user1);
+            sFile("assets.dat","");
+            sFile2("assets.dat","Asset: ");
+            sFile("assets.dat",user2);
+
+            MessageBox(hwndDlg , "Se ha guardado el asset en el archivo 'Assets.h" , "Stringgame : save asset" , MB_ICONINFORMATION);
+
+        return TRUE;
+                case IDC_BTN_QUIT:
+                    EndDialog(hwndDlg, 0);
+                    return TRUE;
+
+                    case CM_NEW_PROJECT:
+
+                          GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                          GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+
+                          MessageBox(hwndDlg, "*Antes cree la carpeta donde se almacenara el projecto", "Aviso de ruta", MB_ICONINFORMATION);
+
+                          newProject (user1, hwndDlg, user2);
+
+                    return TRUE;
+
+                case IDC_BTN_TEST:
+
+                    GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+
+                    if(strcmp(user1,loadScene) == 0){
+
+                        GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+                        CLS();
+                         file_scene_(user2);
+
+                    }
+
+                    if(strcmp(user1,scenesCreator) == 0){
+
+                        GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+                        CLS();
+                        StrCreate_scene_(user2);
+
+                    }
+
+                    if(strcmp(user1,view) == 0){
+
+                        GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+                        StrGotoXY(33,10);
+                        yReadFile("textures.dat");
+                        sFile2("textures.h","//This coordinates ");
+                        sFile("textures.h",user2);
+                        if(remove("textures.dat") == -1){
+
+                            printf("Stringgame : textures.dat : this null");
+                            printf("Stringgame : close program...");
+                            Sleep(1500);
+                            EndDialog(hwndDlg, 0);
+
+                        }
+
+                    }
+
+                    if(strcmp(user1,bye) == 0){
+
+                           EndDialog(hwndDlg, 0);
+
+                    }
+
+                    if(strcmp(user1,screen) == 0){
+
+                           CLS();
+
+                    }
+
+                    return TRUE;
+            }
+    }
+
+    return FALSE;
+}
+
+void InsertarMenu(HWND hWnd)
+{
+    HMENU hMenu1, hMenu2 , hMenu3 , hMenu4 , hMenu5;
+
+    hMenu1 = CreateMenu();                                                /* Manipulador de la barra de menú */
+    hMenu2 = CreateMenu();
+    hMenu3 = CreateMenu();
+    hMenu4 = CreateMenu();
+    hMenu5 = CreateMenu();
+
+    //hMenu                                               /* Manipulador para el primer menú pop-up */
+    AppendMenu(hMenu2, MF_STRING, CM_PRUEBA, "&Eliminar archivo"); /* 1º ítem */
+    AppendMenu(hMenu2, MF_STRING, CM_ARCHIVOS, "&Crear archivo");    /* 2 item*/
+    AppendMenu(hMenu2, MF_SEPARATOR, 0, NULL);                            /* 3º ítem (separador) */
+    //AppendMenu(hMenu4, MF_STRING, CM_CREADOR_IMG, "&Instrucciones");      /* 4"º ítem */
+    AppendMenu(hMenu2, MF_STRING, CM_SALIR, "&Salir");                    /* 5º ítem */
+    //hMenu3
+    AppendMenu(hMenu3, MF_STRING, CM_CREADOR_TEXTURE, "&Crear Archivo Texture");
+    AppendMenu(hMenu3, MF_STRING, CM_CREADOR_CPNG, "&Crear Archivo Cpng");
+    AppendMenu(hMenu3, MF_STRING, CM_CREADOR_ASSET, "&Crear Archivo Asset");
+    AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
+    AppendMenu(hMenu3, MF_STRING, CM_CREADOR_OBJECT, "&Crear Archivo objects");
+    AppendMenu(hMenu3, MF_STRING, CM_CREADOR_NEWOBJECT, "&Crear Archivo newObject");
+    AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
+    AppendMenu(hMenu3, MF_STRING, CM_CREADOR_CPNGS, "&Crear CPNG file type");
+    AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
+    AppendMenu(hMenu3, MF_STRING, CM_CREADOR_SCENE, "&Crear Scene");
+
+
+    AppendMenu(hMenu2, MF_SEPARATOR, 0, NULL);
+    AppendMenu(hMenu2, MF_STRING, CM_NAME_PROJECT, "&Nombre del projecto");
+    AppendMenu(hMenu5, MF_STRING, CM_BUILD_PROJECT, "&build project file c");
+    AppendMenu(hMenu5, MF_STRING, CM_NEW_FUCTIONS, "&Generate function");
+
+    AppendMenu(hMenu5, MF_SEPARATOR, 0, NULL);
+    AppendMenu(hMenu5, MF_STRING, CM_CREADOR_PROJECTS, "&Generate code main");
+    AppendMenu(hMenu5, MF_STRING, CM_NEW_PROJECT, "&Nuevo projecto");
+    /* Inserción del menú pop-up */
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu2, "&Archivos");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu3, "&Structs");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu4, "&Commands");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu5, "&Project");
+    SetMenu(hWnd, hMenu1); /* Asigna el menú a la ventana hWnd */
+}
+
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+{
+    hInst = hInstance;
+
+    // The user interface is a modal dialog box
+    return DialogBox(hInstance, MAKEINTRESOURCE(DLG_MAIN), NULL, (DLGPROC)DialogProc);
+}
