@@ -4,6 +4,9 @@ Este es un programa para intentar crear juegos de caracteres con el lenguaje C, 
 El projecto esta hecho en codeblocks.
 
 ## ¿En que se trabaja actualmente?
-Actualmente se esta desarrollando la libreria (solo es compatible con el lenguaje C) **chardeveloping** para añadirla al programa. Tambien se esta trabajando en una ventana completa para dejar de usar la de dialogo y poder tener mas opciones.
-
-Para saber como funciona el programa o mas informacion visite la wiki del repositorio.
+Actualmente se esta trabajando en el menú de proyectos
+Para mejorar la experiencia y hacer todo esto 
+Mas sencillo de manejar y una interfaz de usuario
+Mas amigable y legible. Tambien se esta trabajando en la
+Librería de chardeveloping y en un creador de scenas mas 
+simple.
