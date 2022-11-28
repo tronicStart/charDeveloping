@@ -1,7 +1,14 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+#include <conio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <string.h>
 
+
+#include <stdlib.h>
 #include "resource.h"
 #include "funciones.c"
 
@@ -21,7 +28,11 @@ HINSTANCE hInst;
 
 BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    String user1, user2;/*, user3, user4;
+    String user1, user2, project_active;
+    String user1_copy;
+
+    char *user1_cat;
+    int check, Project_active;/*, user3, user4;
     int UserX = 0 , UserY = 0;
     float N1, N2, N3, num1, num2, result;*/
 
@@ -39,6 +50,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
              InsertarMenu(hwndDlg);
              SetTitle("Char Developing : cmd : start");
              printf("Stringgame : open! : ");
+             Project_active = 0;
 
             return TRUE;
 
@@ -89,12 +101,77 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 {
                     MessageBox(hwndDlg, "Archivo Eliminado con exito", "Stringgame : delete file", MB_ICONINFORMATION);
                 }
+
             return TRUE;
 
             case CM_ARCHIVOS:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+
+            return TRUE;
+
+            case CM_START_PROJECTS:
+
+                   GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+
+                   check = mkdir(user1);
+
+                   // check if directory is created or not
+                  if (!check){
+                      MessageBox(hwndDlg, "Carpeta del proyecto creada con exito","Creacion de proyecto", MB_ICONINFORMATION);
+                      printf("Directory the project created\n");
+
+                  }
+                 else {
+                      MessageBox(hwndDlg, "Error al crear el proyecto:\n*No se pudo crear el directorio: \"Unable to create directory\"\n*Mal escrito el nombre de la carpeta", "Creacion de proyecto",MB_ICONERROR);
+                      printf("Unable to create directory\n");
+                 }
+
+                 Project_active = 1;
+                 project_active[500] = user1[500];
+                 user1_cat = "main.c";
+
+                 strcpy(user1_copy,user1);
+                 strcat(user1_copy,user1_cat);
+
+            sFile(user1_copy,"#include \"include\\stringgame.h\"");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"void paint_game (struct _scenes_ * Scene);");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"int main (void){");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"     //Struct of main scene");
+            sFile(user1_copy,"     struct _scenes_ mainScene;");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"     strcpy(mainScene.name,\"mainScene\");");
+            sFile(user1_copy,"     mainScene.id = 0;");
+            sFile(user1_copy,"     mainScene.actives = 1;//never 0");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"     while(true){");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"          paint_game(&mainScene);");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"  }");
+            sFile(user1_copy,"}");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"void paint_game (struct _scenes_ * Scene){");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"     StrLoad_scene_(Scene);");
+            sFile(user1_copy,"");
+            sFile(user1_copy,"}");
+            sFile(user1_copy,"");
+
+            user1_cat = "mainScene.sce";
+
+            strcpy(user1_copy,user1);
+            strcat(user1_copy,user1_cat);
+
+            sFile(user1_copy,"Void Scene");
+
+             MessageBox(hwndDlg, "Se ha creado el proyecto ","Inicio de nuevo proyecto", MB_ICONINFORMATION);
+
+            printf("Rute: %s\n",project_active);
 
             return TRUE;
 
@@ -136,6 +213,87 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return TRUE;
 
             case CM_CREADOR_CPNG:
+
+                    if(Project_active == 1){
+
+                         user1_cat = "cpngs.h";
+
+                         strcpy(user1_copy,project_active);
+                         strcat(user1_copy,user1_cat);
+
+                         GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                         GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+
+                         sFile2(user1_copy,"//this is a cpng the ");
+                   sFile(user1_copy,user1);
+                   sFile(user1_copy,"");
+                   sFile2(user1_copy,"char cpng_");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy," (void){");
+                   sFile(user1_copy,"");
+                   sFile(user1_copy,"       // TODO: Implement this function");
+                   sFile2(user1_copy,"    struct cpng ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,";");
+                   sFile(user1_copy,"");
+                   sFile(user1_copy,"    ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,".X = (int)NULL; // o 0");
+                   sFile(user1_copy,"");
+                   sFile(user1_copy,"    ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,".Y = (int)NULL; // o 0");
+                   sFile(user1_copy,"");
+                   sFile2(user1_copy,"    ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,".Top = 1;");
+                   sFile2(user1_copy,"    ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,".Down = 1;");
+                   sFile2(user1_copy,"    ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,".Letf = 1;");
+                   sFile2(user1_copy,"    ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,".Right = 1;");
+                   sFile2(user1_copy,"    ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,".ID = 1;");
+                   sFile2(user1_copy,"    ");
+                   sFile2(user1_copy,"strcpy(");
+                   sFile2(user1_copy,user1);
+                   sFile2(user1_copy,".Name , \"");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,"\");");
+                   sFile(user1_copy,"");
+                   sFile2(user1_copy,"    ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,".color = 3;");
+                   sFile(user1_copy,"");
+                   sFile2(user1_copy,"    ");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,".range = 0;");
+                   sFile2(user1_copy,"    ");
+                   sFile2(user1_copy,"strcpy(");
+                   sFile2(user1_copy,user1);
+                   sFile2(user1_copy,".data , \"");
+                   sFile2(user1_copy,user2);
+                   sFile(user1_copy,"\");");
+                   sFile(user1_copy,"");
+                   sFile2(user1_copy,"    StrStartCpng(&");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,");");
+                   sFile2(user1_copy,"    StrPaintCpng(&");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,");");
+                   sFile2(user1_copy,"    StrEndCpng(&");
+                   sFile2(user1_copy,user1);
+                   sFile(user1_copy,");");
+                   sFile(user1_copy,"");
+                   sFile(user1_copy,"}");
+                   MessageBox(hwndDlg , "Se ha guardado el cpng en el archivo 'cpng.h" , "Stringame : save cpng" , MB_ICONINFORMATION);
+
+                    }
 
                    GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
                    GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
@@ -403,7 +561,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             if(strcmp(user1,pplayer) == 0){
 
-                sFile2("textures.h","//this is a texture the ");
+            sFile2("textures.h","//this is a texture the ");
             sFile("textures.h",user1);
             sFile("textures.h","//This is very import texture , is the player");
             sFile2("textures.h","char * ");
@@ -692,6 +850,7 @@ void InsertarMenu(HWND hWnd)
     AppendMenu(hMenu2, MF_STRING, CM_NAME_PROJECT, "&Nombre del projecto");
     AppendMenu(hMenu5, MF_STRING, CM_BUILD_PROJECT, "&build project file c");
     AppendMenu(hMenu5, MF_STRING, CM_NEW_FUCTIONS, "&Generate function");
+    AppendMenu(hMenu5, MF_STRING, CM_START_PROJECTS, "&Iniciar nuevo projecto");
 
     AppendMenu(hMenu5, MF_SEPARATOR, 0, NULL);
     AppendMenu(hMenu5, MF_STRING, CM_CREADOR_PROJECTS, "&Generate code main");
