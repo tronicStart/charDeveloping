@@ -22,6 +22,7 @@
 #define CM_CREADOR_SCENE 117
 #define CM_NEW_PROJECT 118
 #define CM_NEW_FUCTIONS 119
+#define CM_START_PROJECTS 120
 
 // ID of Button Controls
 #define IDC_BTN_TEST 1001
