@@ -2,15 +2,21 @@
 1660620231 source:d:\descargas\chardeveloping\resource.rc
 	"resource.h"
 
-1666367892 d:\descargas\chardeveloping\resource.h
+1669772544 d:\descargas\chardeveloping\resource.h
 	<windows.h>
 
-1663118608 source:d:\descargas\chardeveloping\main.cpp
+1669840257 source:d:\descargas\chardeveloping\main.cpp
 	<windows.h>
+	<conio.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<unistd.h>
+	<string.h>
+	<stdlib.h>
 	"resource.h"
 	"funciones.c"
 
-1663119591 d:\descargas\chardeveloping\funciones.c
+1669847234 d:\descargas\chardeveloping\funciones.c
 	<stdio.h>
 	<windows.h>
 	<time.h>

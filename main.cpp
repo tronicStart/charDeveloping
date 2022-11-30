@@ -14,13 +14,13 @@
 
 typedef char Public;
 typedef char String[500];
-
-Public bye[] = "exit.program";
-Public screen[] = "clear.screen";
-Public view[] = "view.texture";
-Public pplayer[] = "player";
-Public loadScene[] = "read.scene";
-Public scenesCreator[] = "open.creator.scenes";
+/*Lista de comandos de la aplicación: todos se escriben en el input 1*/
+Public bye[] = "exit.program";//comando para salir
+Public screen[] = "clear.screen";//comando para limpiar la pantalla -> la de la terminal o consola
+Public view[] = "view.texture";//comando para ver una texture
+Public pplayer[] = "player";//comando sin uso
+Public loadScene[] = "read.scene";//comando para leer una esena
+Public scenesCreator[] = "open.creator.scenes";//comando para abrir el creador de scenas
 
 void InsertarMenu(HWND hWnd);
 
@@ -28,18 +28,19 @@ HINSTANCE hInst;
 
 BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+
     String user1, user2, project_active;
     String user1_copy;
-
+    /*HDC hDC;
+    PAINTSTRUCT ps;*/
+    //COLORREF actual;
     char *user1_cat;
-    int check, Project_active;/*, user3, user4;
-    int UserX = 0 , UserY = 0;
-    float N1, N2, N3, num1, num2, result;*/
-
+    int check, Project_active;
     char MainFile[] = "main.c";
     char cpngFile[] = "cpng.h";
     char structs[] = "objects.h";
-    char registros[] = "game.ty";
+    char registros[] = "registers.rg";
+    //char Data = "";
 
     switch(uMsg)
     {
@@ -50,9 +51,20 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
              InsertarMenu(hwndDlg);
              SetTitle("Char Developing : cmd : start");
              printf("Stringgame : open! : ");
+             sFile(registros,"Registers: charDeveloping.Open");
+             sFile(registros,"Registers: Project active.this=0");
              Project_active = 0;
 
             return TRUE;
+
+            /*case WM_PAINT:
+
+                  GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                  hDC = BeginPaint(hwndDlg, &ps);
+                  TextOut(hDC, 20, 30, Data, 23);
+                  EndPaint(hwndDlg, &ps);
+
+           break;*/
 
         case WM_CLOSE:
 
@@ -61,8 +73,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
              printf(" : desea salir?\n");
              if (MessageBox(hwndDlg, "Desea cerrar Char Developing", "Salir", MB_ICONQUESTION | MB_YESNO) == IDYES)
              {
-                sFile2(registros,"Command: ");
-                sFile(registros,"User Exit:");
+                sFile(registros,"Registers: charDeveloping.exit");
+                sFile(registros,"Registers: Project active.this=0.cancel");
                 EndDialog(hwndDlg, 0);
              }
              printf("Stringgame : ");
@@ -70,8 +82,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
              printf(" : cancelo la salida de Char Developing\n");
 
             return TRUE;
-
-
 
         case WM_COMMAND:
             switch(LOWORD(wParam))
@@ -83,24 +93,35 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
 
-            sFile2(registros,"Command: option -> user -> delete file -> FILE: ");
-            sFile(registros,user1);
+            sFile2(registros,"Registers: User.redy.delete.this.file=\"");
+            sFile2(registros,user1);
+            sFile(registros,"\"");
 
             if (remove(user1) == -1)
                 {
-                    sFile2(registros,"Command: error -> file no delete");
-                    sFile(registros,"User bad Adress!:");
+                    sFile(registros,"Registers: File.user.delete.Error!!!!!");
                     SetTitle("Stringgame : cmd : error");
-
                     MessageBox(hwndDlg, "El Archivo no se pudo eliminar...", "Stringgame : delete file : error", MB_ICONERROR);
-
                     SetTitle("Stringgame : cmd");
                 }
 
                 else
                 {
+                    sFile2(registros,"Registers: User.delete.this.file=\"");
+                    sFile2(registros,user1);
+                    sFile(registros,"\"");
                     MessageBox(hwndDlg, "Archivo Eliminado con exito", "Stringgame : delete file", MB_ICONINFORMATION);
                 }
+
+            return TRUE;
+
+            case CM_ABRE_ARCHIVO:
+
+                  GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                  sFile2(registros,"Registers: Open.this.file=\"");
+                  sFile2(registros,user1);
+                  sFile(registros,"\"");
+                  readFilesNormal(user1,hwndDlg);
 
             return TRUE;
 
@@ -114,19 +135,27 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             case CM_START_PROJECTS:
 
                    GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-
+                   sFile2(registros,"Registers: Ini.new.folder.save.project.nameorrute=\"");
+                   sFile2(registros,user1);
+                   sFile(registros,"\"");
                    check = mkdir(user1);
 
                    // check if directory is created or not
                   if (!check){
+                      sFile(registros,"Registers: Ini.new..folder.save.project.is.success.=\"Directory the project created\"");
                       MessageBox(hwndDlg, "Carpeta del proyecto creada con exito","Creacion de proyecto", MB_ICONINFORMATION);
                       printf("Directory the project created\n");
 
                   }
                  else {
+                      sFile(registros,"Registers: Ini.new.folder.no.save.project.error.check.result.is.-1=\"Unable to create directory\"");
                       MessageBox(hwndDlg, "Error al crear el proyecto:\n*No se pudo crear el directorio: \"Unable to create directory\"\n*Mal escrito el nombre de la carpeta", "Creacion de proyecto",MB_ICONERROR);
                       printf("Unable to create directory\n");
                  }
+
+                 sFile(registros,"Registers: Ini.new.ProjectActive.this.1");
+                 sFile(registros,"Registers: Ini.new.Escrity: create.file.named*main.c");
+                 sFile(registros,"Registers: Ini.new.CharDevelopingLibrary->mainScene.sce*createMainScene.sce");
 
                  Project_active = 1;
                  project_active[500] = user1[500];
@@ -179,6 +208,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, MainFile, 100);
 
+            sFile(registros,"Regist3rs: CharDeveloping.fake.project.new.create->mainScene.sce*>MainScene.sce");
+
             sFile("mainScene.sce","StartScene");
 
             sFile(MainFile,"#include \"include\\stringgame.h\"");
@@ -213,6 +244,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return TRUE;
 
             case CM_CREADOR_CPNG:
+
+
 
                     if(Project_active == 1){
 
@@ -298,6 +331,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                    GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
                    GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
 
+                   sFile(registros,"Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG");
+
                    sFile2(cpngFile,"//this is a cpng the ");
                    sFile(cpngFile,user1);
                    sFile(cpngFile,"");
@@ -372,6 +407,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             case CM_CREADOR_SCENE:
 
                  GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                 sFile2(registros,"Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG+this");
+                 sFile(registros,user1);
 
                  sFile2("scenes.h","void scene_");
                  sFile2("scenes.h",user1);
@@ -387,43 +424,34 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             case CM_CREADOR_NEWOBJECT:
 
-                   sFile2(structs,"//This is newObject the ");
+                        GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                        sFile2(registros,"Registers: charDeveloping: this-*>createAFileObjectStruc+this");
+                        sFile(registros,user1);
+                        sFile2(structs,"//This is newObject the ");
                         sFile(structs,user1);
                         sFile(structs,"");
                         sFile2(structs,"struct newObject ");
                         sFile2(structs,user1);
                         sFile(structs,";");
-
                         sFile(structs,"");
-
                         sFile2(structs,user1);
                         sFile(structs,".ID = 1;");
-
                         sFile(structs,"");
-
                         sFile2(structs,user1);
                         sFile(structs,".positionX = 0;");
                         sFile(structs,user1);
                         sFile(structs,".positionY = 0");
-
                         sFile2(structs,user1);
                         sFile(structs,".BOXTop = 0;");
-
                         sFile(structs,"");
-
                         sFile2(structs,user1);
                         sFile(structs,".BOXDown = 0;");
-
                         sFile(structs,"");
-
                         sFile2(structs,user1);
                         sFile(structs,".BOXLetf = 1;");
-
                         sFile(structs,"");
-
                         sFile2(structs,user1);
                         sFile(structs,".BOXright = 0;");
-
                         sFile(structs,"");
 
             return TRUE;
@@ -431,6 +459,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             case CM_CREADOR_CPNGS:
 
                      GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                     sFile2(registros,"Registers: charDeveloping: openCreatorCPNG...CMD");
                      MessageBox(hwndDlg , "Se ha cargado el editador" , "Escrity : load edit" , MB_ICONINFORMATION);
                      cpngs(user1);
 
@@ -439,7 +468,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             case CM_CREADOR_OBJECT:
 
                     GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-
+                    sFile2(registros,"Registers: charDeveloping: this-*>createAFileObjectStruc+this");
+                    sFile(registros,user1);
                     if(strcasecmp(user1,pplayer) == 0){
 
                         sFile(structs,"#ifndef OBJECTS_H");
@@ -539,6 +569,9 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
 
+           sFile2(registros,"Registers: charDeveloping: this-*>useAFileObjectStrucTexture+this");
+           sFile(registros,user1);
+
            sFile2("main.c","        //print or paint texture ");
            sFile2("main.c",user2);
            sFile2("main.c","        Coordinates ");
@@ -558,6 +591,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+            sFile2(registros,"Registers: charDeveloping: this-*>createAFileObjectStrucTexture+this");
+            sFile(registros,user1);
 
             if(strcmp(user1,pplayer) == 0){
 
@@ -682,7 +717,9 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         return TRUE;
 
         case CM_SALIR:
-               sFile2(registros,"Command: User Exit: ");
+            sFile(registros,"Registers: charDeveloping.exit");
+            sFile(registros,"Registers: Project active.this=0.cancel");
+            Project_active = 0;
             EndDialog(hwndDlg, 0);
             return TRUE;
 
@@ -690,6 +727,9 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+
+            sFile2(registros,"Registers: charDeveloping: this-*>createAFileObjectAsset+this");
+            sFile(registros,user1);
 
             sFile2("Assets.h","//this is a asset the ");
             sFile("Assets.h",user1);
@@ -746,6 +786,9 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         return TRUE;
                 case IDC_BTN_QUIT:
+                    sFile(registros,"Registers: charDeveloping.exit");
+                    sFile(registros,"Registers: Project active.this=0.cancel");
+                    Project_active = 0;
                     EndDialog(hwndDlg, 0);
                     return TRUE;
 
@@ -764,9 +807,12 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                     GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
 
+                    sFile(registros,"Registers: charDeveloping.onclick.Commands");
+
                     if(strcmp(user1,loadScene) == 0){
 
                         GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
+                        sFile(registros,"Registers: charDeveloping: Escrity: CharLibrary: Load.Scene.");
                         CLS();
                          file_scene_(user2);
 
@@ -776,6 +822,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                         GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
                         CLS();
+                        sFile(registros,"Registers: charDeveloping: Escrity: CharLibrary: Open.SceneCreator.");
                         StrCreate_scene_(user2);
 
                     }
@@ -784,13 +831,14 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                         GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
                         StrGotoXY(33,10);
+                        sFile(registros,"Registers: charDeveloping: Escrity: CharLibrary: ViewTexture.dat.delete.exit.progra.");
                         yReadFile("textures.dat");
                         sFile2("textures.h","//This coordinates ");
                         sFile("textures.h",user2);
                         if(remove("textures.dat") == -1){
 
-                            printf("Stringgame : textures.dat : this null");
-                            printf("Stringgame : close program...");
+                            sFile(registros,"Registers: charLibrary : textures.dat : this null");
+                            sFile(registros,"Registers: charLibrary : close program...");
                             Sleep(1500);
                             EndDialog(hwndDlg, 0);
 
@@ -800,12 +848,16 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                     if(strcmp(user1,bye) == 0){
 
+                           sFile(registros,"Registers: charDeveloping.exit");
+                           sFile(registros,"Registers: Project active.this=0.cancel");
+                           Project_active = 0;
                            EndDialog(hwndDlg, 0);
 
                     }
 
                     if(strcmp(user1,screen) == 0){
 
+                           sFile(registros,"Registers: charDeveloping: Escrity: CharLibrary: clearCMD");
                            CLS();
 
                     }
@@ -830,6 +882,7 @@ void InsertarMenu(HWND hWnd)
     //hMenu                                               /* Manipulador para el primer menú pop-up */
     AppendMenu(hMenu2, MF_STRING, CM_PRUEBA, "&Eliminar archivo"); /* 1º ítem */
     AppendMenu(hMenu2, MF_STRING, CM_ARCHIVOS, "&Crear archivo");    /* 2 item*/
+    AppendMenu(hMenu2, MF_STRING, CM_ABRE_ARCHIVO, "&Abrir archivo");
     AppendMenu(hMenu2, MF_SEPARATOR, 0, NULL);                            /* 3º ítem (separador) */
     //AppendMenu(hMenu4, MF_STRING, CM_CREADOR_IMG, "&Instrucciones");      /* 4"º ítem */
     AppendMenu(hMenu2, MF_STRING, CM_SALIR, "&Salir");                    /* 5º ítem */
@@ -844,7 +897,8 @@ void InsertarMenu(HWND hWnd)
     AppendMenu(hMenu3, MF_STRING, CM_CREADOR_CPNGS, "&Crear CPNG file type");
     AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
     AppendMenu(hMenu3, MF_STRING, CM_CREADOR_SCENE, "&Crear Scene");
-
+    AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
+    AppendMenu(hMenu3, MF_STRING, CM_ABRE_CPNG, "&Abrir CPNG");
 
     AppendMenu(hMenu2, MF_SEPARATOR, 0, NULL);
     AppendMenu(hMenu2, MF_STRING, CM_NAME_PROJECT, "&Nombre del projecto");

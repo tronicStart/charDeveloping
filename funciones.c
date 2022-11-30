@@ -8,7 +8,7 @@
 #define ESPACE 100
 //#define N 100
 
-
+typedef char String[500];
 
 #define True 1
 
@@ -72,6 +72,108 @@ static void StringReadFileModeRB(const char *URL){
     fclose(lectura);
 }
 
+void readCPNG (const char *URL, HWND hwnd){
+    FILE *lectura;
+    char variable[1025];
+
+    lectura = fopen(URL, "rb");
+
+    if (lectura == NULL)
+    {
+        perror("Escrity ");
+        printf("Directorio o Archivo: [\" ");
+        printf("%s", URL);
+        printf(". \"] \n");
+
+        MessageBox(hwnd, "Nose puede abrir el archivo, posibles casos:\n1.-Es posible que este mal escrito el nombre de archivo\n2.-Es posible que el archivo no exista.\n3.-Es posible que el input sea invalido.", "CharDeveloping : Stringgame : open file", MB_ICONERROR);
+
+    }
+    else
+    {
+        while (feof(lectura) == 0)
+        {
+            fgets(variable, 1025, lectura);
+            //printf("%s", variable);
+
+            //MessageBox(hwnd, variable, "charDeveloping : view file", MB_ICONINFORMATION);
+            //return variable;
+
+
+        }
+        MessageBox(hwnd, variable, "charDeveloping : view file", MB_ICONINFORMATION);
+    }
+    fclose(lectura);
+}
+
+void sFile(const char *file, const char *data){
+    FILE *archivo;
+
+    archivo = fopen(file, "a");
+
+    if (archivo == NULL)
+    {
+        perror("Escrity ");
+        return;
+    }
+    printf("Escrity: guardado: '%s'", file);
+    fprintf(archivo, "%s\n", data);
+    fclose(archivo);
+}
+
+void sFile2(const char *file, const char *data){
+    FILE *archivo;
+
+    archivo = fopen(file, "a");
+
+    if (archivo == NULL)
+
+    {
+        perror("Escrity ");
+
+        return;
+    }
+
+    printf("Escrity: guardado: '%s'", file);
+
+    fprintf(archivo, "%s", data);
+
+    fclose(archivo);
+}
+
+void readFilesNormal (const char *URL, HWND hwnd){
+    FILE *lectura;
+    char variable[1025];
+
+    lectura = fopen(URL, "rb");
+
+    if (lectura == NULL)
+    {
+        perror("Escrity ");
+        printf("Directorio o Archivo: [\" ");
+        printf("%s", URL);
+        printf(". \"] \n");
+
+        sFile("registers.rg","Registers: Escrity: detect.error.badAdress!!!!file.noOpen");
+        sFile("registers.rg","Registers: Escrity: Debug.bigErrorExit.Adress.Invalid.00000075.thead.deferred.module.PE.CS:0073 SS:0007b ES:0073 FS:0033 GS:0033b:");
+        MessageBox(hwnd, "Nose puede abrir el archivo, posibles casos:\n1.-Es posible que este mal escrito el nombre de archivo\n2.-Es posible que el archivo no exista.\n3.-Es posible que el input sea invalido.", "CharDeveloping : Stringgame : open file", MB_ICONERROR);
+
+    }
+    else
+    {
+        sFile2("registers.rg","Registers: Escrity: file.open.success.this.file=\"");
+        sFile2("registers.rg",URL);
+        sFile("registers.rg","\"");
+        while (feof(lectura) == 0)
+        {
+            fgets(variable, 1025, lectura);
+            MessageBox(hwnd, variable, "charDeveloping : view file", MB_ICONINFORMATION);
+
+        }
+    }
+    sFile("registers.rg","Registers: Escrity: execute: fclose();.file");
+    fclose(lectura);
+}
+
 void yReadFile(const char *URL){
     FILE *lectura;
     char variable[1025];
@@ -118,21 +220,6 @@ void fileAssets(const char nameAsset[1024]){
 	printf("Escrity: Se ha guardado\n");*/
 
     StringReadFileModeRB(nose);
-}
-
-void sFile(const char *file, const char *data){
-    FILE *archivo;
-
-    archivo = fopen(file, "a");
-
-    if (archivo == NULL)
-    {
-        perror("Escrity ");
-        return;
-    }
-    printf("Escrity: guardado: '%s'", file);
-    fprintf(archivo, "%s\n", data);
-    fclose(archivo);
 }
 
 int Random(int inicio, int fin){
@@ -1144,26 +1231,6 @@ Override DuplicText(const char *text, int cantidad, int tipo){
             }
         }
     }
-}
-
-void sFile2(const char *file, const char *data){
-    FILE *archivo;
-
-    archivo = fopen(file, "a");
-
-    if (archivo == NULL)
-
-    {
-        perror("Escrity ");
-
-        return;
-    }
-
-    printf("Escrity: guardado: '%s'", file);
-
-    fprintf(archivo, "%s", data);
-
-    fclose(archivo);
 }
 
 void newProject (const char URL[1024], HWND hwndDlg, const char Name[1024]){

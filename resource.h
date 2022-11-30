@@ -23,6 +23,10 @@
 #define CM_NEW_PROJECT 118
 #define CM_NEW_FUCTIONS 119
 #define CM_START_PROJECTS 120
+#define CM_ABRE_ARCHIVO 121
+#define CM_ABRE_ASSET 122
+#define CM_ABRE_TEXTURE 123
+#define CM_ABRE_CPNG 124
 
 // ID of Button Controls
 #define IDC_BTN_TEST 1001
