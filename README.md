@@ -10,3 +10,6 @@ Mas sencillo de manejar y una interfaz de usuario
 Mas amigable y legible. Tambien se esta trabajando en la
 Librería de chardeveloping y en un creador de scenas mas 
 simple.
+
+Mas información visista nuestra wiki del reposotorio o nuestro
+canal de youtube: https://www.youtube.com/@charDeveloping
