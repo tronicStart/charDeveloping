@@ -3,10 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-//#include "escrityworks.h"
-
 #define ESPACE 100
-//#define N 100
 
 typedef char String[500];
 
@@ -35,11 +32,9 @@ void File(const char *file, const char *data){
 
 
     FILE *archivo;
-
     archivo = fopen(file, "a");
 
-    if (archivo == NULL)
-    {
+    if (archivo == NULL){
         perror("Escrity ");
         return;
     }
@@ -53,54 +48,18 @@ static void StringReadFileModeRB(const char *URL){
     char variable[1025];
 
     lectura = fopen(URL, "rb");
-
-    if (lectura == NULL)
-    {
+    if (lectura == NULL){
         perror("StringLibrary ");
         printf("Directorio o Archivo: [\" ");
         printf("%s", URL);
         printf(". \"] \n");
     }
-    else
-    {
+    else{
         while (feof(lectura) == 0)
         {
             fgets(variable, 1025, lectura);
             printf("%s", variable);
         }
-    }
-    fclose(lectura);
-}
-
-void readCPNG (const char *URL, HWND hwnd){
-    FILE *lectura;
-    char variable[1025];
-
-    lectura = fopen(URL, "rb");
-
-    if (lectura == NULL)
-    {
-        perror("Escrity ");
-        printf("Directorio o Archivo: [\" ");
-        printf("%s", URL);
-        printf(". \"] \n");
-
-        MessageBox(hwnd, "Nose puede abrir el archivo, posibles casos:\n1.-Es posible que este mal escrito el nombre de archivo\n2.-Es posible que el archivo no exista.\n3.-Es posible que el input sea invalido.", "CharDeveloping : Stringgame : open file", MB_ICONERROR);
-
-    }
-    else
-    {
-        while (feof(lectura) == 0)
-        {
-            fgets(variable, 1025, lectura);
-            //printf("%s", variable);
-
-            //MessageBox(hwnd, variable, "charDeveloping : view file", MB_ICONINFORMATION);
-            //return variable;
-
-
-        }
-        MessageBox(hwnd, variable, "charDeveloping : view file", MB_ICONINFORMATION);
     }
     fclose(lectura);
 }
@@ -163,9 +122,11 @@ void readFilesNormal (const char *URL, HWND hwnd){
         sFile2("registers.rg","Registers: Escrity: file.open.success.this.file=\"");
         sFile2("registers.rg",URL);
         sFile("registers.rg","\"");
-        while (feof(lectura) == 0)
-        {
+        system("cls");
+        printf("View file: \n");
+        while (feof(lectura) == 0){
             fgets(variable, 1025, lectura);
+            printf("%s",variable);
             MessageBox(hwnd, variable, "charDeveloping : view file", MB_ICONINFORMATION);
 
         }
@@ -180,17 +141,14 @@ void yReadFile(const char *URL){
 
     lectura = fopen(URL, "rb");
 
-    if (lectura == NULL)
-    {
+    if (lectura == NULL){
         perror("Escrity ");
         printf("Directorio o Archivo: [\" ");
         printf("%s", URL);
         printf(". \"] \n");
     }
-    else
-    {
-        while (feof(lectura) == 0)
-        {
+    else{
+        while (feof(lectura) == 0){
             fgets(variable, 1025, lectura);
             printf("%s", variable);
         }
@@ -205,24 +163,13 @@ void fileAssets(const char nameAsset[1024]){
     FILE *file;
 
     strcpy(nose, nameAsset);
-
     strcat(nose, cat);
-
     file = fopen(nose, "r");
-
-    /*if (file == NULL)
-	{
-		printf("Escrity: \" %s \" error no create asset'", nameAsset);
-		return;
-	}
-
-	fprintf(file, "%s", data);
-	printf("Escrity: Se ha guardado\n");*/
-
     StringReadFileModeRB(nose);
 }
 
 int Random(int inicio, int fin){
+    
     srand(time(NULL));
     inicio = rand() % fin;
 
@@ -233,113 +180,85 @@ void Char1(int inicio, int fin){
     srand(time(NULL));
     inicio = rand() % fin;
 
-    if (inicio == 0)
-    {
+    if (inicio == 0){
         printf("A");
     }
-    else if (inicio == 1)
-    {
+    else if (inicio == 1){
         printf("B");
     }
-    if (inicio == 2)
-    {
+    if (inicio == 2){
         printf("C");
     }
-    else if (inicio == 3)
-    {
+    else if (inicio == 3){
         printf("D");
     }
-    if (inicio == 4)
-    {
+    if (inicio == 4){
         printf("E");
     }
-    else if (inicio == 5)
-    {
+    else if (inicio == 5){
         printf("F");
     }
-    if (inicio == 6)
-    {
+    if (inicio == 6){
         printf("G");
     }
-    else if (inicio == 7)
-    {
+    else if (inicio == 7){
         printf("H");
     }
-    if (inicio == 8)
-    {
+    if (inicio == 8){
         printf("I");
     }
-    else if (inicio == 9)
-    {
+    else if (inicio == 9){
         printf("J");
     }
-    if (inicio == 10)
-    {
+    if (inicio == 10){
         printf("K");
     }
-    else if (inicio == 11)
-    {
+    else if (inicio == 11){
         printf("L");
     }
-    if (inicio == 12)
-    {
+    if (inicio == 12){
         printf("M");
     }
-    else if (inicio == 13)
-    {
+    else if (inicio == 13){
         printf("N");
     }
-    if (inicio == 14)
-    {
+    if (inicio == 14){
         printf("O");
     }
-    else if (inicio == 15)
-    {
+    else if (inicio == 15){
         printf("P");
     }
-    if (inicio == 16)
-    {
+    if (inicio == 16){
         printf("Q");
     }
-    else if (inicio == 17)
-    {
+    else if (inicio == 17){
         printf("R");
     }
-    if (inicio == 18)
-    {
+    if (inicio == 18){
         printf("S");
     }
-    else if (inicio == 19)
-    {
+    else if (inicio == 19){
         printf("T");
     }
-    if (inicio == 20)
-    {
+    if (inicio == 20){
         printf("U");
     }
-    else if (inicio == 21)
-    {
+    else if (inicio == 21){
         printf("V");
     }
-    if (inicio == 22)
-    {
+    if (inicio == 22){
         printf("W");
     }
-    else if (inicio == 23)
-    {
+    else if (inicio == 23){
         printf("X");
     }
-    if (inicio == 24)
-    {
+    if (inicio == 24){
         printf("Y");
     }
-    else if (inicio == 25)
-    {
+    else if (inicio == 25){
         printf("Z");
     }
-
-    if (inicio == 26)
-    {
+    if (inicio == 26){
         printf("a");
     }
     else if (inicio == 27)
@@ -448,30 +367,33 @@ void SetTitle(const char *title){
 }
 
 void CLS(void){
+    
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     DWORD bufferSize, charsWritten;
-
     COORD topleft = {0, 0};
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
     GetConsoleScreenBufferInfo(hConsole, &csbi);
     bufferSize = csbi.dwSize.X * csbi.dwSize.Y;
     FillConsoleOutputCharacter(hConsole, TEXT(' '), bufferSize, topleft, &charsWritten);
     GetConsoleScreenBufferInfo(hConsole, &csbi);
     FillConsoleOutputAttribute(hConsole, csbi.wAttributes, bufferSize, topleft, &charsWritten);
     SetConsoleCursorPosition(hConsole, topleft);
+    
 }
 
 static void GotoXY(int X, int Y){
+    
     HANDLE hCon;
     hCon = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD dwPos;
     dwPos.X = X;
     dwPos.Y = Y;
     SetConsoleCursorPosition(hCon, dwPos);
+    
 }
 
 static int StrScanInt(int Int){
+    
     fflush(stdin);
     scanf("%i", &Int);
     fflush(stdin);
@@ -484,14 +406,14 @@ static void charClear(){
 }
 
 static void charNewLines(int cand){
-    if (cand == 1)
-    {
+    
+    if (cand == 1){
         printf("\n");
     }
-    else if (cand == 2)
-    {
+    else if (cand == 2){
         printf("\n\n");
     }
+    
 }
 
 static void Juego_Lee_Tecla(){
@@ -499,6 +421,7 @@ static void Juego_Lee_Tecla(){
 }
 
 int StrGenereRandom(int inicio, int fin){
+    
     srand(time(NULL));
     inicio = rand() % fin;
 
@@ -506,64 +429,51 @@ int StrGenereRandom(int inicio, int fin){
 }
 
 static void view_asset(int URL){
-    //int numbers[1024];
-    //printf("%d ",URL);
-
-    if (URL == 31)
-    {
+    
+    if (URL == 31){
         printf("[ ] = %d", URL);
         return;
     }
-    else if (URL == 32)
-    {
+    else if (URL == 32){
         printf("[\\n] = %d", URL);
         return;
     }
 
     char caracters[1024] = {'%', '\\', '|', '=', '[', ']', '<', '>', '{', '}', '@', '#', '$', '_', '&', '-', '+', '(', ')', '/', '*', '\"', '\'', ':', ';', '!', '?', '~', '`', 'N'};
-
     printf("[%c] = %d", caracters[URL], URL);
 }
 
 void cpngs (char nombre_de_archivo[1024]){
+    
     FILE *db;
     char caracters[1024] = {'%', '\\', '|', '=', '[', ']', '<', '>', '{', '}', '@', '#', '$', '_', '&', '-', '+', '(', ')', '/', '*', '\"', '\'', ':', ';', '!', '?', '~', '`', 'N', 'A', 'B', 'C'};
     int opcion = 0;
     int Randomm = 0;
-
     int i;
 
     char cat[1024] = ".cpng";
     char nose[1024];
 
-    int memory = 8 * 1024 + 8 * 1024 + 8 * 1024 + 8 * 1024 + 8 * 1024 + 4 + 4 + 4 + 8;
-
     strcpy(nose, nombre_de_archivo);
-
     strcat(nose, cat);
-
     db = fopen(nose, "a");
 
-    if (db == NULL)
-    {
+    if (db == NULL){
         perror("Stringgame ");
     }
-
-    while (opcion != 33)
-    {
+    
+    while (opcion != 33){
+        
         charClear();
         GotoXY(31, 2);
         printf("Creator cpng\n\n");
         printf("Nombre del archivo: %s\n", nose);
-
-        printf("Memoria estatica ocupada: %dBytes - 4,98kb\n",memory);
         printf("Opciones: 0 - 32 para caracteres 33 para salir\n\n");
         printf("Version del editador: 1.0\n\n");
         printf("Numero anterior\n\n\n");
         view_asset(opcion);
         printf("\n\n\nMarterial:\n\n");
-        for (i = 0; i < 30; i++)
-        {
+        for (i = 0; i < 30; i++){
             printf(" [%c] ", caracters[i]);
         }
 
@@ -843,6 +753,8 @@ void file_scene_(const char nameAsset[1024]){
 static void _view_(int URL){
     //int numbers[1024];
     //printf("%d ",URL);
+    
+    char _scene_large[33] = {'%', '\\', '|', '=', '[', ']', '<', '>', '{', '}', '@', '#', '$', '_', '&', '-', '+', '(', ')', '/', '*', '\"', '\'', ':', ';', '!', '?', '~', '`', 'N', 'A', 'B', 'C'};
 
     if (URL == 20)
     {
@@ -854,37 +766,14 @@ static void _view_(int URL){
         printf("[\\n] = %d", URL);
         return;
     }
-
-    /*char _scene_large[20];
-
-    _scene_large[0] = *Scene->cpng1;
-    _scene_large[1] = *Scene->cpng2;
-    _scene_large[2] = *Scene->cpng3;
-    _scene_large[3] = *Scene->cpng4;
-    _scene_large[4] = *Scene->cpng5;
-    _scene_large[5] = *Scene->cpng6;
-    _scene_large[6] = *Scene->cpng7;
-    _scene_large[7] = *Scene->cpng8;
-    _scene_large[8] = *Scene->cpng9;
-    _scene_large[9] = *Scene->cpng10;
-    _scene_large[10] = *Scene->cpng11;
-    _scene_large[11] = *Scene->cpng12;
-    _scene_large[12] = *Scene->cpng13;
-    _scene_large[13] = *Scene->cpng14;
-    _scene_large[14] = *Scene->cpng15;
-    _scene_large[15] = *Scene->cpng16;
-    _scene_large[16] = *Scene->cpng17;
-    _scene_large[17] = *Scene->cpng18;
-    _scene_large[18] = *Scene->cpng19;
-    _scene_large[19] = *Scene->cpng20;*/
-
-    printf("Number: %d\n",URL);
+    
+    printf("[ %c ] = %d\n",_scene_large[URL],URL);
 
 }
 
 void StrCreate_scene_(char File[1024]){
 
-    char _scene_large[33] = {'%', '\\', '|', '=', '[', ']', '<', '>', '{', '}', '@', '#', '$', '_', '&', '-', '+', '(', ')', '/', '*', '\"', '\'', ':', ';', '!', '?', '~', '`', 'N', 'A', 'B', 'C'};;
+    char _scene_large[33] = {'%', '\\', '|', '=', '[', ']', '<', '>', '{', '}', '@', '#', '$', '_', '&', '-', '+', '(', ')', '/', '*', '\"', '\'', ':', ';', '!', '?', '~', '`', 'N', 'A', 'B', 'C'};
     FILE *db;
     int opcion = 0;
     int Randomm = 0;
@@ -903,46 +792,15 @@ void StrCreate_scene_(char File[1024]){
     if (db == NULL){
         perror("Stringgame ");
     }
-
-    /*if(Scene->id == (int)voidID){
-        printf("Error in _scene_: %s : this id type NULL | function error: StrCreate_scene_(struct _scenes_ * Scene); -1\n",Scene->name);
-        return -1;
-    }
-
-    if(Scene->actives == (int)voidID || Scene->actives == 0 || Scene->actives == -1){
-        return -1;
-    }
-
-    _scene_large[0] = *Scene->cpng1;
-    _scene_large[1] = *Scene->cpng2;
-    _scene_large[2] = *Scene->cpng3;
-    _scene_large[3] = *Scene->cpng4;
-    _scene_large[4] = *Scene->cpng5;
-    _scene_large[5] = *Scene->cpng6;
-    _scene_large[6] = *Scene->cpng7;
-    _scene_large[7] = *Scene->cpng8;
-    _scene_large[8] = *Scene->cpng9;
-    _scene_large[9] = *Scene->cpng10;
-    _scene_large[10] = *Scene->cpng11;
-    _scene_large[11] = *Scene->cpng12;
-    _scene_large[12] = *Scene->cpng13;
-    _scene_large[13] = *Scene->cpng14;
-    _scene_large[14] = *Scene->cpng15;
-    _scene_large[15] = *Scene->cpng16;
-    _scene_large[16] = *Scene->cpng17;
-    _scene_large[17] = *Scene->cpng18;
-    _scene_large[18] = *Scene->cpng19;
-    _scene_large[19] = *Scene->cpng20;*/
-
-    while (opcion != 23)
+    
+    while (opcion != 23 || opcion == -1)
     {
         charClear();
         GotoXY(31, 2);
         printf("Editor Scenes\n\n");
         printf("Nombre de la _scene_: %s\n", nose);
-
-        //printf("Memoria estatica ocupada: %dBytes - 4,98kb\n",memory);
         printf("Opciones: 0 - 22 para caracteres 23 para salir\n\n");
+        printf("20 = [ ] - 21  = [\\n]");
         printf("Version del editador: 1.0\n\n");
         printf("Numero anterior\n\n\n");
         _view_(opcion);
@@ -956,156 +814,152 @@ void StrCreate_scene_(char File[1024]){
         printf("\n");
         printf(">> ");
         opcion = StrScanInt(opcion);
-        //GotoXY(0,14);
         charNewLines(1);
 
         if (opcion == 0)
         {
             fprintf(db, "%c", _scene_large[0]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[0]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[0]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 1)
         {
             fprintf(db, "%c", _scene_large[1]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[1]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[1]);
             Juego_Lee_Tecla();
         }
         if (opcion == 2)
         {
             fprintf(db, "%c", _scene_large[2]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[2]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[2]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 3)
         {
             fprintf(db, "%c", _scene_large[3]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[3]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[3]);
             Juego_Lee_Tecla();
         }
         if (opcion == 4)
         {
             fprintf(db, "%c", _scene_large[4]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[4]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[4]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 5)
         {
             fprintf(db, "%c", _scene_large[5]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[5]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[5]);
             Juego_Lee_Tecla();
         }
         if (opcion == 6)
         {
             fprintf(db, "%c", _scene_large[6]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[6]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[6]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 7)
         {
             fprintf(db, "%c", _scene_large[7]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[7]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[7]);
             Juego_Lee_Tecla();
         }
         if (opcion == 8)
         {
             fprintf(db, "%c", _scene_large[8]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[8]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[8]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 9)
         {
             fprintf(db, "%c", _scene_large[9]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[9]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[9]);
             Juego_Lee_Tecla();
         }
         if (opcion == 10)
         {
             fprintf(db, "%c", _scene_large[10]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[10]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[10]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 11)
         {
             fprintf(db, "%c", _scene_large[11]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[11]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[11]);
             Juego_Lee_Tecla();
         }
         if (opcion == 12)
         {
             fprintf(db, "%c", _scene_large[12]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[12]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[12]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 13)
         {
             fprintf(db, "%c", _scene_large[13]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[13]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[13]);
             Juego_Lee_Tecla();
         }
         if (opcion == 14)
         {
             fprintf(db, "%c", _scene_large[14]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[14]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[14]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 15)
         {
             fprintf(db, "%c", _scene_large[15]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[15]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[15]);
             Juego_Lee_Tecla();
         }
         if (opcion == 16)
         {
             fprintf(db, "%c", _scene_large[16]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[16]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[16]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 17)
         {
             fprintf(db, "%c", _scene_large[17]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[17]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[17]);
             Juego_Lee_Tecla();
         }
         if (opcion == 18)
         {
             fprintf(db, "%c", _scene_large[18]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[18]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[18]);
             Juego_Lee_Tecla();
         }
         else if (opcion == 19)
         {
             fprintf(db, "%c", _scene_large[19]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", _scene_large[19]);
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[19]);
             Juego_Lee_Tecla();
         }
 
         if (opcion == 20)
         {
             fprintf(db, " ");
-            printf("Stringgame: Se ha guardado el caracter: [ ]\n");
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [ ]\n");
             Juego_Lee_Tecla();
         }
        else if (opcion == 21)
         {
             fprintf(db, "\n");
-            printf("Stringgame: Se ha guardado el caracter: [\\n]\n");
+            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [\\n]\n");
             Juego_Lee_Tecla();
         }
 
         if(opcion == 22){
 
             Randomm = StrGenereRandom(0,20);
-
             fprintf(db, "%c", _scene_large[Randomm]);
-
-            printf("Stringgame: Se ha guardado los caracteres: %c", _scene_large[Randomm]);
-
+            printf("charDeveloping(Stringgame): Se ha guardado los caracteres: %c", _scene_large[Randomm]);
             Juego_Lee_Tecla();
 
         }
     }
-
+    fclose(db);
 }
 
 Override DuplicText(const char *text, int cantidad, int tipo){

@@ -1,3 +1,5 @@
+#include <windows.h>
+#include <commctrl.h>
 #include "resource.h"
 
 DLG_MAIN DIALOGEX 6, 5, 294, 206
@@ -7,10 +9,12 @@ CAPTION "Char Developing"
 FONT 8, "Tahoma"
 
 STYLE 0x10CE0804
-
+/*275*/
 BEGIN
-  CONTROL "Commands" , IDC_EDIT_INPUT , "EDIT" , 0x10010000 , 10 , 40 , 275 , 14
-  CONTROL "Assets" , IDC_EDIT_INPUT2 , "EDIT", 0x10010000 , 10 , 100 , 275 , 14
-  CONTROL "&Ejecutar", IDC_BTN_TEST, "Button", 0x10010000, 130,  70, 46, 15
-  CONTROL "&Agregar", IDC_BTN_QUIT, "Button", 0x10010000, 130, 120, 46, 15
+  CONTROL "Commands" , IDC_EDIT_INPUT , "EDIT" , 0x10010000 , 10 , 40 , 120 , 14
+  CONTROL "Assets" , IDC_EDIT_INPUT2 , "EDIT", 0x10010000 , 10 , 100 , 120 , 14
+  CONTROL "Name Function", IDC_STRUCTS, "EDIT", 0x10010000, 150, 40, 120, 14
+  CONTROL "&Ejecutar", IDC_BTN_TEST, "Button", 0x10010000, 50,  70, 46, 15
+  CONTROL "&Crear", IDC_BTN_CREAR_STRUCT, "Button", 0x10010000, 170, 70, 46, 15
+  CONTROL "&Agregar", IDC_BTN_QUIT, "Button", 0x10010000, 50, 120, 46, 15
 END
