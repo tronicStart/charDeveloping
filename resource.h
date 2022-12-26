@@ -30,6 +30,7 @@
 #define CM_ABRE_TEXTURE 123
 #define CM_ABRE_CPNG 124
 #define CM_VIEW_COMMANDS 125
+#define CM_VIEW_EDIT 127
 
 // ID of Button Controls
 #define IDC_BTN_TEST 1001
@@ -39,3 +40,11 @@
 #define IDC_EDITBOX_INPUT 1005
 #define IDC_STRUCTS 1006
 #define IDC_BTN_CREAR_STRUCT 1007
+#define CM_BTN_GUARDAR 1008
+#define CM_ID_EDIT_TEXT 1009
+#define ID_TEXTO 1010
+#define CM_VIEW_EDIT2 1011
+
+//Macros o declaraciones necesarias pero muy aparte
+#define TIMER_ID 1
+#define TIMER_INTERVAL 10000 //10 segundos

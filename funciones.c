@@ -5,18 +5,28 @@
 
 #define ESPACE 100
 
-typedef char String[500];
-
+#define MAX_ASSETS 100
+#define MAX_NAME_LENGTH 50
+#define MAX_DATA_LENGTH 100
 #define True 1
+#define N 50
 
 typedef void Override;
+typedef char String[500];
+
+typedef struct
+{
+    char name[MAX_NAME_LENGTH];
+    char data[MAX_DATA_LENGTH];
+} Asset;
 
 char INPUT[ESPACE];
 char input[ESPACE];
 char input2[ESPACE];
 char subText[ESPACE];
 
-#define N 50
+Asset assets[MAX_ASSETS];
+int assetCount = 0;
 
 void StrGotoXY(int X , int Y){
 
@@ -1170,4 +1180,91 @@ void newProject (const char URL[1024], HWND hwndDlg, const char Name[1024]){
 	MessageBox(hwndDlg, "Se ha creado el projecto", "Nuevo projecto", MB_ICONINFORMATION);
 
     //StringReadFileModeRB(MainFile);
+}
+
+void addAsset(const char *name, const char *data)
+{
+    if (assetCount >= MAX_ASSETS)
+    {
+        printf("Error: no hay espacio para más assets.\n");
+        return;
+    }
+
+    strcpy(assets[assetCount].name, name);
+    strcpy(assets[assetCount].data, data);
+    assetCount++;
+}
+
+void deleteAsset(int index)
+{
+    if (index < 0 || index >= assetCount)
+    {
+        printf("Error: el índice es inválido.\n");
+        return;
+    }
+
+    for (int i = index; i < assetCount - 1; i++)
+    {
+        assets[i] = assets[i + 1];
+    }
+    assetCount--;
+}
+
+void listAssets()
+{
+    for (int i = 0; i < assetCount; i++)
+    {
+        printf("%d. %s\n", i + 1, assets[i].name);
+    }
+}
+
+void printMenu()
+{
+    printf("\n");
+    printf("1. Añadir un asset\n");
+    printf("2. Eliminar un asset\n");
+    printf("3. Listar assets\n");
+    printf("4. Salir\n");
+    printf("\n");
+    printf("Elige una opción: ");
+}
+
+int creatorAssetMenu (){
+    while (1)
+    {
+        printMenu();
+        int option;
+        scanf("%d", &option);
+        switch (option)
+        {
+        case 1:
+        {
+            char name[MAX_NAME_LENGTH];
+            char data[MAX_DATA_LENGTH];
+            printf("Nombre del asset: ");
+            scanf("%s", name);
+            printf("Datos del asset: ");
+            scanf("%s", data);
+            addAsset(name, data);
+            break;
+        }
+        case 2:
+        {
+            int index;
+            printf("Índice del asset a eliminar: ");
+            scanf("%d", &index);
+            deleteAsset(index - 1);
+            break;
+        }
+        case 3:
+            listAssets();
+            break;
+        case 4:
+            return 0;
+        default:
+            printf("Opción inválida.\n");
+            break;
+        }
+    }
+    return 0;
 }

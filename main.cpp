@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <conio.h>
+#include <tchar.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -29,8 +30,11 @@ Public crearEditorCPNG[] = "open.editorCPNG.create.cpng";
 Public crearCPNG[] = "create.file.cpng";
 
 void InsertarMenu(HWND hWnd);
+void Guardar(HWND hctrl, char *fichero);
+BOOL leerArchivo(HWND hEdit, LPCTSTR lpFileName);
 
 HINSTANCE hInst;
+HWND hEdit;
 
 BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -38,17 +42,20 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     String user1_copy;
     char *user1_cat;
     HDC hdc;
+  //  RECT re;
     PAINTSTRUCT ps;
     static HINSTANCE hInstance;
-    //char cad[256];
     int check, Project_active;
     char MainFile[] = "main.c";
     char cpngFile[] = "cpng.h";
     char structs[] = "objects.h";
     char registros[] = "registers.rg";
+  //  static HWND hctrl;
+   // static HFONT hfont; SetTimer(hwndDlg, TIMER_ID, TIMER_INTERVAL, NULL);
 
     switch (uMsg)
     {
+
     case WM_INITDIALOG:
         /*
          * TODO: Add code to initialize the dialog.
@@ -59,6 +66,19 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         sFile(registros, "Registers: charDeveloping.Open");
         sFile(registros, "Registers: Project active.this=0");
         Project_active = 0;
+        hEdit = CreateWindowEx(
+            WS_EX_CLIENTEDGE,
+            _T("EDIT"),
+            _T(""),
+            WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
+            210,
+            45,
+            240,
+            170,
+            hwndDlg,
+            (HMENU)ID_TEXTO,
+            GetModuleHandle(NULL),
+            NULL);
 
         return TRUE;
 
@@ -69,7 +89,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
         hdc = BeginPaint(hwndDlg, &ps);
         TextOut(hdc, 10, 20, "Commands", 8);
-        TextOut(hdc, 250, 20, "New Function", 12);
+        TextOut(hdc, 350, 20, "Edit text", 9);
         EndPaint(hwndDlg, &ps);
         break;
 
@@ -123,20 +143,38 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             return TRUE;
 
-        case CM_VIEW_COMMANDS:
+           case CM_BTN_GUARDAR:
 
-            sFile(registros, "Registers: charDeveloping: User.press.viewCommands.1.total.commands.5");
-            MessageBox(hwndDlg, "Los comandos que se ven aqui se escriben en el input 1: \n1.-exit.program\nDescripcion:  comando para salir del programa\n2.-clear.screen\nDescripcion:  comando para limpiar la pantalla -> la de la terminal o consola\n3.-view.texture\nDescripcion:  comando para ver una texture\n4.-read.scene\nDescripcion:  comando para leer una esena\n5.-open.creator.scenes\nDescripcion:  comando para abrir el creador de scenas", "charDeveloping: Commands", MB_ICONINFORMATION);
+                  GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                  Guardar(hEdit,user1);//hctrl
+                  sFile2(registros, "Registers: User.create.and.file=\"");
+                  sFile2(registros, user1);
+                  sFile(registros, "\"");
+                  MessageBox(hwndDlg, "Se ha guardado el archivo con exito.","charDeveliping : save file", MB_ICONINFORMATION);
 
             return TRUE;
 
-        case CM_ABRE_ARCHIVO:
+        case CM_VIEW_COMMANDS:
+
+            sFile(registros, "Registers: charDeveloping: User.press.viewCommands.1.total.commands.10");
+            MessageBox(hwndDlg, "Los comandos que se ven aqui se escriben en el input 1: \n1.-exit.program\nDescripcion:  comando para salir del programa\n2.-clear.screen\nDescripcion:  comando para limpiar la pantalla -> la de la terminal o consola\n3.-view.texture\nDescripcion:  comando para ver una texture\n4.-read.scene\nDescripcion:  comando para leer una esena\n5.-open.creator.scenes\nDescripcion:  comando para abrir el creador de scenas\n6.-create.texture:\nDescripcion: Este comando ayuda a crear un texture\n7.-create.fuction:\nDescripcion: Este comando ayuda a crear las funciones\n8.-create.object:\nDescripcion: Esta instruccion ayuda a crear los objetos\n9.-create.Object:\nDescripcion: Esta instruccion ayuda a crear los newObjects\n10.-create.scene.openCreatorEditCMD:\nDescripcion: Esta instruccion abre el editador de scenes", "charDeveloping: Commands", MB_ICONINFORMATION);
+
+            return TRUE;
+
+        /*case CM_ABRE_ARCHIVO:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             sFile2(registros, "Registers: Open.this.file=\"");
             sFile2(registros, user1);
             sFile(registros, "\"");
             readFilesNormal(user1, hwndDlg);
+
+            return TRUE;*/
+
+            case CM_ABRE_ARCHIVO:
+
+                   GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+                   leerArchivo(hEdit, user1);
 
             return TRUE;
 
@@ -1086,7 +1124,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 void InsertarMenu(HWND hWnd)
 {
     HMENU hMenu1, hMenu2, hMenu3, hMenu4, hMenu5;
-
     hMenu1 = CreateMenu();
     hMenu2 = CreateMenu();
     hMenu3 = CreateMenu();
@@ -1094,6 +1131,8 @@ void InsertarMenu(HWND hWnd)
     hMenu5 = CreateMenu();
     /* Manipulador para el primer menú pop-up */
     AppendMenu(hMenu2, MF_STRING, CM_PRUEBA, "&Eliminar archivo");
+    AppendMenu(hMenu2, MF_STRING, CM_BTN_GUARDAR, "&Guardar archivo");
+    //AppendMenu(hMenu2, MF_STRING, CM_VIEW_EDIT,  "&Abrir editar de texto");
     AppendMenu(hMenu2, MF_STRING, CM_ARCHIVOS, "&Crear archivo");
     AppendMenu(hMenu2, MF_STRING, CM_ABRE_ARCHIVO, "&Abrir archivo");
     AppendMenu(hMenu2, MF_SEPARATOR, 0, NULL);
@@ -1125,6 +1164,57 @@ void InsertarMenu(HWND hWnd)
     AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu4, "&Commands");
     AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu5, "&Project");
     SetMenu(hWnd, hMenu1); /* Asigna el menú a la ventana hWnd */
+}
+
+void Guardar(HWND hctrl, char *fichero) {
+
+   FILE *fs;
+   int nLineas, longitud, i;
+   char linea[1024];
+
+   fs = fopen(fichero, "w");
+   if(fs) {
+      nLineas = SendMessage(hctrl, EM_GETLINECOUNT, 0, 0);
+      for(i = 0; i < nLineas; i++) {
+         *(WORD*)linea = 1024;
+         longitud = SendMessage(hctrl, EM_GETLINE, (WPARAM)i, (LPARAM)linea);
+         linea[longitud] = 0;
+         fprintf(fs, "%s\n", linea);
+      }
+      fclose(fs);
+   }
+
+}
+
+BOOL leerArchivo(HWND hEdit, LPCTSTR lpFileName)
+{
+    // Abre el archivo y obtiene su tamaño en bytes
+    HANDLE hFile = CreateFile(lpFileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (hFile != INVALID_HANDLE_VALUE)
+    {
+        DWORD dwSize = GetFileSize(hFile, NULL);
+        if (dwSize != INVALID_FILE_SIZE)
+        {
+            // Reserva memoria para almacenar el contenido del archivo
+            LPVOID lpBuffer = malloc(dwSize + sizeof(TCHAR));
+            if (lpBuffer)
+            {
+                // Lee el contenido del archivo en la memoria reservada
+                DWORD dwRead;
+                ReadFile(hFile, lpBuffer, dwSize, &dwRead, NULL);
+                if (dwRead == dwSize)
+                {
+                    // Agrega un caracter n
+                    // Establece el contenido del control de edición de texto con el contenido del archivo
+                    SetWindowText(hEdit, (TCHAR*)lpBuffer);
+                }
+                free(lpBuffer);
+            }
+        }
+        CloseHandle(hFile);
+        return TRUE;
+    }
+    return FALSE;
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
