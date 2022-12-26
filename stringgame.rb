@@ -26,58 +26,42 @@ class StringGame
   end
   
   def hidden_cursor (confimation)
-        if confirmation == 1
-             print "\e[?25l"
-        end
-        elsif confirmation == 0
-             print "\e[?25h"
-        end
-        else
-              puts "no hidden_cursor"
-        end
+        case confirmation
+  when 1
+    print "\e[?25l"
+  when 0
+    print "\e[?25h"
+  else
+    puts "no hidden_cursor"
   end
-  
   def attibute_text (color)
-       if color == 0 #negro
-            print "\e[30m"
-            print "\e[0m"
-       end
        
-       elsif color == 1 #rojo
-            print "\e[31m"
-            print "\e[0m"
-       end
-       
-       if color == 2 #verde
-            print "\e[32m"
-            print "\e[0m"
-       end
-       
-       elsif color == 3 #amarillo
-            print "\e[33m"
-            print "\e[0m"
-       end
-       
-       if color == 4 #azul
-            print "\e[34m"
-            print "\e[0m"
-       end
-       
-       elsif color == 5 #morado
-            print "\e[35m"
-            print "\e[0m"
-       end
-       
-       if color == 6 #cyan
-            print "\e[36m"
-            print "\e[0m"
-       end
-       
-       elsif color == 7 #blanco
-            print "\e[37m"
-            print "\e[0m"
-       end
-       
+       case color
+  when 0 # negro
+    print "\e[30m"
+    print "\e[0m"
+  when 1 # rojo
+    print "\e[31m"
+    print "\e[0m"
+  when 2 # verde
+    print "\e[32m"
+    print "\e[0m"
+  when 3 # amarillo
+    print "\e[33m"
+    print "\e[0m"
+  when 4 # azul
+    print "\e[34m"
+    print "\e[0m"
+  when 5 # morado
+    print "\e[35m"
+    print "\e[0m"
+  when 6 # cyan
+    print "\e[36m"
+    print "\e[0m"
+  when 7 # blanco
+    print "\e[37m"
+    print "\e[0m"
+  end
   end
   
   def goto_xy (x,y)
@@ -120,9 +104,7 @@ class StringGame
        if str_1 == str_2
            return true
        end
-       else
            return false
-       end
   end
   
   def genere_random_int
@@ -132,11 +114,12 @@ class StringGame
   end
   
   def dupli_text (text, times, newline)
-       times.times do # repite el código "times" veces
-    if newline # si "newline" es "true"
-      puts text # imprime el texto con un salto de línea al final
-    else
-      print text
+       full_text = "" # variable para almacenar el texto completo
+  times.times do # repite el código "times" veces
+    full_text << text # añade el texto a la variable "full_text"
+    full_text << "\n" if newline # añade un salto de línea si "newline" es "true"
+  end
+  puts full_text # imprime el texto completo
   end
   
   def _clrscr
