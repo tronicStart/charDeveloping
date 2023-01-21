@@ -31,6 +31,12 @@
 #define CM_ABRE_CPNG 124
 #define CM_VIEW_COMMANDS 125
 #define CM_VIEW_EDIT 127
+#define CM_CREADOR_SCENE_PRO 128
+#define CM_VIEW_SHORTCUTS 129
+#define CM_EXAMPLE1 130
+#define CM_EXAMPLE2 131
+#define CM_EXAMPLE3 132
+#define CM_NOTES 133
 
 // ID of Button Controls
 #define IDC_BTN_TEST 1001

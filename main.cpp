@@ -1,6 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+#include <commctrl.h>
 #include <conio.h>
 #include <tchar.h>
 #include <sys/types.h>
@@ -8,8 +9,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+
 #include "resource.h"
-#include "funciones.c"
+#include "chardevelopingc.h"
 
 typedef char Public;
 typedef char String[500];
@@ -29,33 +31,59 @@ Public crearNewScene[] = "create.scene.openCreatorEditCMD";
 Public crearEditorCPNG[] = "open.editorCPNG.create.cpng";
 Public crearCPNG[] = "create.file.cpng";
 
+//palabras reservadas del lenguaje C
+const TCHAR *palabrasReservadasC[] = {
+    _T("auto"), _T("break"), _T("case"), _T("char"), _T("const"),
+    _T("continue"), _T("default"), _T("do"), _T("double"), _T("else"),
+    _T("enum"), _T("extern"), _T("float"), _T("for"), _T("goto"),
+    _T("if"), _T("int"), _T("long"), _T("register"), _T("return"),
+    _T("short"), _T("signed"), _T("sizeof"), _T("static"), _T("struct"),
+    _T("switch"), _T("typedef"), _T("union"), _T("unsigned"), _T("void"),
+    _T("volatile"), _T("while"), _T("cpng"), _T("texture"), _T("String"), _T("f"),
+    _T("function"), _T("Func"), _T("Override"), _T("Scene"), _T("limit"), _T("asset"), _T("Object")};
+//palabras reservadas del lenguaje ruby
+const TCHAR *palabrasReservadasRuby[] = {
+    _T("alias"), _T("break"), _T("case"), _T("when"), _T("and"),
+    _T("continue"), _T("default"), _T("do"), _T("class"), _T("def"),
+    _T("defined?"), _T("elsif"), _T("end"), _T("for"), _T("ensure"),
+    _T("if"), _T("true"), _T("false"), _T("in"), _T("module"),
+    _T("next"), _T("nil"), _T("not"), _T("or"), _T("redo"),
+    _T("switch"), _T("rescue"), _T("retry"), _T("self"), _T("super"),
+    _T("then"), _T("undef"), _T("unless"), _T("until"), _T("yield"), _T("_FILE_"),
+    _T("_LINE_")};
+
+#define NUM_PALABRAS_RESERVADAS_C (sizeof(palabrasReservadasC) / sizeof(palabrasReservadasC[0]))
+#define NUM_PALABRAS_RESERVADAS_RUBY (sizeof(palabrasReservadasRuby) / sizeof(palabrasReservadasRuby[0]))
+
+BOOL SetBackgroundColor(HWND hEdit, int nStart, int nEnd, COLORREF crColor);
+void marcarPalabrasReservadas(HWND hEdit);
 void InsertarMenu(HWND hWnd);
 void Guardar(HWND hctrl, char *fichero);
 BOOL leerArchivo(HWND hEdit, LPCTSTR lpFileName);
 
 HINSTANCE hInst;
 HWND hEdit;
+int hotkey_id;
 
 BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    String user1, user2, project_active;
-    String user1_copy;
-    char *user1_cat;
+    //Variables para ser usadas en el programa para entrada de datos por el usuario
+    String user1, user2, project_active, user1_copy;
+    //Nombre de los archivos de ayuda
+    char *user1_cat, MainFile[] = "main.c", cpngFile[] = "cpng.h", structs[] = "objects.h", registros[] = "registers.rg";
     HDC hdc;
-  //  RECT re;
     PAINTSTRUCT ps;
     static HINSTANCE hInstance;
     int check, Project_active;
-    char MainFile[] = "main.c";
-    char cpngFile[] = "cpng.h";
-    char structs[] = "objects.h";
-    char registros[] = "registers.rg";
-  //  static HWND hctrl;
-   // static HFONT hfont; SetTimer(hwndDlg, TIMER_ID, TIMER_INTERVAL, NULL);
-
+    
+    // Registrar el hotkey "Ctrl+S"
+    hotkey_id = GlobalAddAtom("CtrlS");
+    RegisterHotKey(NULL, hotkey_id, MOD_CONTROL, 'S');
+    // Bucle de mensajes de Windows
+    MSG msg;
+    
     switch (uMsg)
     {
-
     case WM_INITDIALOG:
         /*
          * TODO: Add code to initialize the dialog.
@@ -66,15 +94,16 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         sFile(registros, "Registers: charDeveloping.Open");
         sFile(registros, "Registers: Project active.this=0");
         Project_active = 0;
+        //Creamos el edit text o lo inicializamos
         hEdit = CreateWindowEx(
             WS_EX_CLIENTEDGE,
             _T("EDIT"),
             _T(""),
             WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
-            210,
-            45,
-            240,
-            170,
+            210, //210
+            70,  //45
+            240, //240
+            170, //170
             hwndDlg,
             (HMENU)ID_TEXTO,
             GetModuleHandle(NULL),
@@ -82,14 +111,10 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         return TRUE;
 
-    /*case WM_CREATE:
-
-        break;*/
-
     case WM_PAINT:
         hdc = BeginPaint(hwndDlg, &ps);
-        TextOut(hdc, 10, 20, "Commands", 8);
-        TextOut(hdc, 350, 20, "Edit text", 9);
+        TextOut(hdc, 10, 20, "Comandos", 8);
+        TextOut(hdc, 390-15, 20, "Editor de texto", 15);
         EndPaint(hwndDlg, &ps);
         break;
 
@@ -116,7 +141,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             /*
                  * TODO: Add more control ID's, when needed.
                */
-
+               
+               //Caso para eliminar un archivo
         case CM_PRUEBA:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
@@ -142,49 +168,81 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             }
 
             return TRUE;
+            //caso para el creador de scenas modo pro
+         case CM_CREADOR_SCENE_PRO:
+             
+             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+             sFile2(registros, "Registers: User.create.and.file.for.scene=\"");
+             sFile2(registros, user1);
+             sFile(registros, "\"");
+             create_scene_(user1);
+             
+         return TRUE;
+            //Caso para el boton guardar
+        case CM_BTN_GUARDAR:
 
-           case CM_BTN_GUARDAR:
-
-                  GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-                  Guardar(hEdit,user1);//hctrl
-                  sFile2(registros, "Registers: User.create.and.file=\"");
-                  sFile2(registros, user1);
-                  sFile(registros, "\"");
-                  MessageBox(hwndDlg, "Se ha guardado el archivo con exito.","charDeveliping : save file", MB_ICONINFORMATION);
+            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
+            //marcarPalabrasReservadas(hEdit);
+            Guardar(hEdit, user1); //hctrl
+            sFile2(registros, "Registers: User.create.and.file=\"");
+            sFile2(registros, user1);
+            sFile(registros, "\"");
+            MessageBox(hwndDlg, "Se ha guardado el archivo con exito.", "charDeveliping : save file", MB_ICONINFORMATION);
+            
+            // Aquí es donde debería ir la condicional para manejar el evento "Ctrl+S"
+            if (GetKeyState(VK_CONTROL) < 0 && GetKeyState('S') < 0)
+            {
+                // Aquí es donde debes escribir el código para manejar el evento "Ctrl+S"
+                printf("Ctrl+S pressed!\n");
+            }
 
             return TRUE;
-
+            //Caso para el boton command
         case CM_VIEW_COMMANDS:
 
             sFile(registros, "Registers: charDeveloping: User.press.viewCommands.1.total.commands.10");
             MessageBox(hwndDlg, "Los comandos que se ven aqui se escriben en el input 1: \n1.-exit.program\nDescripcion:  comando para salir del programa\n2.-clear.screen\nDescripcion:  comando para limpiar la pantalla -> la de la terminal o consola\n3.-view.texture\nDescripcion:  comando para ver una texture\n4.-read.scene\nDescripcion:  comando para leer una esena\n5.-open.creator.scenes\nDescripcion:  comando para abrir el creador de scenas\n6.-create.texture:\nDescripcion: Este comando ayuda a crear un texture\n7.-create.fuction:\nDescripcion: Este comando ayuda a crear las funciones\n8.-create.object:\nDescripcion: Esta instruccion ayuda a crear los objetos\n9.-create.Object:\nDescripcion: Esta instruccion ayuda a crear los newObjects\n10.-create.scene.openCreatorEditCMD:\nDescripcion: Esta instruccion abre el editador de scenes", "charDeveloping: Commands", MB_ICONINFORMATION);
 
             return TRUE;
-
-        /*case CM_ABRE_ARCHIVO:
+            
+            //caso para abrir el archivo
+        case CM_ABRE_ARCHIVO:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-            sFile2(registros, "Registers: Open.this.file=\"");
-            sFile2(registros, user1);
-            sFile(registros, "\"");
-            readFilesNormal(user1, hwndDlg);
-
-            return TRUE;*/
-
-            case CM_ABRE_ARCHIVO:
-
-                   GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-                   leerArchivo(hEdit, user1);
+            leerArchivo(hEdit, user1);
 
             return TRUE;
-
+            
+        case CM_EXAMPLE1:
+        
+            leerArchivo(hEdit, "gravity.c");
+            
+            return TRUE;
+            
+       case CM_EXAMPLE2:
+            
+             leerArchivo(hEdit, "ejemplo_wave.c");
+            
+            return TRUE;
+            
+      case CM_EXAMPLE3:
+            
+             leerArchivo(hEdit, "ejemplo_collision.c");
+            
+            return TRUE;
+       case CM_NOTES:
+             
+             MessageBox(hwndDlg, "Esta update trae:\n1.-unas mejoras a la libreria o cabecera de stringgame\n 2.-opcion de ejemplos", "Noticia de actualización", MB_ICONINFORMATION);
+       
+            return TRUE;
+            //caso nulo
         case CM_ARCHIVOS:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
 
             return TRUE;
-
+            //caso para crear proyectos
         case CM_START_PROJECTS:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
@@ -251,22 +309,22 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return TRUE;
         case IDC_BTN_CREAR_STRUCT:
 
-              GetDlgItemText(hwndDlg, IDC_STRUCTS, user1, 100);
-              sFile2(registros, "Registers: charDeveloping.create.new.function.this.");
-              sFile2(registros, user1);
-              sFile(registros, "Registers: create");
-              sFile2("functions_creator.trash","void ");
-              sFile2("functions_creator.trash",user1);
-              sFile("functions_creator.trash"," (void){");
-              sFile("functions_creator.trash","    printf(\"\");");
-              sFile2("functions_creator.trash","}");
-              sFile2("functions_creator.txt","void ");
-              sFile2("functions_creator.txt",user1);
-              sFile("functions_creator.txt"," (void){");
-              sFile("functions_creator.txt","    printf(\"\");");
-              sFile2("functions_creator.txt","}");
+            GetDlgItemText(hwndDlg, IDC_STRUCTS, user1, 100);
+            sFile2(registros, "Registers: charDeveloping.create.new.function.this.");
+            sFile2(registros, user1);
+            sFile(registros, "Registers: create");
+            sFile2("functions_creator.trash", "void ");
+            sFile2("functions_creator.trash", user1);
+            sFile("functions_creator.trash", " (void){");
+            sFile("functions_creator.trash", "    printf(\"\");");
+            sFile2("functions_creator.trash", "}");
+            sFile2("functions_creator.txt", "void ");
+            sFile2("functions_creator.txt", user1);
+            sFile("functions_creator.txt", " (void){");
+            sFile("functions_creator.txt", "    printf(\"\");");
+            sFile2("functions_creator.txt", "}");
 
-        return TRUE;
+            return TRUE;
 
         case CM_CREADOR_PROJECTS:
 
@@ -304,7 +362,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             MessageBox(hwndDlg, "Se ha generado un codigo ", "CharDeveloping : create file *c", MB_ICONINFORMATION);
 
             return TRUE;
-
+            //caso para el creador de cpng's
         case CM_CREADOR_CPNG:
 
             if (Project_active == 1)
@@ -462,7 +520,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             MessageBox(hwndDlg, "Se ha guardado el cpng en el archivo 'cpng.h", "Stringame : save cpng", MB_ICONINFORMATION);
 
             return TRUE;
-
+            //case para el creador de scenes
         case CM_CREADOR_SCENE:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
@@ -875,243 +933,239 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             }
             if (strcmp(user1, crearTexture) == 0)
             {
-            printf("Name Texture ");
-            scanf("%s",&user1);
-            printf("Data Texture: ");
-            scanf("%s",&user2);
-            sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStrucTexture+this.in.Escrity.library");
-            sFile(registros, user1);
-            sFile2("textures.h", "//this is a texture the ");
-            sFile("textures.h", user1);
-            sFile2("textures.h", "void ");
-            sFile2("textures.h", "texture_");
-            sFile2("textures.h", user1);
-            sFile("textures.h", " (void){");
-            sFile("textures.h", "    // TODO: Implement this function");
-            sFile2("textures.h", "    struct texture ");
-            sFile2("textures.h", user1);
-            sFile("textures.h", ";");
-            sFile2("textures.h", "    ");
-            sFile2("textures.h", user1);
-            sFile("textures.h", ".ID = 1;");
-            sFile2("textures.h", "    ");
-            sFile2("textures.h", user1);
-            sFile("textures.h", ".mode = 1;");
-            sFile2("textures.h", "    ");
-            sFile2("textures.h", "strcpy(");
-            sFile2("textures.h", user1);
-            sFile2("textures.h", ".name");
-            sFile2("textures.h", ",\"Object_");
-            sFile2("textures.h", user1);
-            sFile("textures.h", "\");");
-            sFile2("textures.h", "    ");
-            sFile2("textures.h", "strcpy(");
-            sFile2("textures.h", user1);
-            sFile2("textures.h", ".nameFile");
-            sFile2("textures.h", ",\"");
-            sFile2("textures.h", user1);
-            sFile("textures.h", "\");");
-            sFile2("textures.h", "    ");
-            sFile2("textures.h", "strcpy(");
-            sFile2("textures.h", user1);
-            sFile2("textures.h", ".content");
-            sFile2("textures.h", ",\"");
-            sFile2("textures.h", user2);
-            sFile("textures.h", "\"); //Here you data or strings");
-            sFile2("textures.h", "    StrPrintTexture(&");
-            sFile2("textures.h", user1);
-            sFile("textures.h", ");");
-            sFile("textures.h", "}");
-            sFile("textures.h", "");
-            sFile("textures.dat", user2);
+                printf("Name Texture ");
+                scanf("%s", &user1);
+                printf("Data Texture: ");
+                scanf("%s", &user2);
+                sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStrucTexture+this.in.Escrity.library");
+                sFile(registros, user1);
+                sFile2("textures.h", "//this is a texture the ");
+                sFile("textures.h", user1);
+                sFile2("textures.h", "void ");
+                sFile2("textures.h", "texture_");
+                sFile2("textures.h", user1);
+                sFile("textures.h", " (void){");
+                sFile("textures.h", "    // TODO: Implement this function");
+                sFile2("textures.h", "    struct texture ");
+                sFile2("textures.h", user1);
+                sFile("textures.h", ";");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", user1);
+                sFile("textures.h", ".ID = 1;");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", user1);
+                sFile("textures.h", ".mode = 1;");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", "strcpy(");
+                sFile2("textures.h", user1);
+                sFile2("textures.h", ".name");
+                sFile2("textures.h", ",\"Object_");
+                sFile2("textures.h", user1);
+                sFile("textures.h", "\");");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", "strcpy(");
+                sFile2("textures.h", user1);
+                sFile2("textures.h", ".nameFile");
+                sFile2("textures.h", ",\"");
+                sFile2("textures.h", user1);
+                sFile("textures.h", "\");");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", "strcpy(");
+                sFile2("textures.h", user1);
+                sFile2("textures.h", ".content");
+                sFile2("textures.h", ",\"");
+                sFile2("textures.h", user2);
+                sFile("textures.h", "\"); //Here you data or strings");
+                sFile2("textures.h", "    StrPrintTexture(&");
+                sFile2("textures.h", user1);
+                sFile("textures.h", ");");
+                sFile("textures.h", "}");
+                sFile("textures.h", "");
+                sFile("textures.dat", user2);
             }
 
             if (strcmp(user1, crearFunction) == 0)
             {
-
-            printf("Name function: ");
-            scanf("%s",&user1);
-            printf("Data function: ");
-            scanf("%s",&user2);
-            sFile2(user2, user1);
-            sFile(user2, "{");
-            sFile(user2, "    ");
-            sFile(user2, "}");
-            sFile2(registros, "Registers: charDeveloping.Escrity::");
-            sFile2(registros, user1);
-            sFile2(registros, "::endfunc.new.function");
+                printf("Name function: ");
+                scanf("%s", &user1);
+                printf("Data function: ");
+                scanf("%s", &user2);
+                sFile2(user2, user1);
+                sFile(user2, "{");
+                sFile(user2, "    ");
+                sFile(user2, "}");
+                sFile2(registros, "Registers: charDeveloping.Escrity::");
+                sFile2(registros, user1);
+                sFile2(registros, "::endfunc.new.function");
             }
 
             if (strcmp(user1, crearObject) == 0)
             {
                 printf("Name object: ");
-            scanf("%s",&user1);
+                scanf("%s", &user1);
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-            sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStruc+this.in.charDeveloping");
-            sFile(registros, user1);
-            sFile2(structs, "//This is object the ");
-            sFile(structs, user1);
-            sFile(structs, "");
-            sFile2(structs, "struct Object ");
-            sFile2(structs, user1);
-            sFile(structs, ";");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".ID = 1;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".positionX = 0;");
-            sFile2(structs, user1);
-            sFile(structs, ".positionY = 0");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXTop = 0;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXDown = 0;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXLetf = 1;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXright = 0;");
-            sFile(structs, "");
-
+                sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStruc+this.in.charDeveloping");
+                sFile(registros, user1);
+                sFile2(structs, "//This is object the ");
+                sFile(structs, user1);
+                sFile(structs, "");
+                sFile2(structs, "struct Object ");
+                sFile2(structs, user1);
+                sFile(structs, ";");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".ID = 1;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".positionX = 0;");
+                sFile2(structs, user1);
+                sFile(structs, ".positionY = 0");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXTop = 0;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXDown = 0;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXLetf = 1;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXright = 0;");
+                sFile(structs, "");
             }
 
             if (strcmp(user1, crearNewObject) == 0)
             {
                 printf("Name new object: ");
-            scanf("%s",&user1);
-            sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStruc+this.in.CharLibrary");
-            sFile(registros, user1);
-            sFile2(structs, "//This is newObject the ");
-            sFile(structs, user1);
-            sFile(structs, "");
-            sFile2(structs, "struct newObject ");
-            sFile2(structs, user1);
-            sFile(structs, ";");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".ID = 1;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".positionX = 0;");
-            sFile(structs, user1);
-            sFile(structs, ".positionY = 0");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXTop = 0;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXDown = 0;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXLetf = 1;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXright = 0;");
-            sFile(structs, "");
+                scanf("%s", &user1);
+                sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStruc+this.in.CharLibrary");
+                sFile(registros, user1);
+                sFile2(structs, "//This is newObject the ");
+                sFile(structs, user1);
+                sFile(structs, "");
+                sFile2(structs, "struct newObject ");
+                sFile2(structs, user1);
+                sFile(structs, ";");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".ID = 1;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".positionX = 0;");
+                sFile(structs, user1);
+                sFile(structs, ".positionY = 0");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXTop = 0;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXDown = 0;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXLetf = 1;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXright = 0;");
+                sFile(structs, "");
             }
 
             if (strcmp(user1, crearNewScene) == 0)
             {
                 printf("Name Scene: ");
-            scanf("%s",&user1);
-            sFile2(registros, "Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG+this.load.charDeveloping.Escrity.Commands");
-            sFile(registros, user1);
+                scanf("%s", &user1);
+                sFile2(registros, "Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG+this.load.charDeveloping.Escrity.Commands");
+                sFile(registros, user1);
 
-            sFile2("scenes.h", "void scene_");
-            sFile2("scenes.h", user1);
-            sFile("scenes.h", " (struct _scenes_ * Scenes){");
-            sFile("scenes.h", "");
-            sFile("scenes.h", "    StrLoad_scene_(Scenes);");
-            sFile("scenes.h", "");
-            sFile("scenes.h", "}");
+                sFile2("scenes.h", "void scene_");
+                sFile2("scenes.h", user1);
+                sFile("scenes.h", " (struct _scenes_ * Scenes){");
+                sFile("scenes.h", "");
+                sFile("scenes.h", "    StrLoad_scene_(Scenes);");
+                sFile("scenes.h", "");
+                sFile("scenes.h", "}");
             }
 
             if (strcmp(user1, crearEditorCPNG) == 0)
             {
                 printf("Name Cpng: ");
-            scanf("%s",&user1);
-            sFile2(registros, "Registers: charDeveloping: openCreatorCPNG...CMD....load.commands");
-            cpngs(user1);
+                scanf("%s", &user1);
+                sFile2(registros, "Registers: charDeveloping: openCreatorCPNG...CMD....load.commands");
+                cpngs(user1);
             }
 
             if (strcmp(user1, crearCPNG) == 0)
             {
-
-             printf("Name Cpng: ");
-            scanf("%s",&user1);
-            printf("Data Cpng: ");
-            scanf("%s",&user2);
-            sFile(registros, "Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG.commands.Escrity");
-            sFile2(cpngFile, "//this is a cpng the ");
-            sFile(cpngFile, user1);
-            sFile(cpngFile, "");
-            sFile2(cpngFile, "char cpng_");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, " (void){");
-            sFile(cpngFile, "");
-            sFile(cpngFile, "       // TODO: Implement this function");
-            sFile2(cpngFile, "    struct cpng ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ";");
-            sFile(cpngFile, "");
-            sFile(cpngFile, "    ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ".X = (int)NULL; // o 0");
-            sFile(cpngFile, "");
-            sFile(cpngFile, "    ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ".Y = (int)NULL; // o 0");
-            sFile(cpngFile, "");
-            sFile2(cpngFile, "    ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ".Top = 1;");
-            sFile2(cpngFile, "    ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ".Down = 1;");
-            sFile2(cpngFile, "    ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ".Letf = 1;");
-            sFile2(cpngFile, "    ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ".Right = 1;");
-            sFile2(cpngFile, "    ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ".ID = 1;");
-            sFile2(cpngFile, "    ");
-            sFile2(cpngFile, "strcpy(");
-            sFile2(cpngFile, user1);
-            sFile2(cpngFile, ".Name , \"");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, "\");");
-            sFile(cpngFile, "");
-            sFile2(cpngFile, "    ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ".color = 3;");
-            sFile(cpngFile, "");
-            sFile2(cpngFile, "    ");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ".range = 0;");
-            sFile2(cpngFile, "    ");
-            sFile2(cpngFile, "strcpy(");
-            sFile2(cpngFile, user1);
-            sFile2(cpngFile, ".data , \"");
-            sFile2(cpngFile, user2);
-            sFile(cpngFile, "\");");
-            sFile(cpngFile, "");
-            sFile2(cpngFile, "    StrStartCpng(&");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ");");
-            sFile2(cpngFile, "    StrPaintCpng(&");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ");");
-            sFile2(cpngFile, "    StrEndCpng(&");
-            sFile2(cpngFile, user1);
-            sFile(cpngFile, ");");
-            sFile(cpngFile, "");
-            sFile(cpngFile, "}");
-
+                printf("Name Cpng: ");
+                scanf("%s", &user1);
+                printf("Data Cpng: ");
+                scanf("%s", &user2);
+                sFile(registros, "Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG.commands.Escrity");
+                sFile2(cpngFile, "//this is a cpng the ");
+                sFile(cpngFile, user1);
+                sFile(cpngFile, "");
+                sFile2(cpngFile, "char cpng_");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, " (void){");
+                sFile(cpngFile, "");
+                sFile(cpngFile, "       // TODO: Implement this function");
+                sFile2(cpngFile, "    struct cpng ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ";");
+                sFile(cpngFile, "");
+                sFile(cpngFile, "    ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ".X = (int)NULL; // o 0");
+                sFile(cpngFile, "");
+                sFile(cpngFile, "    ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ".Y = (int)NULL; // o 0");
+                sFile(cpngFile, "");
+                sFile2(cpngFile, "    ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ".Top = 1;");
+                sFile2(cpngFile, "    ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ".Down = 1;");
+                sFile2(cpngFile, "    ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ".Letf = 1;");
+                sFile2(cpngFile, "    ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ".Right = 1;");
+                sFile2(cpngFile, "    ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ".ID = 1;");
+                sFile2(cpngFile, "    ");
+                sFile2(cpngFile, "strcpy(");
+                sFile2(cpngFile, user1);
+                sFile2(cpngFile, ".Name , \"");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, "\");");
+                sFile(cpngFile, "");
+                sFile2(cpngFile, "    ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ".color = 3;");
+                sFile(cpngFile, "");
+                sFile2(cpngFile, "    ");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ".range = 0;");
+                sFile2(cpngFile, "    ");
+                sFile2(cpngFile, "strcpy(");
+                sFile2(cpngFile, user1);
+                sFile2(cpngFile, ".data , \"");
+                sFile2(cpngFile, user2);
+                sFile(cpngFile, "\");");
+                sFile(cpngFile, "");
+                sFile2(cpngFile, "    StrStartCpng(&");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ");");
+                sFile2(cpngFile, "    StrPaintCpng(&");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ");");
+                sFile2(cpngFile, "    StrEndCpng(&");
+                sFile2(cpngFile, user1);
+                sFile(cpngFile, ");");
+                sFile(cpngFile, "");
+                sFile(cpngFile, "}");
             }
 
             return TRUE;
@@ -1147,16 +1201,19 @@ void InsertarMenu(HWND hWnd)
     AppendMenu(hMenu3, MF_STRING, CM_CREADOR_CPNGS, "&Crear CPNG file type");
     AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
     AppendMenu(hMenu3, MF_STRING, CM_CREADOR_SCENE, "&Crear Scene");
+    AppendMenu(hMenu3, MF_STRING, CM_CREADOR_SCENE_PRO, "&Crear Scene (v1)");
+    AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
+    AppendMenu(hMenu3, MF_STRING, CM_EXAMPLE1, "&Abrir ejemplo gravity");
+    AppendMenu(hMenu3, MF_STRING, CM_EXAMPLE2, "&Abrir ejemplo wave");
+    AppendMenu(hMenu3, MF_STRING, CM_EXAMPLE3, "&Abrir ejemplo collisión");
     AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
     AppendMenu(hMenu3, MF_STRING, CM_ABRE_CPNG, "&Abrir CPNG");
     AppendMenu(hMenu4, MF_STRING, CM_VIEW_COMMANDS, "&Ver commands");
+    AppendMenu(hMenu4, MF_STRING, CM_NOTES, "&Update notes");
     AppendMenu(hMenu2, MF_SEPARATOR, 0, NULL);
     AppendMenu(hMenu2, MF_STRING, CM_NAME_PROJECT, "&Nombre del projecto");
-    AppendMenu(hMenu5, MF_STRING, CM_BUILD_PROJECT, "&build project file c");
-    AppendMenu(hMenu5, MF_STRING, CM_NEW_FUCTIONS, "&Generate function");
     AppendMenu(hMenu5, MF_STRING, CM_START_PROJECTS, "&Iniciar nuevo projecto");
     AppendMenu(hMenu5, MF_SEPARATOR, 0, NULL);
-    AppendMenu(hMenu5, MF_STRING, CM_CREADOR_PROJECTS, "&Generate code main");
     AppendMenu(hMenu5, MF_STRING, CM_NEW_PROJECT, "&Nuevo projecto");
     /* Inserción del menú pop-up */
     AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu2, "&Archivos");
@@ -1166,24 +1223,25 @@ void InsertarMenu(HWND hWnd)
     SetMenu(hWnd, hMenu1); /* Asigna el menú a la ventana hWnd */
 }
 
-void Guardar(HWND hctrl, char *fichero) {
+void Guardar(HWND hctrl, char *fichero)
+{
+    FILE *fs;
+    int nLineas, longitud, i;
+    char linea[1024];
 
-   FILE *fs;
-   int nLineas, longitud, i;
-   char linea[1024];
-
-   fs = fopen(fichero, "w");
-   if(fs) {
-      nLineas = SendMessage(hctrl, EM_GETLINECOUNT, 0, 0);
-      for(i = 0; i < nLineas; i++) {
-         *(WORD*)linea = 1024;
-         longitud = SendMessage(hctrl, EM_GETLINE, (WPARAM)i, (LPARAM)linea);
-         linea[longitud] = 0;
-         fprintf(fs, "%s\n", linea);
-      }
-      fclose(fs);
-   }
-
+    fs = fopen(fichero, "w");
+    if (fs)
+    {
+        nLineas = SendMessage(hctrl, EM_GETLINECOUNT, 0, 0);
+        for (i = 0; i < nLineas; i++)
+        {
+            *(WORD *)linea = 1024;
+            longitud = SendMessage(hctrl, EM_GETLINE, (WPARAM)i, (LPARAM)linea);
+            linea[longitud] = 0;
+            fprintf(fs, "%s\n", linea);
+        }
+        fclose(fs);
+    }
 }
 
 BOOL leerArchivo(HWND hEdit, LPCTSTR lpFileName)
@@ -1206,7 +1264,7 @@ BOOL leerArchivo(HWND hEdit, LPCTSTR lpFileName)
                 {
                     // Agrega un caracter n
                     // Establece el contenido del control de edición de texto con el contenido del archivo
-                    SetWindowText(hEdit, (TCHAR*)lpBuffer);
+                    SetWindowText(hEdit, (TCHAR *)lpBuffer);
                 }
                 free(lpBuffer);
             }
@@ -1215,6 +1273,30 @@ BOOL leerArchivo(HWND hEdit, LPCTSTR lpFileName)
         return TRUE;
     }
     return FALSE;
+}
+
+void marcarPalabrasReservadas(HWND hEdit)
+{
+    TCHAR szText[1024];
+    int nLength = GetWindowText(hEdit, szText, 1024);
+    if (nLength > 0)
+    {
+        for (int i = 0; i < NUM_PALABRAS_RESERVADAS_C; i++)
+        {
+            TCHAR *pStart = szText;
+            TCHAR *pEnd;
+            while ((pEnd = _tcsstr(pStart, palabrasReservadasC[i])) != NULL)
+            {
+                // Calcula el índice de inicio y fin de la palabra reservada
+                int nStart = pEnd - szText;
+                int nEnd = nStart + _tcslen(palabrasReservadasC[i]);
+                // Marca la palabra reservada en el control de edición de texto
+                //SetBackgroundColor(hEdit, nStart, nEnd, RGB(255, 0, 0));
+                // Continúa la búsqueda desde el final de la palabra reservada
+                pStart = pEnd + _tcslen(palabrasReservadasC[i]);
+            }
+        }
+    }
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
