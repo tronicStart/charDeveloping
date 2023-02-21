@@ -13,12 +13,11 @@ simple.
 
 Lo proximo:
 
-* Se tiene pensado agregar mas funcionalidades.
-* Solucionar los problemas con la libreria escrita en C para C no C++ ningun otro lenguaje.
-* Añadir funcionalidades mas faciles y decorativas en el editor.
-* Añadir soporte a comandos windows
+* Soporte a eventos: shortcuts
+* Compilación con GCC
+* Añadir mas funciones utiles
+* Detección de la sintaxis del lenguaje C y ruby
 
 Estas cosas se estaran añidiendo y muchas mas.
 
 Mas información visista nuestra wiki del reposotorio o nuestro
-canal de youtube: https://www.youtube.com/@charDeveloping
