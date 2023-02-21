@@ -11,6 +11,7 @@
 #define N 50
 
 typedef void Override;
+typedef char Public;
 typedef char String[500];
 
 typedef struct
@@ -26,6 +27,22 @@ char subText[ESPACE];
 
 Asset assets[MAX_ASSETS];
 int assetCount = 0;
+
+/*Lista de comandos de la aplicación: todos se escriben en el input 1*/
+Public bye[] = "exit.program";                  //comando para salir
+Public screen[] = "clear.screen";               //comando para limpiar la pantalla -> la de la terminal o consola
+Public view[] = "view.texture";                 //comando para ver una texture
+Public pplayer[] = "player";                    //comando sin uso
+Public loadScene[] = "read.scene";              //comando para leer una esena
+Public scenesCreator[] = "open.creator.scenes"; //comando para abrir el creador de scenas
+Public crearTexture[] = "create.texture";
+Public crearFunction[] = "create.fuction";
+Public crearObject[] = "create.object";
+Public crearNewObject[] = "create.Object";
+Public crearNewScene[] = "create.scene.openCreatorEditCMD";
+Public crearEditorCPNG[] = "open.editorCPNG.create.cpng";
+Public crearCPNG[] = "create.file.cpng";
+Public ruteGCC[] = "rute.gcc";
 
 void StrGotoXY(int X, int Y)
 {
@@ -1350,4 +1367,277 @@ int creatorAssetMenu()
         }
     }
     return 0;
+}
+//Funciones para guardar los archivos
+void CreateAssets (const char * registros, const char * user1, const char * user2){
+    //Funcion proveniente del ID: CM_CREADOR_ASSET
+    sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectAsset+this");
+            sFile(registros, user1);
+            sFile2("Assets.h", "//this is a asset the ");
+            sFile("Assets.h", user1);
+            sFile2("Assets.h", "void ");
+            sFile2("Assets.h", "asset_");
+            sFile2("Assets.h", user1);
+            sFile("Assets.h", " (void){");
+            sFile("Assets.h", "    // TODO: Implement this function");
+            sFile2("Assets.h", "    struct asset ");
+            sFile2("Assets.h", user1);
+            sFile("Assets.h", ";");
+            sFile2("Assets.h", "    ");
+            sFile2("Assets.h", user1);
+            sFile("Assets.h", ".ID = 1;");
+            sFile2("Assets.h", "    ");
+            sFile2("Assets.h", user1);
+            sFile("Assets.h", ".color = 1;");
+            sFile2("Assets.h", "    ");
+            sFile2("Assets.h", "strcpy(");
+            sFile2("Assets.h", user1);
+            sFile2("Assets.h", ".name,\"asset_");
+            sFile2("Assets.h", user1);
+            sFile("Assets.h", "\");");
+            sFile2("Assets.h", "    ");
+            sFile2("Assets.h", "strcpy(");
+            sFile2("Assets.h", user1);
+            sFile2("Assets.h", ".data,");
+            sFile2("Assets.h", "\"");
+            sFile2("Assets.h", user2);
+            sFile("Assets.h", "\");");
+            sFile2("Assets.h", "    ");
+            sFile2("Assets.h", "StrAssetStart(&");
+            sFile2("Assets.h", user1);
+            sFile("Assets.h", ");");
+            sFile2("Assets.h", "    ");
+            sFile2("Assets.h", "StrAssetPaint(&");
+            sFile2("Assets.h", user1);
+            sFile("Assets.h", ");");
+            sFile2("Assets.h", "    ");
+            sFile2("Assets.h", "StrAssetEnd(&");
+            sFile2("Assets.h", user1);
+            sFile("Assets.h", ");");
+            sFile("Assets.h", "}");
+            sFile("Assets.h", "");
+            sFile2("assets.dat", "Name Asset: ");
+            sFile2("assets.dat", "asset_");
+            sFile("assets.dat", user1);
+            sFile("assets.dat", "");
+            sFile2("assets.dat", "Asset: ");
+            sFile("assets.dat", user2);
+}
+
+void createTextures (const char * user1, const char * user2){
+    //función proveniente del ID: CM_CREADOR_TEXTURE
+    sFile2("textures.h", "//this is a texture the ");
+                sFile("textures.h", user1);
+                sFile("textures.h", "//This is very import texture , is the player");
+                sFile2("textures.h", "char * ");
+                sFile2("textures.h", "texture_");
+                sFile2("textures.h", user1);
+                sFile("textures.h", " (void){");
+                sFile("textures.h", "    // TODO: Implement this function");
+                sFile2("textures.h", "    struct texture ");
+                sFile2("textures.h", user1);
+                sFile("textures.h", ";");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", user1);
+                sFile("textures.h", ".ID = 1;");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", user1);
+                sFile("textures.h", ".mode = 1;");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", "strcpy(");
+                sFile2("textures.h", user1);
+                sFile2("textures.h", ".name");
+                sFile2("textures.h", ",\"Object_");
+                sFile2("textures.h", user1);
+                sFile("textures.h", "\");");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", "strcpy(");
+                sFile2("textures.h", user1);
+                sFile2("textures.h", ".nameFile");
+                sFile2("textures.h", ",\"");
+                sFile2("textures.h", user1);
+                sFile("textures.h", "\");");
+                sFile2("textures.h", "    ");
+                sFile2("textures.h", "strcpy(");
+                sFile2("textures.h", user1);
+                sFile2("textures.h", ".content");
+                sFile2("textures.h", ",\"");
+                sFile2("textures.h", user2);
+                sFile("textures.h", "\"); //Here you data or strings");
+                sFile2("textures.h", "    StrPrintTexture(&");
+                sFile2("textures.h", user1);
+                sFile("textures.h", ");");
+                sFile("textures.h", "}");
+                sFile("textures.h", "");
+                sFile("textures.dat", user2);
+    
+}
+
+void createObject (const char * structs, const char * user1, const char * user2){
+    
+    sFile(structs, "#ifndef _OBJECTS_H");
+                sFile(structs, "#define _OBJECTS_H");
+                sFile(structs, "#include \"include/stringgame.h\"");
+                sFile(structs, "");
+                sFile2(structs, "//This is object the ");
+                sFile(structs, user1);
+                sFile(structs, "");
+                sFile2(structs, "struct Object ");
+                sFile2(structs, user1);
+                sFile(structs, ";");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".ID = 1;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".positionX = 0;");
+                sFile2(structs, user1);
+                sFile(structs, ".positionY = 0");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXTop = 0;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXDown = 0;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXLetf = 1;");
+                sFile(structs, "");
+                sFile2(structs, user1);
+                sFile(structs, ".BOXright = 0;");
+                sFile(structs, "");
+                
+}
+
+void createCpng (const char * user1_copy,const char * user1, const char * user2){
+    
+    sFile2(user1_copy, "//this is a cpng the ");
+                sFile(user1_copy, user1);
+                sFile(user1_copy, "");
+                sFile2(user1_copy, "char cpng_");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, " (void){");
+                sFile(user1_copy, "");
+                sFile(user1_copy, "       // TODO: Implement this function");
+                sFile2(user1_copy, "    struct cpng ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ";");
+                sFile(user1_copy, "");
+                sFile(user1_copy, "    ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ".X = (int)NULL; // o 0");
+                sFile(user1_copy, "");
+                sFile(user1_copy, "    ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ".Y = (int)NULL; // o 0");
+                sFile(user1_copy, "");
+                sFile2(user1_copy, "    ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ".Top = 1;");
+                sFile2(user1_copy, "    ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ".Down = 1;");
+                sFile2(user1_copy, "    ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ".Letf = 1;");
+                sFile2(user1_copy, "    ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ".Right = 1;");
+                sFile2(user1_copy, "    ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ".ID = 1;");
+                sFile2(user1_copy, "    ");
+                sFile2(user1_copy, "strcpy(");
+                sFile2(user1_copy, user1);
+                sFile2(user1_copy, ".Name , \"");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, "\");");
+                sFile(user1_copy, "");
+                sFile2(user1_copy, "    ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ".color = 3;");
+                sFile(user1_copy, "");
+                sFile2(user1_copy, "    ");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ".range = 0;");
+                sFile2(user1_copy, "    ");
+                sFile2(user1_copy, "strcpy(");
+                sFile2(user1_copy, user1);
+                sFile2(user1_copy, ".data , \"");
+                sFile2(user1_copy, user2);
+                sFile(user1_copy, "\");");
+                sFile(user1_copy, "");
+                sFile2(user1_copy, "    StrStartCpng(&");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ");");
+                sFile2(user1_copy, "    StrPaintCpng(&");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ");");
+                sFile2(user1_copy, "    StrEndCpng(&");
+                sFile2(user1_copy, user1);
+                sFile(user1_copy, ");");
+                sFile(user1_copy, "");
+                sFile(user1_copy, "}");
+    
+}
+
+void createMainCode (const char * MainFile){
+    
+    sFile(MainFile, "#include \"include\\stringgame.h\"");
+            sFile(MainFile, "");
+            sFile(MainFile, "void paint_game (struct _scenes_ * Scene);");
+            sFile(MainFile, "");
+            sFile(MainFile, "int main (void){");
+            sFile(MainFile, "");
+            sFile(MainFile, "     //Struct of main scene");
+            sFile(MainFile, "     struct _scenes_ mainScene;");
+            sFile(MainFile, "");
+            sFile(MainFile, "     strcpy(mainScene.name,\"mainScene\");");
+            sFile(MainFile, "     mainScene.id = 0;");
+            sFile(MainFile, "     mainScene.actives = 1;//never 0");
+            sFile(MainFile, "");
+            sFile(MainFile, "     while(true){");
+            sFile(MainFile, "");
+            sFile(MainFile, "          paint_game(&mainScene);");
+            sFile(MainFile, "");
+            sFile(MainFile, "  }");
+            sFile(MainFile, "}");
+            sFile(MainFile, "");
+            sFile(MainFile, "void paint_game (struct _scenes_ * Scene){");
+            sFile(MainFile, "");
+            sFile(MainFile, "     StrLoad_scene_(Scene);");
+            sFile(MainFile, "");
+            sFile(MainFile, "}");
+            sFile(MainFile, "");
+    
+}
+
+void createNewObject (const char * structs, const char * user1){
+    
+            sFile2(structs, "//This is newObject the ");
+            sFile(structs, user1);
+            sFile(structs, "");
+            sFile2(structs, "struct newObject ");
+            sFile2(structs, user1);
+            sFile(structs, ";");
+            sFile(structs, "");
+            sFile2(structs, user1);
+            sFile(structs, ".ID = 1;");
+            sFile(structs, "");
+            sFile2(structs, user1);
+            sFile(structs, ".positionX = 0;");
+            sFile(structs, user1);
+            sFile(structs, ".positionY = 0");
+            sFile2(structs, user1);
+            sFile(structs, ".BOXTop = 0;");
+            sFile(structs, "");
+            sFile2(structs, user1);
+            sFile(structs, ".BOXDown = 0;");
+            sFile(structs, "");
+            sFile2(structs, user1);
+            sFile(structs, ".BOXLetf = 1;");
+            sFile(structs, "");
+            sFile2(structs, user1);
+            sFile(structs, ".BOXright = 0;");
+            sFile(structs, "");
+    
 }

@@ -3,7 +3,7 @@
 
 DLG_MAIN DIALOGEX 6, 5, 320, 206
 
-CAPTION "Char Developing (Debug) v5"
+CAPTION "Char Developing v6"
 
 FONT 8, "Tahoma"
 
@@ -12,6 +12,7 @@ STYLE 0x10CE0804
 BEGIN
   CONTROL "" , IDC_EDIT_INPUT , "EDIT" , 0x10010000 , 10 , 40 , 120 , 14
   CONTROL "" , IDC_EDIT_INPUT2 , "EDIT", 0x10010000 , 10 , 100 , 120 , 14
-  CONTROL "&Ejecutar", IDC_BTN_TEST, "Button", 0x10010000, 50,  70, 46, 15
+  CONTROL "&Command", IDC_BTN_TEST, "Button", 0x10010000, 50,  70, 46, 15
   CONTROL "&Agregar", IDC_BTN_QUIT, "Button", 0x10010000, 50, 120, 46, 15
+  CONTROL "&Compilar", BTN_EJECUTAR, "Button",0x10010000, 200, 160, 46, 15
 END

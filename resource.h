@@ -37,6 +37,20 @@
 #define CM_EXAMPLE2 131
 #define CM_EXAMPLE3 132
 #define CM_NOTES 133
+#define CM_HIDDEN_CURSOR 134
+#define CM_SET_TITLE 135
+#define CM_SET_XY 136
+#define CM_CENTER_TEXT 137
+#define CM_DELETE_FILE 138
+#define CM_DEBUG_COLLISION 139
+#define CM_COLOR_RGBA 140
+#define CM_LIMIT_OBJECT 141
+#define CM_MOVE_CPNG_MOUSE 142
+#define CM_BUCLE_FOR 143
+#define CM_CREAR_OBJECT 144
+#define CM_MOVE_CPNG 145
+#define CM_MOVE_OBJECT 146
+#define CM_MOVE 147
 
 // ID of Button Controls
 #define IDC_BTN_TEST 1001
@@ -50,7 +64,18 @@
 #define CM_ID_EDIT_TEXT 1009
 #define ID_TEXTO 1010
 #define CM_VIEW_EDIT2 1011
+#define BTN_EJECUTAR 1012
 
 //Macros o declaraciones necesarias pero muy aparte
 #define TIMER_ID 1
 #define TIMER_INTERVAL 10000 //10 segundos
+
+
+
+
+
+
+
+
+
+
