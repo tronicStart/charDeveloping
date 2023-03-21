@@ -626,6 +626,70 @@ void read_files (const char * file){
     
 }
 
+void move_cpng_file(struct cpng *posPlayer, const char *key1, const char *key2, const char *key3, const char *key4)
+{
+    if(posPlayer->id < 0){
+        printf("Error un el ID es negativo\n");
+    }
+    
+    char Keey;
+    char cat[1024] = ".cpng";
+    char nose[1024];
+    strcpy(nose, posPlayer->name_cpng);
+    strcat(nose, cat);
+
+    HANDLE hCon;
+    hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD dwPos;
+    dwPos.X = posPlayer->X;
+    dwPos.Y = posPlayer->Y;
+
+    SetConsoleCursorPosition(hCon, dwPos);
+    read_files(nose);
+
+    Keey = getch();
+
+    if (Keey == key1)
+    {
+        if (key1 == '\0')
+        {
+            return;
+        }
+
+        posPlayer->X--;
+    }
+
+    if (Keey == key2)
+    {
+        if (key2 == '\0')
+        {
+            return;
+        }
+
+        posPlayer->X++;
+    }
+
+    if (Keey == key3)
+    {
+        if (key3 == '\0')
+        {
+            return;
+        }
+
+        posPlayer->Y++;
+    }
+
+    if (Keey == key4)
+    {
+        if (key4 == '\0')
+        {
+            return;
+        }
+
+        posPlayer->Y--;
+    }
+}
+
 void start_read_cpng (struct cpng * Asset){
     
     if(Asset->id < 0){
@@ -995,40 +1059,6 @@ void render_ (int num_functions, ...){
     va_end(function_list);
     
 }
-
-/*int ram_view (){ 
-    
-    struct sysinfo info;
-    if (sysinfo(&info) != 0) {
-        printf("Error: no se pudo obtener información del sistema.\n");
-        return -1;
-    }
-
-    long long total_memoria = info.totalram * info.mem_unit / 1024 / 1024;
-    long long memoria_libre = info.freeram * info.mem_unit / 1024 / 1024;
-    long long memoria_usada = total_memoria - memoria_libre;
-
-    printf("RAM total: %lld MB\n", total_memoria);
-    printf("RAM libre: %lld MB\n", memoria_libre);
-    printf("RAM usada: %lld MB\n", memoria_usada);
-    
-}
-
-int view_battery (){
-    
-    SYSTEM_POWER_STATUS power_status;
-    if (!GetSystemPowerStatus(&power_status)) {
-        printf("Error: no se pudo obtener el estado de la batería.\n");
-        return -1;
-    }
-
-    if (power_status.BatteryLifePercent != 255) {
-        printf("Porcentaje de batería: %d%%\n", power_status.BatteryLifePercent);
-    } else {
-        printf("La batería no se encuentra presente.\n");
-    }
-    
-}*/
 
 void show_coordinates_cpng(struct cpng *object){
     
