@@ -14,7 +14,7 @@
 #include "chardevelopingc.h"
 
 typedef char String[500];
-
+//aconsejable agregarlo a un archivo aparte
 //palabras reservadas del lenguaje C
 const TCHAR *palabrasReservadasC[] = {
     _T("auto"), _T("break"), _T("case"), _T("char"), _T("const"),
@@ -116,7 +116,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         printf("Stringgame : ");
         yReadFile("User.dat");
-        printf(" : cancelo la salida de Char Developing\n");
+        printf(" : No decidió salir de CharDeveloping\n");
 
         return TRUE;
 
@@ -436,8 +436,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, MainFile, 100);
 
-            sFile(registros, "Regist3rs: CharDeveloping.fake.project.new.create->mainScene.sce*>MainScene.sce");
-            sFile("mainScene.sce", "StartScene");
+            sFile(registros, "Registers: CharDeveloping.project.new.create->mainScene.sce*>MainScene.sce");
+            sFile("main_scene.sce", "main_scene");
             createMainCode(MainFile);
 
             MessageBox(hwndDlg, "Se ha generado un codigo ", "CharDeveloping : create file *c", MB_ICONINFORMATION);
@@ -823,10 +823,10 @@ void InsertarMenu(HWND hWnd)
     AppendMenu(hMenu6, MF_STRING, CM_CREAR_OBJECT, "&Agregar codigo: 'crear Object'");
     /* Inserción del menú pop-up */
     AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu2, "&Archivos");
-    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu3, "&Library codes");
-    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu6, "&Agregar");
-    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu4, "&Commands");
-    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu5, "&Project");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu3, "&CharLibrary");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu6, "&Fubciones");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu4, "&CharDeveloping");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu5, "&Proyecto");
     SetMenu(hWnd, hMenu1); /* Asigna el menú a la ventana hWnd */
 }
 
