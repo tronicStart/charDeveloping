@@ -32,4 +32,3 @@ jobs:
       run: |
         cd build
         make package
-
