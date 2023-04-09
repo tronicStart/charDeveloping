@@ -123,10 +123,9 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
         switch (LOWORD(wParam))
         {
-            /*
-                 * TODO: Add more control ID's, when needed.
-               */
-
+            /* 
+             * TODO: Add more control ID's, when needed.
+             */
             //Caso para eliminar un archivo
         case CM_PRUEBA:
 
@@ -823,10 +822,10 @@ void InsertarMenu(HWND hWnd)
     AppendMenu(hMenu6, MF_STRING, CM_CREAR_OBJECT, "&Agregar codigo: 'crear Object'");
     /* Inserción del menú pop-up */
     AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu2, "&Archivos");
-    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu3, "&Library codes");
-    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu6, "&Agregar");
-    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu4, "&Commands");
-    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu5, "&Project");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu3, "&CharLibrary");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu6, "&Funciones");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu4, "&CharDeveloping");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu5, "&Proyecto");
     SetMenu(hWnd, hMenu1); /* Asigna el menú a la ventana hWnd */
 }
 
