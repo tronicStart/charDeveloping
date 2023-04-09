@@ -13,8 +13,6 @@
 #include "resource.h"
 #include "chardevelopingc.h"
 
-typedef char String[500];
-
 //palabras reservadas del lenguaje C
 const TCHAR *palabrasReservadasC[] = {
     _T("auto"), _T("break"), _T("case"), _T("char"), _T("const"),
