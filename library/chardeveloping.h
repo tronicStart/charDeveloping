@@ -1,3 +1,7 @@
+/*Este archivo fue creado por tronic
+para el uso del programa chardeveloping 
+y uso libre siempre y cuando le sea util 
+una de estas funciones*/
 #ifndef CHARDEVELOPING_H
 #define CHARDEVELOPING_H
 
@@ -9,13 +13,24 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <time.h>
-//#include <sys/sysinfo.h>
 
 /*tipos de datos*/
-
 typedef float f;
 typedef int * pointer;
 typedef char Texture[V];
+typedef int array;
+
+typedef struct {
+    array range;
+    array i;
+    array Array[100];
+} array_int;
+
+typedef struct {
+    array range;
+    array i;
+    const char * Array[100];
+} array_char;
 
 struct water{
     
@@ -104,11 +119,48 @@ struct scene{
 
 int print_text (const char* format, ...){
     
-   va_list args;
+  va_list args;
   va_start(args, format);
   int count = vprintf(format, args);
   va_end(args);
   return count;
+    
+}
+
+array_int *new_array_int(array_int *Array, ...) {
+    
+    array *Arra = malloc(Array->range * sizeof(array));
+    va_list valist;
+    va_start(valist, Array->range);
+    for (Array->i = 0; Array->i < Array->range; Array->i++) {
+        array x = va_arg(valist, array);
+        Arra[Array->i] = x;
+    }
+    va_end(valist);
+    for (Array->i = 0; Array->i < Array->range; Array->i++) {
+        Array->Array[Array->i] = Arra[Array->i];
+    }
+    free(Arra);
+    return Array;
+    
+}
+
+array_char * new_array_char(array_char * Array, ...){
+    
+    array *Arra = malloc(Array->range * sizeof(array));
+    va_list valist;
+    va_start(valist, Array->range);
+    for (Array->i = 0; Array->i < Array->range; Array->i++) {
+        char * x = va_arg(valist, char *);
+        Arra[Array->i] = x;
+    }
+    va_end(valist);
+    for (Array->i = 0; Array->i < Array->range; Array->i++) {
+        Array->Array[Array->i] = Arra[Array->i];
+    }
+    free(Arra);
+
+    return Array;
     
 }
 
