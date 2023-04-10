@@ -1,13 +1,10 @@
 #ifndef STRDEF_H
 #define STRDEF_H
 
-#define STRTRUE 1
-#define STRFALSE 0
 #define true 1
 #define false 0
 #define True 1
 #define False 0
-#define STRINGNULL void * x = NULL
 #define KEY_A 'a'
 #define KEY_B 'b'
 #define KEY_C 'c'
