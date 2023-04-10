@@ -1,18 +1,11 @@
-name: Build
-
-on:
-  push:
-    branches: [main]
-
+name: Build and Test
+on: [push, pull_request]
 jobs:
-  build:
+  build-and-test:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up MSVC
-      uses: microsoft/setup-msvc@v1.6.2
-      with:
-        vs-version: '2019'
-    - name: Build the project
-      run: |
-        msbuild.exe MyProject.sln /p:Configuration=Release
+    - name: Set up MSVC compiler
+      uses: microsoft/setup-msvc@v1.7.2
+    - name: Build with MSBuild
+      run: msbuild /t:build /p:Configuration=Debug charDeveloping.sln
