@@ -1,4 +1,4 @@
-name: CharDeveloping-build
+name: CharDeveloping-Test-build
 
 on:
   push:
@@ -13,7 +13,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: CharDeveloping/codeblocks-windows-build-action@v1
-        with:
-          path-to-cbp: 'CharDeveloping.cbp'
-          build-target: 'Debug'
+      - name: Install MinGW
+        run: |
+          choco install mingw -y
+      - name: Build project
+        run: |
+          C:/Users/tronicStart/Documents/GitHub/CharDeveloping
+          mingw32-make.exe -f "C:/Program Files (x86)/CodeBlocks/CodeBlocks/share/codeblocks/templates/wxWidgets Console Application/Makefile" BUILD_TARGET=debug PROJECT_LOGO=1 PROJECT_NAME=CharDeveloping
