@@ -41,8 +41,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     static HINSTANCE hInstance;
     int check, Project_active;
     FILE *fp;
-
-    // Registrar el hotkey "Ctrl+S"
     hotkey_id = GlobalAddAtom("CtrlS");
     RegisterHotKey(NULL, hotkey_id, MOD_CONTROL, 'S');
     // Bucle de mensajes de Windows
@@ -86,18 +84,16 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case WM_CLOSE:
 
-        printf("Stringgame : ");
+        printf("CharDeveloping : ");
         yReadFile("User.dat");
         printf(" : desea salir?\n");
-        if (MessageBox(hwndDlg, "Desea cerrar Char Developing", "Salir", MB_ICONQUESTION | MB_YESNO) == IDYES)
+        if (MessageBox(hwndDlg, "Desea cerrar el programa, "Cerrar", MB_ICONQUESTION | MB_YESNO) == IDYES)
         {
-            sFile(registros, "Registers: charDeveloping.exit");
-            sFile(registros, "Registers: Project active.this=0.cancel");
             EndDialog(hwndDlg, 0);
         }
-        printf("Stringgame : ");
+        printf("CharDeveloping : ");
         yReadFile("User.dat");
-        printf(" : cancelo la salida de Char Developing\n");
+        printf(" : no cerro el programa");
 
         return TRUE;
 
@@ -112,28 +108,20 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
 
-            sFile2(registros, "Registers: User.redy.delete.this.file=\"");
-            sFile2(registros, user1);
-            sFile(registros, "\"");
-
             if (remove(user1) == -1)
             {
-                sFile(registros, "Registers: File.user.delete.Error!!!!!");
-                SetTitle("Stringgame : cmd : error");
-                MessageBox(hwndDlg, "El Archivo no se pudo eliminar...", "Stringgame : delete file : error", MB_ICONERROR);
-                SetTitle("Stringgame : cmd");
+                SetTitle("CharDeveloping : cmd : error");
+                MessageBox(hwndDlg, "El Archivo no se pudo eliminar...", "CharDeveloping : Error", MB_ICONERROR);
+                SetTitle("CharDeveloping : cmd");
             }
 
             else
             {
-                sFile2(registros, "Registers: User.delete.this.file=\"");
-                sFile2(registros, user1);
-                sFile(registros, "\"");
-                MessageBox(hwndDlg, "Archivo Eliminado con exito", "Stringgame : delete file", MB_ICONINFORMATION);
+                MessageBox(hwndDlg, "Archivo Eliminado con exito", "CharDeveloping : Exito", MB_ICONINFORMATION);
             }
 
             return TRUE;
-            //caso para el creador de scenas modo pro
+            /*
         case CM_CREADOR_SCENE_PRO:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
@@ -142,112 +130,88 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             sFile(registros, "\"");
             create_scene_(user1);
 
-            return TRUE;
+            return TRUE;*/
             //Caso para el boton guardar
         case CM_BTN_GUARDAR:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             //marcarPalabrasReservadas(hEdit);
             Guardar(hEdit, user1); //hctrl
-            sFile2(registros, "Registers: User.create.and.file=\"");
-            sFile2(registros, user1);
-            sFile(registros, "\"");
-            MessageBox(hwndDlg, "Se ha guardado el archivo con exito.", "charDeveliping : save file", MB_ICONINFORMATION);
-
-            // Aquí es donde debería ir la condicional para manejar el evento "Ctrl+S"
-            if (GetKeyState(VK_CONTROL) < 0 && GetKeyState('S') < 0)
-            {
-                // Aquí es donde debes escribir el código para manejar el evento "Ctrl+S"
-                printf("Ctrl+S pressed!\n");
-            }
+            MessageBox(hwndDlg, "Se ha guardado el archivo con exito.", "charDeveliping : Exito", MB_ICONINFORMATION);
 
             return TRUE;
             //Caso para el boton command
         case CM_VIEW_COMMANDS:
 
-            sFile(registros, "Registers: charDeveloping: User.press.viewCommands.1.total.commands.10");
             MessageBox(hwndDlg, "Los comandos que se ven aqui se escriben en el input 1: \n1.-exit.program\nDescripcion:  comando para salir del programa\n2.-clear.screen\nDescripcion:  comando para limpiar la pantalla -> la de la terminal o consola\n3.-view.texture\nDescripcion:  comando para ver una texture\n4.-read.scene\nDescripcion:  comando para leer una esena\n5.-open.creator.scenes\nDescripcion:  comando para abrir el creador de scenas\n6.-create.texture:\nDescripcion: Este comando ayuda a crear un texture\n7.-create.fuction:\nDescripcion: Este comando ayuda a crear las funciones\n8.-create.object:\nDescripcion: Esta instruccion ayuda a crear los objetos\n9.-create.Object:\nDescripcion: Esta instruccion ayuda a crear los newObjects\n10.-create.scene.openCreatorEditCMD:\nDescripcion: Esta instruccion abre el editador de scenes", "charDeveloping: Commands", MB_ICONINFORMATION);
 
             return TRUE;
 
+        /*Casos para colocar las funciones en el edit*/
         case CM_MOVE_CPNG:
 
             marcarPalabrasPonerCodigo(hEdit, "moveObjectCPNG(struct cpng *posPlayer, const char *key1, const char *key2, const char *key3, const char *key4);");
 
             return TRUE;
-
         case CM_MOVE_OBJECT:
 
             marcarPalabrasPonerCodigo(hEdit, "moveObject(obj, '@', A, D, S, W);");
 
             return TRUE;
-
         case CM_MOVE:
 
             marcarPalabrasPonerCodigo(hEdit, "move_char (X , Y , String player , String key1 , String key2 , String key3 , String key4);");
 
             return TRUE;
-
         case CM_HIDDEN_CURSOR:
 
             marcarPalabrasPonerCodigo(hEdit, "hiddenCursor (true);");
 
             return TRUE;
-
         case CM_SET_TITLE:
 
             marcarPalabrasPonerCodigo(hEdit, "setTile(\"Name window cmd\");");
 
             return TRUE;
-
         case CM_SET_XY:
-
             marcarPalabrasPonerCodigo(hEdit, "set_xy(0,0);");
 
             return TRUE;
-
         case CM_CENTER_TEXT:
 
             marcarPalabrasPonerCodigo(hEdit, "centerText(\"Text\");");
 
             return TRUE;
-
         case CM_COLOR_RGBA:
 
             marcarPalabrasPonerCodigo(hEdit, "colorRGBA(0,0,0,0);");
 
             return TRUE;
-
         case CM_DELETE_FILE:
 
             marcarPalabrasPonerCodigo(hEdit, "delete_file(\"File name\");");
 
             return TRUE;
-
         case CM_LIMIT_OBJECT:
 
             marcarPalabrasPonerCodigo(hEdit, "limitObject (limitObject , limitX1 , limitX2, limitY1 , limitY2);");
 
             return TRUE;
-
         case CM_DEBUG_COLLISION:
 
             marcarPalabrasPonerCodigo(hEdit, "debugCollision();");
 
             return TRUE;
-
         case CM_MOVE_CPNG_MOUSE:
 
             marcarPalabrasPonerCodigo(hEdit, "move_cpng_mouse();");
 
             return TRUE;
-
         case CM_BUCLE_FOR:
 
             marcarPalabrasPonerCodigo(hEdit, "for(i = 0; i < 0; i++){\n    //Code\n}");
 
             return TRUE;
-
         case CM_CREAR_OBJECT:
 
             marcarPalabrasPonerCodigo(hEdit, "hiddenCursor (true);");
@@ -257,9 +221,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case BTN_EJECUTAR:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-            sFile2(registros, "Registers: user-compile-archive: ");
-            sFile(registros, user1);
-            MessageBox(hwndDlg, "Antes verifique que tenga instalado el compilador GCC en su computadora. o instalelo desde: 'https://gcc.gnu.org/'", "CharDeveloping : Compilar codigo", MB_ICONINFORMATION);
+            MessageBox(hwndDlg, "Actualmente no tenemos soporte para compilar en gcc se implementara a su debido tiempo.\nPuedes instalar  el compilador gcc con esta url: https://gcc.gnu.org/'", "Aviso", MB_ICONINFORMATION);
             char comando[100];
             sprintf(comando, "cd c:\mingw\bin\gcc.exe -o %s.exe %s.c", user1, user1);
             system(comando);
@@ -275,18 +237,11 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             char error[512];
             while (fgets(error, sizeof(error), fp) != NULL)
             {
-                sFile2(registros, "Registers: error-compile-archive: ");
-                sFile2(registros, user1);
-                sFile2(registros, "error: ");
-                sFile(registros, error);
                 MessageBox(hwndDlg, error, "CharDeveloping : GCC error", MB_ICONERROR);
             }
             pclose(fp);
-
-            sFile2(registros, "Registers: execute-aplication: ");
-            sFile(registros, ejecutable);
             // Ejecución del archivo ejecutable
-            system(ejecutable);
+            //system(ejecutable);
             //system("dir");
 
             return TRUE;
@@ -332,28 +287,19 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case CM_START_PROJECTS:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-            sFile2(registros, "Registers: Ini.new.folder.save.project.nameorrute=\"");
-            sFile2(registros, user1);
-            sFile(registros, "\"");
             check = mkdir(user1);
 
             // check if directory is created or not
             if (!check)
             {
-                sFile(registros, "Registers: Ini.new..folder.save.project.is.success.=\"Directory the project created\"");
                 MessageBox(hwndDlg, "Carpeta del proyecto creada con exito", "Creacion de proyecto", MB_ICONINFORMATION);
                 printf("Directory the project created\n");
             }
             else
             {
-                sFile(registros, "Registers: Ini.new.folder.no.save.project.error.check.result.is.-1=\"Unable to create directory\"");
                 MessageBox(hwndDlg, "Error al crear el proyecto:\n*No se pudo crear el directorio: \"Unable to create directory\"\n*Mal escrito el nombre de la carpeta", "Creacion de proyecto", MB_ICONERROR);
                 printf("Unable to create directory\n");
             }
-
-            sFile(registros, "Registers: Ini.new.ProjectActive.this.1");
-            sFile(registros, "Registers: Ini.new.Escrity: create.file.named*main.c");
-            sFile(registros, "Registers: Ini.new.CharDevelopingLibrary->mainScene.sce*createMainScene.sce");
             Project_active = 1;
             project_active[500] = user1[500];
             user1_cat = "main.c";
@@ -416,8 +362,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, MainFile, 100);
 
-            sFile(registros, "Regist3rs: CharDeveloping.fake.project.new.create->mainScene.sce*>MainScene.sce");
-            sFile("mainScene.sce", "StartScene");
             createMainCode(MainFile);
 
             MessageBox(hwndDlg, "Se ha generado un codigo ", "CharDeveloping : create file *c", MB_ICONINFORMATION);
@@ -426,24 +370,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             //caso para el creador de cpng's
         case CM_CREADOR_CPNG:
 
-            if (Project_active == 1)
-            {
-                user1_cat = "cpngs.h";
-
-                strcpy(user1_copy, project_active);
-                strcat(user1_copy, user1_cat);
-
-                GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-                GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
-
-                createCpng(user1_copy,user1,user2);
-                MessageBox(hwndDlg, "Se ha guardado el cpng en el archivo 'cpng.h", "Stringame : save cpng", MB_ICONINFORMATION);
-            }
-
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
-
-            sFile(registros, "Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG");
 
             createCpng(cpngFile,user1,user2);
             MessageBox(hwndDlg, "Se ha guardado el cpng en el archivo 'cpng.h", "Stringame : save cpng", MB_ICONINFORMATION);
@@ -453,8 +381,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case CM_CREADOR_SCENE:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-            sFile2(registros, "Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG+this");
-            sFile(registros, user1);
 
             sFile2("scenes.h", "void scene_");
             sFile2("scenes.h", user1);
@@ -472,8 +398,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             
-            sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStruc+this");
-            sFile(registros, user1);
             createNewObject(structs,user1);
 
             return TRUE;
@@ -481,7 +405,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case CM_CREADOR_CPNGS:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-            sFile2(registros, "Registers: charDeveloping: openCreatorCPNG...CMD");
             MessageBox(hwndDlg, "Se ha cargado el editador", "Escrity : load edit", MB_ICONINFORMATION);
             cpngs(user1);
 
@@ -490,8 +413,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case CM_CREADOR_OBJECT:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-            sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStruc+this");
-            sFile(registros, user1);
             if (strcasecmp(user1, pplayer) == 0)
             {
                 createObject(structs,user1,user2);
@@ -509,7 +430,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
 
-            sFile2(registros, "Registers: charDeveloping: this-*>useAFileObjectStrucTexture+this");
             sFile(registros, user1);
             sFile2("main.c", "        //print or paint texture ");
             sFile2("main.c", user2);
@@ -530,9 +450,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
-            sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStrucTexture+this");
-            sFile(registros, user1);
-
+            
             if (strcmp(user1, pplayer) == 0)
             {
                 createTextures(user1,user2);
@@ -552,9 +470,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             sFile(user2, "{");
             sFile(user2, "    ");
             sFile(user2, "}");
-            sFile2(registros, "TYP_");
-            sFile2(registros, user1);
-            sFile2(registros, "();");
 
             return TRUE;
 
@@ -564,9 +479,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return TRUE;
 
         case CM_SALIR:
-            sFile(registros, "Registers: charDeveloping.exit");
-            sFile(registros, "Registers: Project active.this=0.cancel");
-            Project_active = 0;
+
             EndDialog(hwndDlg, 0);
             return TRUE;
 
@@ -581,9 +494,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             return TRUE;
         case IDC_BTN_QUIT:
-            sFile(registros, "Registers: charDeveloping.exit");
-            sFile(registros, "Registers: Project active.this=0.cancel");
-            Project_active = 0;
+
             EndDialog(hwndDlg, 0);
             return TRUE;
 
@@ -599,14 +510,9 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case IDC_BTN_TEST:
 
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-            sFile(registros, "Registers: charDeveloping.onclick.Commands");
-
             if(strcmp(user1,ruteGCC) == 0){
 
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user2, 100);
-                sFile2("charDevelopigRute.dat",user2);
-                sFile2(registros, "Registers: rute.gcc.is: ");
-                sFile(registros, user2);
                 MessageBox(hwndDlg,"Se ha guardado la ruta del gcc","charDeveloping : rute gcc", MB_ICONINFORMATION);
 
             }
@@ -614,7 +520,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             if (strcmp(user1, loadScene) == 0)
             {
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
-                sFile(registros, "Registers: charDeveloping: Escrity: CharLibrary: Load.Scene.");
                 CLS();
                 file_scene_(user2);
             }
@@ -623,7 +528,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             {
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
                 CLS();
-                sFile(registros, "Registers: charDeveloping: Escrity: CharLibrary: Open.SceneCreator.");
                 StrCreate_scene_(user2);
             }
 
@@ -631,14 +535,11 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             {
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
                 StrGotoXY(33, 10);
-                sFile(registros, "Registers: charDeveloping: Escrity: CharLibrary: ViewTexture.dat.delete.exit.progra.");
                 yReadFile("textures.dat");
                 sFile2("textures.h", "//This coordinates ");
                 sFile("textures.h", user2);
                 if (remove("textures.dat") == -1)
                 {
-                    sFile(registros, "Registers: charLibrary : textures.dat : this null");
-                    sFile(registros, "Registers: charLibrary : close program...");
                     Sleep(1500);
                     EndDialog(hwndDlg, 0);
                 }
@@ -646,15 +547,11 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             if (strcmp(user1, bye) == 0)
             {
-                sFile(registros, "Registers: charDeveloping.exit");
-                sFile(registros, "Registers: Project active.this=0.cancel");
-                Project_active = 0;
                 EndDialog(hwndDlg, 0);
             }
 
             if (strcmp(user1, screen) == 0)
             {
-                sFile(registros, "Registers: charDeveloping: Escrity: CharLibrary: clearCMD");
                 CLS();
             }
             if (strcmp(user1, crearTexture) == 0)
@@ -663,8 +560,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 scanf("%s", &user1);
                 printf("Data Texture: ");
                 scanf("%s", &user2);
-                sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStrucTexture+this.in.Escrity.library");
-                sFile(registros, user1);
                 createTextures(user1,user2);
             }
 
@@ -678,9 +573,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 sFile(user2, "{");
                 sFile(user2, "    ");
                 sFile(user2, "}");
-                sFile2(registros, "Registers: charDeveloping.Escrity::");
-                sFile2(registros, user1);
-                sFile2(registros, "::endfunc.new.function");
             }
 
             if (strcmp(user1, crearObject) == 0)
@@ -688,8 +580,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 printf("Name object: ");
                 scanf("%s", &user1);
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-                sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStruc+this.in.charDeveloping");
-                sFile(registros, user1);
                 createObject(structs, user1, "nada");
             }
 
@@ -697,8 +587,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             {
                 printf("Name new object: ");
                 scanf("%s", &user1);
-                sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectStruc+this.in.CharLibrary");
-                sFile(registros, user1);
                 createNewObject(structs, user1);
             }
 
@@ -721,7 +609,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             {
                 printf("Name Cpng: ");
                 scanf("%s", &user1);
-                sFile2(registros, "Registers: charDeveloping: openCreatorCPNG...CMD....load.commands");
                 cpngs(user1);
             }
 
@@ -731,7 +618,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 scanf("%s", &user1);
                 printf("Data Cpng: ");
                 scanf("%s", &user2);
-                sFile(registros, "Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG.commands.Escrity");
                 createCpng(cpngFile,user1,user2);
             }
 
