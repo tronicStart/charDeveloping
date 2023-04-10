@@ -11,13 +11,12 @@ Mas amigable y legible. Tambien se esta trabajando en la
 Librería de chardeveloping y en un creador de scenas mas 
 simple.
 
-Lo proximo:
+### Funciones utiles que se añadiran
 
-* Soporte a eventos: shortcuts
-* Compilación con GCC
-* Añadir mas funciones utiles
-* Detección de la sintaxis del lenguaje C y ruby
-
-Estas cosas se estaran añidiendo y muchas mas.
+* Creador de proyectos
+* Detector de sintaxis C
+* Buscador del compilador gcc
+* Cambios en la interfaz
+* Futura ventana completa(dejar de usar la ventana de dialog)
 
 Mas información visista nuestra wiki del reposotorio o nuestro
