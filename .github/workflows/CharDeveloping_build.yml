@@ -18,5 +18,5 @@ jobs:
           choco install mingw -y
       - name: Build project
         run: |
-          cd C:/Users/tronicStart/Documents/GitHub/charDeveloping
+          D:\a\charDeveloping\charDeveloping
           mingw32-make.exe -f "C:/Program Files (x86)/CodeBlocks/CodeBlocks/share/codeblocks/templates/wxWidgets Console Application/Makefile" BUILD_TARGET=debug PROJECT_LOGO=1 PROJECT_NAME=CharDeveloping
