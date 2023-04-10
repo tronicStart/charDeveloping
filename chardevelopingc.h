@@ -44,6 +44,27 @@ Public crearEditorCPNG[] = "open.editorCPNG.create.cpng";
 Public crearCPNG[] = "create.file.cpng";
 Public ruteGCC[] = "rute.gcc";
 
+//palabras reservadas del lenguaje C
+const TCHAR *palabrasReservadasC[] = {
+    _T("auto"), _T("break"), _T("case"), _T("char"), _T("const"),
+    _T("continue"), _T("default"), _T("do"), _T("double"), _T("else"),
+    _T("enum"), _T("extern"), _T("float"), _T("for"), _T("goto"),
+    _T("if"), _T("int"), _T("long"), _T("register"), _T("return"),
+    _T("short"), _T("signed"), _T("sizeof"), _T("static"), _T("struct"),
+    _T("switch"), _T("typedef"), _T("union"), _T("unsigned"), _T("void"),
+    _T("volatile"), _T("while"), _T("cpng"), _T("texture"), _T("String"), _T("f"),
+    _T("function"), _T("Func"), _T("Override"), _T("Scene"), _T("limit"), _T("asset"), _T("Object")};
+//palabras reservadas del lenguaje ruby
+const TCHAR *palabrasReservadasRuby[] = {
+    _T("alias"), _T("break"), _T("case"), _T("when"), _T("and"),
+    _T("continue"), _T("default"), _T("do"), _T("class"), _T("def"),
+    _T("defined?"), _T("elsif"), _T("end"), _T("for"), _T("ensure"),
+    _T("if"), _T("true"), _T("false"), _T("in"), _T("module"),
+    _T("next"), _T("nil"), _T("not"), _T("or"), _T("redo"),
+    _T("switch"), _T("rescue"), _T("retry"), _T("self"), _T("super"),
+    _T("then"), _T("undef"), _T("unless"), _T("until"), _T("yield"), _T("_FILE_"),
+    _T("_LINE_")};
+
 void StrGotoXY(int X, int Y)
 {
     HANDLE hCon;
