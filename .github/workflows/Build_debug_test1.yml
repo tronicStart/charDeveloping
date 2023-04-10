@@ -1,0 +1,18 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up MSVC
+      uses: microsoft/setup-msvc@v1.6.2
+      with:
+        vs-version: '2019'
+    - name: Build the project
+      run: |
+        msbuild.exe MyProject.sln /p:Configuration=Release
