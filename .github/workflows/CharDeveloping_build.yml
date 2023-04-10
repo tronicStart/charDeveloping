@@ -14,7 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up CodeBlocks
-        uses: GameServerManagers/WindowsGSM@main
+      uses: GameServerManagers/WindowsGSM@main
+      with:
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         repository: CharDeveloping
       - name: Build project
         run: |
           mingw32-make.exe -f "C:/Program Files (x86)/CodeBlocks/CodeBlocks/share/codeblocks/templates/wxWidgets Console Application/Makefile" BUILD_TARGET=debug PROJECT_LOGO=1 PROJECT_NAME=CharDeveloping
