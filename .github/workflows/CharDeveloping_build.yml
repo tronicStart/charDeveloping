@@ -18,3 +18,4 @@ jobs:
       - name: Build project
         run: |
           mingw32-make.exe -f "C:/Program Files (x86)/CodeBlocks/CodeBlocks/share/codeblocks/templates/wxWidgets Console Application/Makefile" BUILD_TARGET=debug PROJECT_LOGO=1 PROJECT_NAME=CharDeveloping
+
