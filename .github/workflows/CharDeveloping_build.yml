@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: jasonkayzk/codeblocks-windows-build-action@v1
+      - uses: CharDeveloping/codeblocks-windows-build-action@v1
         with:
           path-to-cbp: 'CharDeveloping.cbp'
           build-target: 'Debug'
