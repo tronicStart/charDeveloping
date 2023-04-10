@@ -1,0 +1,15 @@
+name: Test pwd command
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-pwd:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Show current directory
+        run: |
+          pwd
