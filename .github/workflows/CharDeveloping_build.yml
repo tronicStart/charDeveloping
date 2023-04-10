@@ -13,10 +13,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - name: List project directory
-        run: dir
-      - name: Set up CodeBlocks
-        uses: GameServerManagers/WindowsGSM@main
-      - name: Build project
-        run: |
-          mingw32-make.exe -f "ruta/al/proyecto/Makefile" BUILD_TARGET=debug PROJECT_LOGO=1 PROJECT_NAME=CharDeveloping
+      - uses: jasonkayzk/codeblocks-windows-build-action@v1
+        with:
+          path-to-cbp: 'CharDeveloping.cbp'
+          build-target: 'Debug'
