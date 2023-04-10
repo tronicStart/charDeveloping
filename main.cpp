@@ -55,10 +55,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         InsertarMenu(hwndDlg);
         SetTitle("Char Developing : cmd : start");
         printf("Stringgame : open! : ");
-        sFile(registros, "Registers: charDeveloping.Open");
-        sFile(registros, "Registers: Project active.this=0");
-        Project_active = 0;
-        //Creamos el edit text o lo inicializamos
+        //Creamos el edit text 
         hEdit = CreateWindowEx(
             WS_EX_CLIENTEDGE,
             _T("EDIT"),
@@ -87,7 +84,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         printf("CharDeveloping : ");
         yReadFile("User.dat");
         printf(" : desea salir?\n");
-        if (MessageBox(hwndDlg, "Desea cerrar el programa, "Cerrar", MB_ICONQUESTION | MB_YESNO) == IDYES)
+        if (MessageBox(hwndDlg, "Desea cerrar el programa", "Cerrar", MB_ICONQUESTION | MB_YESNO) == IDYES)
         {
             EndDialog(hwndDlg, 0);
         }
