@@ -5,7 +5,7 @@ project(CharDeveloping VERSION 1.0.0)
 set(CMAKE_C_COMPILER "gcc")
 set(CMAKE_CXX_COMPILER "g++")
 
-set(CMAKE_INCLUDE_PATH "C:/Dev-Cpp/MinGW64/include/winapi")
+set(CMAKE_INCLUDE_PATH "")
 
 add_executable(CharDeveloping "main.cpp" "resource.h" "resource.rc" "chardevelopingc.h")
 
