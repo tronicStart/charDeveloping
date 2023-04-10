@@ -1,0 +1,14 @@
+name: option
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check de prueba
+        run: |
+          echo "Ejecutando el check"
