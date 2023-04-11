@@ -19,4 +19,4 @@ jobs:
       - name: Build project
         run: |
           cd D:\a\charDeveloping\charDeveloping
-          mingw32-make.exe BUILD_TARGET=debug PROJECT_LOGO=1 PROJECT_NAME=CharDeveloping
+          mingw32.exe BUILD_TARGET=debug PROJECT_LOGO=1 PROJECT_NAME=CharDeveloping
