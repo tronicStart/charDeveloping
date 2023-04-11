@@ -5,8 +5,8 @@ project(CharDeveloping VERSION 1.0.0)
 set(CMAKE_C_COMPILER "gcc")
 set(CMAKE_CXX_COMPILER "g++")
 
-set(CMAKE_INCLUDE_PATH "C:/Dev-Cpp/MinGW64/include/winapi")
+set(CMAKE_INCLUDE_PATH "C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/")
 
 add_executable(CharDeveloping "main.cpp" "resource.h" "resource.rc" "chardevelopingc.h")
 
-target_link_libraries(CharDeveloping PUBLIC "${CMAKE_INCLUDE_PATH}")
+target_include_directories(CharDeveloping PUBLIC "${CMAKE_INCLUDE_PATH}")
