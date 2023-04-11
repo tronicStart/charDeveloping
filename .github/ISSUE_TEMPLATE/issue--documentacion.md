@@ -1,5 +1,5 @@
 ---
-name: 'Issue: Documentacion'
+name: 'Documentacion'
 about: About
 title: ''
 labels: Documentacion
