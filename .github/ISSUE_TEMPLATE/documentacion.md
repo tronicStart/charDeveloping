@@ -1,6 +1,6 @@
 ---
-name: 'Documentacion'
-about: Problemas o mejoras en la documentación del proyecto
+name: 'Plantilla de doocumentacion'
+about: Utilize esta plantilla para problemas o mejoras en la documentación del proyecto
 title: ''
 labels: Documentacion
 assignees: Sportsings
