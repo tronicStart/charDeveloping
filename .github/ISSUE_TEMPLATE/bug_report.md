@@ -1,6 +1,6 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Plantilla para reportar un bug
+about: Use esta plantilla para crear un reporte de un bug
 title: ''
 labels: Bug
 assignees: ''
