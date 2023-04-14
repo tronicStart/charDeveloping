@@ -1,22 +1,18 @@
-name: build-test-library
+name: Build
+
 on: push
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    
     steps:
-    - name: Clonar el repositorio
-      uses: actions/checkout@v2
-    - name: Instalar GCC y Make
-      run: sudo apt-get install -y gcc make
-    - name: Compilar test_library.c
-      run: gcc -o game test_library.c
-    - name: Crear el archivo ejecutable
-      run: chmod +x game
-    - name: Crear archivo zip
-      run: zip game.zip game
-    - name: Subir el archivo ejecutable como artefacto
-      uses: actions/upload-artifact@v2
-      with:
-        name: game
-        path: game.zip
+      - uses: actions/checkout@v2
+
+      - name: Set up MSVC compiler
+        uses: microsoft/setup-msvc@v1.6.2
+        with:
+          msvc-version: 'latest'
+
+      - name: Build C++ program
+        run: cl.exe /library/test_library.c /Fe"game.exe"
