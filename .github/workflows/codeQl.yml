@@ -1,0 +1,33 @@
+name: CodeQL Analysis
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  analyze:
+    name: Analyze code with CodeQL
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: c,cpp
+
+      - name: Build and Test
+        run: |
+          # Add your build and test commands here
+
+      - name: Analyze with CodeQL
+        uses: github/codeql-action/analyze@v1
+        with:
+          # Path to your CodeQL database (generated from your build and test commands)
+          database-path: ./codeql-db
+          
+          # Path to your CodeQL query
+          query: ./path/to/query.ql
