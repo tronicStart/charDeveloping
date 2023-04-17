@@ -1,6 +1,7 @@
 /*Este es un archivo para probar funciones y de mas cosas*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 typedef int array;
 
@@ -33,7 +34,7 @@ int main (){
    array_int numeros;
 
    numeros.range = 3;
-   numeros.Array[0] = *new_array_int(&numeros,9,2,7);
+   numeros.Array[0] = *new_array_int(&numeros,9,2,7)->Array;
    
    for(array i = 0; i < numeros.range; i++){
          printf("[%i]",numeros.Array[i]);
@@ -42,7 +43,7 @@ int main (){
    printf("\n");
 
    numeros.range = 6;
-   numeros.Array[0] = *new_array_int(&numeros,9,4,7,8,0,5);
+   numeros.Array[0] = *new_array_int(&numeros,9,4,7,8,0,5)->Array;
    
    for(array i = 0; i < numeros.range; i++){
          printf("[%i]",numeros.Array[i]);
