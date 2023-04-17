@@ -279,60 +279,57 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
 
             return TRUE;
+
             //caso para crear proyectos
         case CM_START_PROJECTS:
 
-            GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
-            check = mkdir(user1);
+            INT_PTR result = DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_NUEVO_PROYECTO), hwndDlg, NuevoProyectoDlgProc);
+    if (result == IDOK){
 
-            // check if directory is created or not
-            if (!check)
-            {
-                MessageBox(hwndDlg, "Carpeta del proyecto creada con exito", "Creacion de proyecto", MB_ICONINFORMATION);
-                printf("Directory the project created\n");
-            }
-            else
-            {
-                MessageBox(hwndDlg, "Error al crear el proyecto:\n*No se pudo crear el directorio: \"Unable to create directory\"\n*Mal escrito el nombre de la carpeta", "Creacion de proyecto", MB_ICONERROR);
-                printf("Unable to create directory\n");
-            }
-            Project_active = 1;
-            project_active[500] = user1[500];
-            user1_cat = "main.c";
-            strcpy(user1_copy, user1);
-            strcat(user1_copy, user1_cat);
-            sFile(user1_copy, "#include \"include\\stringgame.h\"");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "void paint_game (struct _scenes_ * Scene);");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "int main (void){");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "     //Struct of main scene");
-            sFile(user1_copy, "     struct _scenes_ mainScene;");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "     strcpy(mainScene.name,\"mainScene\");");
-            sFile(user1_copy, "     mainScene.id = 0;");
-            sFile(user1_copy, "     mainScene.actives = 1;//never 0");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "     while(true){");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "          paint_game(&mainScene);");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "  }");
-            sFile(user1_copy, "}");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "void paint_game (struct _scenes_ * Scene){");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "     StrLoad_scene_(Scene);");
-            sFile(user1_copy, "");
-            sFile(user1_copy, "}");
-            sFile(user1_copy, "");
-            user1_cat = "mainScene.sce";
-            strcpy(user1_copy, user1);
-            strcat(user1_copy, user1_cat);
-            sFile(user1_copy, "Void Scene");
-            MessageBox(hwndDlg, "Se ha creado el proyecto ", "Inicio de nuevo proyecto", MB_ICONINFORMATION);
-            printf("Rute: %s\n", project_active);
+        // El usuario ha hecho clic en "Aceptar" en la ventana de diálogo, crear el nuevo proyecto
+        TCHAR nombreProyecto[MAX_PATH];
+        TCHAR ubicacionProyecto[MAX_PATH];
+        GetDlgItemText(hwndDlg, IDC_NOMBRE_PROYECTO, nombreProyecto, MAX_PATH);
+        GetDlgItemText(hwndDlg, IDC_UBICACION_PROYECTO, ubicacionProyecto, MAX_PATH);
+         
+        check = mkdir(ubicacionProyecto);
+
+        if(!check){
+           MessageBox(hwndDlg, "Proyecto creado con exito", "Creacion de proyecto", MB_ICONINFORMATION);
+           user1_cat = "main.c";
+           strcpy(user1_copy, ubicacionProyecto);
+           strcat(user1_copy, user1_cat);
+           sFile(user1_copy, "#include \"include\\stringgame.h\"");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "void paint_game (struct _scenes_ * Scene);");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "int main (void){");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "     //Struct of main scene");
+           sFile(user1_copy, "     struct _scenes_ mainScene;");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "     strcpy(mainScene.name,\"mainScene\");");
+           sFile(user1_copy, "     mainScene.id = 0;");
+           sFile(user1_copy, "     mainScene.actives = 1;//never 0");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "     while(true){");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "          paint_game(&mainScene);");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "  }");
+           sFile(user1_copy, "}");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "void paint_game (struct _scenes_ * Scene){");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "     StrLoad_scene_(Scene);");
+           sFile(user1_copy, "");
+           sFile(user1_copy, "}");
+           sFile(user1_copy, "");
+       }
+       else{
+           MessageBox(hwndDlg, "Error al crear el proyecto:\n*No se pudo crear el directorio: \"Unable to create directory\"\n*Mal escrito el nombre de la carpeta", "Creacion de proyecto", MB_ICONERROR);
+       }
+    }
 
             return TRUE;
         case IDC_BTN_CREAR_STRUCT:
