@@ -13,4 +13,4 @@ jobs:
       run: sudo apt-get install build-essential -y
 
     - name: Build executable
-      run: gcc test_code.c -o test_code
+      run: gcc test_codes.c -o test_codes
