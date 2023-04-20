@@ -532,7 +532,7 @@ void move_cpng(struct cpng *posPlayer, const char *key1, const char *key2, const
 	//Movimiento en X
 	if(Keey == key1){
 
-	   if(key1 == NULL){
+	   if(key1 == '\0'){
 	       return;
 	   }
 
@@ -541,7 +541,7 @@ void move_cpng(struct cpng *posPlayer, const char *key1, const char *key2, const
 
 	if(Keey == key2){
 
-	   if(key2 == NULL){
+	   if(key2 == '\0'){
 	       return;
 	   }
 
@@ -550,7 +550,7 @@ void move_cpng(struct cpng *posPlayer, const char *key1, const char *key2, const
 
 	if(Keey == key3){
 
-	   if(key3 == NULL){
+	   if(key3 == '\0'){
 	       return;
 	   }
 
@@ -559,7 +559,7 @@ void move_cpng(struct cpng *posPlayer, const char *key1, const char *key2, const
 
 	if(Keey == key4){
 
-	   if(key4 == NULL){
+	   if(key4 == '\0'){
 	       return;
 	   }
 
@@ -767,6 +767,7 @@ void start_read_cpng (struct cpng * Asset){
 	}
 	
 	set_color_text(Asset->color);
+        fclose(file);
     
 }
 
