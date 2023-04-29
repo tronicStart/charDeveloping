@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="1221" topLine="20" />
+	<File name="main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="18893" topLine="257" />
 	</File>
-	<File name="resource.h" open="1" top="0" tabpos="3">
-		<Cursor position="21" topLine="0" />
+	<File name="resource.h" open="1" top="0" tabpos="2">
+		<Cursor position="2265" topLine="64" />
 	</File>
-	<File name="resource.rc" open="1" top="0" tabpos="4">
-		<Cursor position="0" topLine="0" />
+	<File name="resource.rc" open="1" top="0" tabpos="3">
+		<Cursor position="1540" topLine="55" />
 	</File>
 </CodeBlocks_layout_file>

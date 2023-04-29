@@ -22,3 +22,28 @@
 	<time.h>
 	<stdlib.h>
 
+1682810475 source:d:\chardeveloping-main\resource.rc
+	<windows.h>
+	"resource.h"
+
+1682810350 d:\chardeveloping-main\resource.h
+	<windows.h>
+
+1682710056 source:d:\chardeveloping-main\main.cpp
+	<windows.h>
+	<commctrl.h>
+	<conio.h>
+	<tchar.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<string.h>
+	<stdlib.h>
+	"resource.h"
+	"chardevelopingc.h"
+
+1682035130 d:\chardeveloping-main\chardevelopingc.h
+	<stdio.h>
+	<windows.h>
+	<time.h>
+	<stdlib.h>
+

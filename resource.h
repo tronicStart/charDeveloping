@@ -1,7 +1,12 @@
 #include <windows.h>
 
-// ID of Main Dialog
+// ID of Main Dialog and others dialogs
 #define DLG_MAIN 101
+#define ID_NUEVO_ARCHIVO 148
+#define DLG_DELETE_FILE 153
+#define DLG_NUEVO_PROYECTO 154
+#define DLG_CREAR_CPNG 155
+#define DLG_LEER_ARCHIVO 156
 
 //ID of menu items
 #define ID_COMBOBOXEX   200
@@ -51,6 +56,10 @@
 #define CM_MOVE_CPNG 145
 #define CM_MOVE_OBJECT 146
 #define CM_MOVE 147
+#define CM_CREAR_CPNG 149
+#define CM_CREAR_SCENE 150
+#define CM_CREAR_TEXTURE 151
+#define CM_CREAR_IMG 152
 
 // ID of Button Controls
 #define IDC_BTN_TEST 1001
@@ -65,11 +74,18 @@
 #define ID_TEXTO 1010
 #define CM_VIEW_EDIT2 1011
 #define BTN_EJECUTAR 1012
-
+#define IDD_NUEVO_PROYECTO 1013
+#define IDC_NAME_FILE 1014
+#define IDC_DELETE_FILE 1015
+#define IDC_NOMBRE_PROYECTO 1016
+#define IDC_UBICACION_PROYECTO 1017
+#define IDC_CREA_CPNG 1018
+#define IDC_ABRE_ARCHIVO 1019
+#define ID_TEXTO2 1020
+#define IDC_BTNG_GUARDAR_CPNG 1021
 //Macros o declaraciones necesarias pero muy aparte
 #define TIMER_ID 1
 #define TIMER_INTERVAL 10000 //10 segundos
-
 
 
 

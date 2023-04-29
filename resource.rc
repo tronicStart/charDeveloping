@@ -1,18 +1,86 @@
 #include <windows.h>
 #include "resource.h"
-
+/*Ventana principal*/
 DLG_MAIN DIALOGEX 6, 5, 325, 216
 
-CAPTION "Char Developing v7"
+CAPTION "CharDeveloping v6.5"
 
 FONT 8, "Tahoma"
 
 STYLE 0x10CE0804
 
 BEGIN
-  CONTROL "" , IDC_EDIT_INPUT , "EDIT" , 0x10010000 , 10 , 40 , 120 , 14
-  CONTROL "" , IDC_EDIT_INPUT2 , "EDIT", 0x10010000 , 10 , 100 , 120 , 14
-  CONTROL "&Comando", IDC_BTN_TEST, "Button", 0x10010000, 50,  70, 46, 15
-  CONTROL "&Agregar", IDC_BTN_QUIT, "Button", 0x10010000, 50, 120, 46, 15
-  CONTROL "&Compilar y ejecutar", BTN_EJECUTAR, "Button",0x10010000, 200, 160, 46, 15
+  CONTROL "&Compilar y ejecutar", BTN_EJECUTAR, "Button",0x10010000, 130, 180, 76, 15
+END
+/*Ventana para guardar archivo*/
+ID_NUEVO_ARCHIVO DIALOGEX 6, 5, 225, 116
+
+CAPTION "Guardar archivo"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+
+    CONTROL "", IDC_NAME_FILE, "EDIT", 0x10010000 , 10 , 50 , 120 , 14
+
+END
+/*Ventana para Eliminar archivo*/
+DLG_DELETE_FILE DIALOGEX 6, 5, 225, 116
+
+CAPTION "Eliminar archivo"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+
+    CONTROL "", IDC_DELETE_FILE, "EDIT", 0x10010000 , 10 , 50 , 120 , 14
+
+END
+/*Ventana para crear un nuevo proyecto*/
+DLG_NUEVO_PROYECTO DIALOGEX 6, 5, 225, 116
+
+CAPTION "Nuevo proyecto"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+
+    CONTROL "", IDC_NOMBRE_PROYECTO, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
+    CONTROL "", IDC_UBICACION_PROYECTO, "EDIT", 0x10010000 , 10 , 30 , 120 , 14
+
+END
+/*Ventan para abrir archivos*/
+DLG_LEER_ARCHIVO DIALOGEX 6, 5, 225, 116
+
+CAPTION "Abrir archivo"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+
+    CONTROL "", IDC_ABRE_ARCHIVO, "EDIT", 0x10010000 , 10 , 50 , 120 , 14
+
+END
+/*Ventan para crear cpngs*/
+DLG_CREAR_CPNG DIALOGEX 6, 5, 325, 216
+
+CAPTION "Crear cpng"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+
+    CONTROL "", IDC_CREA_CPNG, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
+    CONTROL "&Guardar", IDC_BTNG_GUARDAR_CPNG ,"Button",  0x10010000, 130, 180,  75, 15
+
 END
