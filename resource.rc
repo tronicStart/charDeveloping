@@ -3,7 +3,7 @@
 /*Ventana principal*/
 DLG_MAIN DIALOGEX 6, 5, 325, 216
 
-CAPTION "CharDeveloping v6.5"
+CAPTION "CharDeveloping v6.5.1"
 
 FONT 8, "Tahoma"
 
@@ -81,6 +81,37 @@ STYLE 0x10CE0804
 BEGIN
 
     CONTROL "", IDC_CREA_CPNG, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
+
     CONTROL "&Guardar", IDC_BTNG_GUARDAR_CPNG ,"Button",  0x10010000, 130, 180,  75, 15
+
+END
+/*Ventan para crear textures*/
+DLG_CREAR_TEXTURE DIALOGEX 6, 5, 325, 216
+
+CAPTION "Crear texture"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+
+    CONTROL "", IDC_CREA_TEXTURE, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
+    CONTROL "&Guardar", IDC_BTNG_GUARDAR_TEXTURE ,"Button",  0x10010000, 130, 180,  75, 15
+
+END
+/*Ventan para crear scenes*/
+DLG_CREAR_SCENE DIALOGEX 6, 5, 325, 216
+
+CAPTION "Crear scene"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+
+    CONTROL "", IDC_CREA_SCENE, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
+    CONTROL "&Guardar", IDC_BTNG_GUARDAR_SCENE ,"Button",  0x10010000, 130, 180,  75, 15
 
 END
