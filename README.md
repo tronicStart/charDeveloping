@@ -15,3 +15,4 @@ con el lenguaje C y poder crear juegos de caracteres.
 * Poder crear proyectos con SDL o programar con SDL
 
 Mas información visita: (url no funciona)
+Unite a nuestro servidor de discord: (https://discord.gg/kcTVgRr9)
