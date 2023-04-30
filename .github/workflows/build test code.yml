@@ -1,0 +1,16 @@
+name: Build Code Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install build tools
+      run: sudo apt-get install build-essential -y
+
+    - name: Build executable
+      run: gcc test_codes.c -o test_codes

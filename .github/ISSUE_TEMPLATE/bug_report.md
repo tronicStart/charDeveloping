@@ -1,31 +1,39 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Plantilla para reportar un bug
+about: Use esta plantilla para crear un reporte de un bug
 title: ''
 labels: Bug
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Describe el bug**
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+Descripción del error Una descripción clara y concisa de cuál es el error.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Para reproducir**
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+Pasos para reproducir el comportamiento:
+
+1.-Ir a '...'
+
+2.-Hacer clic en '....'
+
+3.-Desplazarse hacia abajo hasta '....'
+
+4.-Ver el error
+
+Comportamiento esperado Una descripción clara y concisa de lo que esperabas que sucediera.
+
+**Capturas de pantalla**
+
+Si corresponde, agrega capturas de pantalla para ayudar a explicar tu problema.
 
 **Desktop**
-Windows: '...'
-Cpu: '...'
 
-**Additional context**
-Add any other context about the problem here.
+Windows: '...'
+CPU: '...'
+
+**Contexto adicional**
+
+Agrega cualquier otro contexto sobre el problema aquí.
