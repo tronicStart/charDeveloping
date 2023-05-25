@@ -1,0 +1,22 @@
+name: Chardeveloping source code
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish_source:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3
+
+      - name: Comprime código
+        run: zip -r source_code.zip .
+
+      - name: Publicar archivo ZIP
+        uses: actions/upload-artifact@v3
+        with:
+          name: Chardevelping source
+          path: source_code.zip
