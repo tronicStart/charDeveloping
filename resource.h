@@ -89,6 +89,8 @@
 #define IDC_BTNG_GUARDAR_SCENE 1023
 #define IDC_CREA_TEXTURE 1024
 #define IDC_CREA_SCENE 1025
+#define IDC_BTN_ABRIR_ARCHIVO 1026
+#define IDC_BTN_ELIMINAR_ARCHIVO 1027
 //Macros o declaraciones necesarias pero muy aparte
 #define TIMER_ID 1
-#define TIMER_INTERVAL 10000 //10 segundos
+#define TIMER_INTERVAL 5000 //5 segundos

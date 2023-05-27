@@ -48,6 +48,7 @@ String DeleteFiles = "sinTitulo.rb";
 String nombreProyecto = "sinNombre", ubicacionProyecto = "game";
 String creadorCpng = "null";
 String abre;
+String proyectName,proyectCopy;
 
 BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -95,7 +96,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         TextOut(hdc, 10, 10, fileName, 11);
         EndPaint(hwndDlg, &ps);
         break;*/
-
+//agreagar textos en las ventanas de abrir, eliminar archivos y proyectos
     case WM_CLOSE:
         printf("CharDeveloping : ");
         yReadFile("User.dat");
@@ -176,7 +177,7 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             MessageBox(hwndDlg, "Actualmente no tenemos soporte para compilar en gcc se implementara a su debido tiempo.\nPuedes instalar  el compilador gcc con esta url: https://gcc.gnu.org/'", "Aviso", MB_ICONINFORMATION);
             char comando[100];
-            sprintf(comando, "cd c:\mingw\bin\gcc.exe -o %s.exe %s.c", user1, user1);
+            sprintf(comando, "cd c:\\mingw\\bin\\gcc.exe -o %s.exe %s.c", user1, user1);
             system(comando);
             char ejecutable[100];
             sprintf(ejecutable, "%s.exe", user1);
@@ -193,7 +194,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             }
             pclose(fp);
             return TRUE;
-            //caso para abrir el archivo
         case CM_ABRE_ARCHIVO:
             abreArchivo(hwndDlg);
             leerArchivo(hEdit, abre);
@@ -210,10 +210,25 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return TRUE;
         case CM_START_PROJECTS:
             nuevoProyecto(hwndDlg);
-            check = mkdir(ubicacionProyecto);
-            if (!check)
-            {
-                user1_cat = "main.c";
+            mkdir(ubicacionProyecto);
+                strcpy(user1_cat, "/include");
+                strcpy(user1_copy, ubicacionProyecto);
+                strcat(user1_copy, user1_cat);
+                mkdir(user1_copy);
+                strcpy(user1_cat, "/asset");
+                strcpy(user1_copy, ubicacionProyecto);
+                strcat(user1_copy, user1_cat);
+                mkdir(user1_copy);
+                strcpy(user1_cat, "/charproyect.cp");
+                strcpy(user1_copy, ubicacionProyecto);
+                strcat(user1_copy, user1_cat);
+                sFile2(user1_copy, "Nombre de proyecto: ");
+                sFile(user1_copy, nombreProyecto);
+                sFile2(user1_copy, "library: ");
+                sFile(user1_copy, "chardeveloping.h");
+                sFile2(user1_copy, "charDeveloping version: ");
+                sFile(user1_copy, "v6.5.2");
+                strcpy(user1_cat, "/main.c");
                 strcpy(user1_copy, ubicacionProyecto);
                 strcat(user1_copy, user1_cat);
                 sFile(user1_copy, "#include \"include\\chardeveloping.h\"");
@@ -241,74 +256,41 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 sFile(user1_copy, "    return 0;");
                 sFile(user1_copy, "}");
                 sFile(user1_copy, "");
-                user1_cat = "include";
-                strcpy(user1_copy, ubicacionProyecto);
-                strcat(user1_copy, user1_cat);
-                mkdir(user1_copy);
-                user1_cat = "assets";
-                strcpy(user1_copy, ubicacionProyecto);
-                strcat(user1_copy, user1_cat);
-                mkdir(user1_copy);
-                user1_cat = "charproyect.cp";
-                strcpy(user1_copy, ubicacionProyecto);
-                strcat(user1_copy, user1_cat);
-                mkdir(user1_copy);
-                sFile2(user1_copy, "Nombre de proyecto: ");
-                sFile(user1_copy, nombreProyecto);
-                sFile2(user1_copy, "library: ");
-                sFile(user1_copy, "chardeveloping.h");
-                sFile2(user1_copy, "charDeveloping version: ");
-                s File(user1_copy, "v6.5");
+                Sleep(TIMER_INTERVAL);
                 MessageBox(hwndDlg, "Proyecto creado con exito", "Creacion de proyecto", MB_ICONINFORMATION);
-            }
-            else
-            {
-                MessageBox(hwndDlg, "Error al crear el proyecto:\n*No se pudo crear el directorio: \"Unable to create directory\"\n*Mal escrito el nombre de la carpeta", "Creacion de proyecto", MB_ICONERROR);
-            }
 
             return TRUE;
-
         case CM_SALIR:
-
             EndDialog(hwndDlg, 0);
             return TRUE;
         case IDC_BTN_QUIT:
-
             EndDialog(hwndDlg, 0);
             return TRUE;
-
         case CM_NEW_PROJECT:
-
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
             MessageBox(hwndDlg, "*Antes cree la carpeta donde se almacenara el projecto", "Aviso de ruta", MB_ICONINFORMATION);
             newProject(user1, hwndDlg, user2);
-
             return TRUE;
-
         case IDC_BTN_TEST:
-
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
             if (strcmp(user1, ruteGCC) == 0)
             {
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user2, 100);
                 MessageBox(hwndDlg, "Se ha guardado la ruta del gcc", "charDeveloping : rute gcc", MB_ICONINFORMATION);
             }
-
             if (strcmp(user1, loadScene) == 0)
             {
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
                 CLS();
                 file_scene_(user2);
             }
-
             if (strcmp(user1, scenesCreator) == 0)
             {
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
                 CLS();
                 StrCreate_scene_(user2);
             }
-
             if (strcmp(user1, view) == 0)
             {
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
@@ -322,12 +304,10 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     EndDialog(hwndDlg, 0);
                 }
             }
-
             if (strcmp(user1, bye) == 0)
             {
                 EndDialog(hwndDlg, 0);
             }
-
             if (strcmp(user1, screen) == 0)
             {
                 CLS();
@@ -351,7 +331,6 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 sFile(user2, "    ");
                 sFile(user2, "}");
             }
-
             if (strcmp(user1, crearObject) == 0)
             {
                 printf("Name object: ");
@@ -396,10 +375,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return TRUE;
         }
     }
-
     return FALSE;
 }
-
 void InsertarMenu(HWND hWnd)
 {
     HMENU hMenu1, hMenu2, hMenu3, hMenu4, hMenu5, hMenu6;
@@ -426,11 +403,9 @@ void InsertarMenu(HWND hWnd)
     AppendMenu(hMenu3, MF_STRING, CM_CREAR_SCENE, "&Crear scene");
     AppendMenu(hMenu3, MF_STRING, CM_CREAR_TEXTURE, "&Crear texture");
     AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
-    AppendMenu(hMenu3, MF_STRING, CM_CREAR_IMG, "&Crear imagen(nada)");
+    AppendMenu(hMenu3, MF_STRING, CM_CREAR_IMG, "&Crear imagen(no funcional)");
     AppendMenu(hMenu4, MF_STRING, CM_NOTES, "&Update");
-    AppendMenu(hMenu5, MF_STRING, CM_START_PROJECTS, "&Iniciar nuevo projecto");
-    AppendMenu(hMenu5, MF_SEPARATOR, 0, NULL);
-    AppendMenu(hMenu5, MF_STRING, CM_NEW_PROJECT, "&Nuevo projecto");
+    AppendMenu(hMenu5, MF_STRING, CM_START_PROJECTS, "&Crear un nuevo proyecto");
     AppendMenu(hMenu6, MF_STRING, 0, "&Funciones");
     AppendMenu(hMenu6, MF_SEPARATOR, 0, NULL);
     AppendMenu(hMenu6, MF_STRING, CM_HIDDEN_CURSOR, "&Agregar funcion 'hiddenCursor();'");
