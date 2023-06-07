@@ -3,7 +3,7 @@
 /*Ventana principal*/
 DLG_MAIN DIALOGEX 6, 5, 325, 216
 
-CAPTION "CharDeveloping v6.5"
+CAPTION "CharDeveloping v6.5.2"
 
 FONT 8, "Tahoma"
 
@@ -24,6 +24,7 @@ STYLE 0x10CE0804
 BEGIN
 
     CONTROL "", IDC_NAME_FILE, "EDIT", 0x10010000 , 10 , 50 , 120 , 14
+    CONTROL "&Abrir", IDC_BTN_ABRIR_ARCHIVO ,"Button",  0x10010000, 130, 130,  75, 15
 
 END
 /*Ventana para Eliminar archivo*/
@@ -38,12 +39,13 @@ STYLE 0x10CE0804
 BEGIN
 
     CONTROL "", IDC_DELETE_FILE, "EDIT", 0x10010000 , 10 , 50 , 120 , 14
+    CONTROL "&Abrir", IDC_BTN_ELIMINAR_ARCHIVO ,"Button",  0x10010000, 130, 130,  75, 15
 
 END
 /*Ventana para crear un nuevo proyecto*/
 DLG_NUEVO_PROYECTO DIALOGEX 6, 5, 225, 116
 
-CAPTION "Nuevo proyecto"
+CAPTION "Crear nuevo proyecto"
 
 FONT 8, "Tahoma"
 
@@ -72,7 +74,7 @@ END
 /*Ventan para crear cpngs*/
 DLG_CREAR_CPNG DIALOGEX 6, 5, 325, 216
 
-CAPTION "Crear cpng"
+CAPTION "Crear un cpng"
 
 FONT 8, "Tahoma"
 
@@ -82,5 +84,35 @@ BEGIN
 
     CONTROL "", IDC_CREA_CPNG, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
     CONTROL "&Guardar", IDC_BTNG_GUARDAR_CPNG ,"Button",  0x10010000, 130, 180,  75, 15
+
+END
+/*Ventan para crear textures*/
+DLG_CREAR_TEXTURE DIALOGEX 6, 5, 325, 216
+
+CAPTION "Crear un texture"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+
+    CONTROL "", IDC_CREA_TEXTURE, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
+    CONTROL "&Guardar", IDC_BTNG_GUARDAR_TEXTURE ,"Button",  0x10010000, 130, 180,  75, 15
+
+END
+/*Ventan para crear scenes*/
+DLG_CREAR_SCENE DIALOGEX 6, 5, 325, 216
+
+CAPTION "Crear una scene"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+
+    CONTROL "", IDC_CREA_SCENE, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
+    CONTROL "&Guardar", IDC_BTNG_GUARDAR_SCENE ,"Button",  0x10010000, 130, 180,  75, 15
 
 END

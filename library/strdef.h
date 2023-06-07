@@ -5,6 +5,10 @@
 #define false 0
 #define True 1
 #define False 0
+#define CHAR_OK  1
+#define CHAR_NO 0
+#define CHAR_SAVE 100
+#define MAX_SAVE_DATA 100
 #define KEY_A 'a'
 #define KEY_B 'b'
 #define KEY_C 'c'
@@ -50,8 +54,8 @@
 #define _KEY_DOWN 0x50
 #define _KEY_LEFT  0x4b
 #define _KEY_RIGHT 0x4d
-#define _KEY_ESCAPE 0x1b 
-#define _KEY_RETURN 0x0d 
+#define _KEY_ESCAPE 0x1b
+#define _KEY_RETURN 0x0d
 #define SETPILONG 3.1416
 #define SETPI 3.14
 #define SETPILONG 3.1416
@@ -60,7 +64,7 @@
 #define CHAR_FALSE 0
 #define CHARNULL 0
 #define PESO_DEFAULT 75
-#define _AIR_DEAFULT 24 
+#define _AIR_DEAFULT 24
 #define GRAVEDAD_DEFAULT 9.8
 #define STRING_SAVE_COORDENATES_X const char *
 #define CPNG_ERROR_DEFAULT -1
