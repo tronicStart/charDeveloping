@@ -1,0 +1,16 @@
+name: Run sportsings_test.c
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install build tools
+      run: sudo apt-get install build-essential -y
+
+    - name: Build executable
+      run: gcc sportsings_test.c -o result_test
