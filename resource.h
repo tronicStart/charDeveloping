@@ -91,6 +91,21 @@
 #define IDC_CREA_SCENE 1025
 #define IDC_BTN_ABRIR_ARCHIVO 1026
 #define IDC_BTN_ELIMINAR_ARCHIVO 1027
-//Macros o declaraciones necesarias pero muy aparte
+#define IDC_BTN_CANCELAR_CPNG 1028
+#define IDC_BTN_CANCELAR_TEXTURE 1029
+#define IDC_BTN_CANCELAR_SCENE 1030
+#define IDC_BTN_NUEVO_PROYECTO 1031
+#define IDC_BTN_CANCELAR_PROYECTO 1032
+//Macros o declaraciones necesarias aparte
 #define TIMER_ID 1
 #define TIMER_INTERVAL 5000 //5 segundos
+
+
+
+
+
+
+
+
+
+

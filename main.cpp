@@ -488,6 +488,14 @@ INT_PTR CALLBACK nuevoProyectoDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
             GetDlgItemText(hwndDlg, IDC_UBICACION_PROYECTO, ubicacionProyecto, 100);
             EndDialog(hwndDlg, wParam);
             return TRUE;
+        case IDC_BTN_NUEVO_PROYECTO:
+            GetDlgItemText(hwndDlg,IDC_NOMBRE_PROYECTO, nombreProyecto, 100);
+            GetDlgItemText(hwndDlg,IDC_UBICACION_PROYECTO, ubicacionProyecto, 100);
+            EndDialog(hwndDlg, wParam);
+            return TRUE;
+        case IDC_BTN_CANCELAR_PROYECTO:
+            EndDialog(hwndDlg,wParam);
+            return TRUE;
         case IDCANCEL:
             EndDialog(hwndDlg, wParam);
             return TRUE;
@@ -528,9 +536,10 @@ INT_PTR CALLBACK crearCpngDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
             Guardar(hEdit2, creadorCpng);
             return TRUE;
         case IDCANCEL:
-
             EndDialog(hwndDlg, wParam);
             return TRUE;
+        case IDC_BTN_CANCELAR_CPNG:
+            EndDialog(hwndDlg, wParam);
         }
         break;
     }
@@ -569,6 +578,9 @@ INT_PTR CALLBACK crearTextureDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
         case IDCANCEL:
             EndDialog(hwndDlg, wParam);
             return TRUE;
+        case IDC_BTN_CANCELAR_TEXTURE:
+            EndDialog(hwndDlg, wParam);
+            return TRUE;
         }
         break;
     }
@@ -604,6 +616,9 @@ INT_PTR CALLBACK crearSceneDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
             Guardar(hEdit2, creadorCpng);
             return TRUE;
         case IDCANCEL:
+            EndDialog(hwndDlg, wParam);
+            return TRUE;
+        case IDC_BTN_CANCELAR_SCENE:
             EndDialog(hwndDlg, wParam);
             return TRUE;
         }
