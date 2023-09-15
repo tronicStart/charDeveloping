@@ -1,18 +1,7 @@
 # charDeveloping
-Este es un programa creado en tiempos libres para intentar crear juegos de caracteres y graficos con el lenguaje C y Ruby aun esta en desarrollo.
-## ¿En que se trabaja actualmente?
-Actualmente se esta trabajando en la interfaz principal
-del programa, en la creaciòn de proyectos y poder compilar 
-con el lenguaje C y poder crear juegos de caracteres.
-
-### Funciones utiles que se añadiran
-
-* Creaciòn de proyectos C y ruby
-* Detector de sintaxis C y ruby
-* Poder compilar con gcc y interpretar codigo ruby
-* Cambios en la interfaz
-* Futura ventana completa(dejar de usar la ventana de dialog)
-* Poder crear proyectos con SDL o programar con SDL
-
-Mas información visita: (url no funciona)
+**CharDeveloping** Es un proyecto de codigo abierto para crear algo parecido a un editador de texto para crear juegos de caracteres, strings o ascii con el lenguaje C principalmente y Ruby. Este programa es parte tambien de un desafio puesto por nosostros es crear una ventana de dialogo y no una completa.
+## Estado actual del programa
+El estado actual del programa es muy lamemtable porque no se estan haciendo varias cosas.
+## Sistemas operativos
+En la actualidad el programa solo funciona en windows pero a futuro se trabajara en versiones para otros sistemas operativos.
 Unite a nuestro servidor de discord:(https://discord.gg/dxNyrrhWCK)
