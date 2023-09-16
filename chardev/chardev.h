@@ -18,17 +18,6 @@ static void str_cls(void){
 
 }
 
-static float * matix_4 (){
-    float m4[4][4];
-    int i,j;
-    for(i = 0; i < 4; i++){
-        for(j = 0; j < 4; j++){
-            m4[i][j] = 0.0f;
-        }
-    }
-    return m4;
-}
-
 static float showFPS() {
     int frames = 0;
     clock_t last_time = 0;
@@ -49,8 +38,6 @@ static float showFPS() {
     }
 }
 
-
-
 static int printchar(const char* format, ...){
   va_list args;
   va_start(args, format);
@@ -67,17 +54,17 @@ static void setColor (int color){
     
     HANDLE out;
     out=GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(out,color);
+    SetConsoleTextAttribute(out,color);
     
 }
 
 static void setPosXY (int X, int Y){
     HANDLE hCon;
-	hCon = GetStdHandle(STD_OUTPUT_HANDLE);
-	COORD dwPos;
-	dwPos.X = X;
-	dwPos.Y = Y;
-	SetConsoleCursorPosition(hCon, dwPos);
+    hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD dwPos;
+    dwPos.X = X;
+    dwPos.Y = Y;
+    SetConsoleCursorPosition(hCon, dwPos);
 }
 
 static void centerText(char* text){
@@ -97,7 +84,6 @@ static void centerText(char* text){
 static void PrintRandomChar (){
     
     int i;
-    
     srand(time(0));
     for (i = 0; i < 10; i++) {
         char letter = (rand() % 26) + 65;
@@ -118,17 +104,15 @@ static char genereRandomChar(){
 static int newRandom (int max){
     
     int r;
-	srand(time(NULL));
-	r = rand() % max;
-	return r;
+    srand(time(NULL));
+    r = rand() % max;
+    return r;
     
 }
-
-//1 para saltar y 0 para no hacerlo    
+  
 static void dupliText(char* text, int times, int newline){
     
     int i;
-    
     for (i = 0; i < times; i++) {
         if (newline) {
             printf("%s\n", text);
@@ -136,7 +120,6 @@ static void dupliText(char* text, int times, int newline){
             printf("%s", text);
         }
     }
-    
 }
 
 static void colorRGBA(int R, int G, int B, int A){
@@ -280,11 +263,9 @@ static void colorRGBA(int R, int G, int B, int A){
 static int readFiles (const char * file){
 
     FILE *lectura;
-	char variable[1025];
-
-	lectura = fopen(file, "rb");
-
-	if (lectura == NULL){
+    char variable[1025];
+    lectura = fopen(file, "rb");
+    if (lectura == NULL){
 		perror("CharDev ");
 		return ERROR;
 	}
