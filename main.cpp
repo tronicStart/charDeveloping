@@ -24,14 +24,16 @@ BOOL SetBackgroundColor(HWND hEdit, int nStart, int nEnd, COLORREF crColor);
 void marcarPalabrasPonerCodigo(HWND hEdit, char *Text);
 void InsertarMenu(HWND hWnd);
 void Guardar(HWND hctrl, char *fichero);
-BOOL leerArchivo(HWND hEdit, LPCTSTR lpFileName);
+BOOL leerArchivo(HWND hEdit, LPCTSTR lpfile_name_default);
 void SaveFile(HWND hwndParent);
-void deleteFiles(HWND hwndParent);
+void delete_file(HWND hwndParent);
 void nuevoProyecto(HWND hwndParent);
 void CrearCPNG(HWND hwndParent);
 void CrearTexture(HWND hwndParent);
 void CrearScene(HWND hwndParent);
 void abreArchivo(HWND hwndParent);
+void newCpng(HWND hwndParent);
+
 INT_PTR CALLBACK SaveFileDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK deleteFileDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK nuevoProyectoDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -43,21 +45,19 @@ INT_PTR CALLBACK abreArchivoDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 HINSTANCE hInst;
 HWND hEdit, hEdit2;
 int hotkey_id;
-String fileName = "sinTitulo.c";
-String DeleteFiles = "sinTitulo.rb";
-String nombreProyecto = "sinNombre", ubicacionProyecto = "game";
-String creadorCpng = "null";
+String file_name_default = "sinTitulo.c";
+String delete_file_user = "sinTitulo.rb";
+String nombre_del_proyecto = "sinNombre", ruta_de_proyecto = "game";
+String name_creador_assets = "null";
 String abre;
+string_ name_cpng_console;
 String proyectName,proyectCopy;
+const char * item_assets = "[ % ] [ \\ ] [ | ] [ = ] [ [ ] [ ] ]\n [ < ] [ > ] [ { ] [ } ] [ @ ] [ # ] [ _ ]\n [ & ] [ - ] [ + ] [ ( ] [ ) ] \n[ * ] [ \" ] [ ' ] [ : ] [ ; ] [ ! ] [ ? ]";
 
 BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    //Variables para ser usadas en el programa para entrada de datos por el usuario
     String user1, user2, project_active, user1_copy;
-    //Nombre de los archivos de ayuda
     char *user1_cat, MainFile[] = "main.c", cpngFile[] = "cpng.h", structs[] = "objects.h", registros[] = "registers.rg";
-    HDC hdc;
-    PAINTSTRUCT ps;
     static HINSTANCE hInstance;
     int check, Project_active;
     FILE *fp;
@@ -72,9 +72,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
          * TODO: Add code to initialize the dialog.
          */
         InsertarMenu(hwndDlg);
-        SetTitle("Char Developing : cmd : start");
-        printf("Stringgame : open! : ");
-        //Creamos el edit text
+        SetTitle("CharDeveloping : open");
+        printf("CharDev: open");
         hEdit = CreateWindowEx(
             WS_EX_CLIENTEDGE,
             _T("EDIT"),
@@ -90,23 +89,17 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             NULL);
 
         return TRUE;
-
-        /*case WM_PAINT:
-        hdc = BeginPaint(hwndDlg, &ps);
-        TextOut(hdc, 10, 10, fileName, 11);
-        EndPaint(hwndDlg, &ps);
-        break;*/
 //agreagar textos en las ventanas de abrir, eliminar archivos y proyectos
     case WM_CLOSE:
         printf("CharDeveloping : ");
-        yReadFile("User.dat");
+        read_file_("User.dat");
         printf(" : desea salir?\n");
         if (MessageBox(hwndDlg, "Desea cerrar el programa", "Cerrar", MB_ICONQUESTION | MB_YESNO) == IDYES)
         {
             EndDialog(hwndDlg, 0);
         }
         printf("CharDeveloping : ");
-        yReadFile("User.dat");
+        read_file_("User.dat");
         printf(" : no cerro el programa");
         return TRUE;
     case WM_COMMAND:
@@ -116,8 +109,8 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
              * TODO: Add more control ID's, when needed.
              */
         case CM_PRUEBA:
-            deleteFiles(hwndDlg);
-            if (remove(DeleteFiles) == -1)
+            delete_file(hwndDlg);
+            if (remove(delete_file_user) == -1)
             {
                 SetTitle("CharDeveloping : cmd : error");
                 MessageBox(hwndDlg, "El Archivo no se pudo eliminar. . .", "CharDeveloping : Error", MB_ICONERROR);
@@ -131,21 +124,21 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case CM_CREAR_TEXTURE:
             CrearTexture(hwndDlg);
             user1_cat = ".tex";
-            strcpy(user1_copy, creadorCpng);
+            strcpy(user1_copy, name_creador_assets);
             strcat(user1_copy, user1_cat);
             Guardar(hEdit2, user1_copy);
             return 0;
         case CM_CREAR_SCENE:
             CrearScene(hwndDlg);
             user1_cat = ".sce";
-            strcpy(user1_copy, creadorCpng);
+            strcpy(user1_copy, name_creador_assets);
             strcat(user1_copy, user1_cat);
             Guardar(hEdit2, user1_copy);
             return 0;
             //Caso para el boton guardar
         case CM_BTN_GUARDAR:
             SaveFile(hwndDlg);
-            Guardar(hEdit, fileName);
+            Guardar(hEdit, file_name_default);
             MessageBox(hwndDlg, "Se ha guardado el archivo con exito.", "charDeveliping : Exito", MB_ICONINFORMATION);
             return TRUE;
         /*Casos para colocar las funciones en el edit*/
@@ -172,6 +165,11 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return TRUE;
         case CM_BUCLE_FOR:
             marcarPalabrasPonerCodigo(hEdit, "for(i = 0; i < 0; i++){\n    //Code\n}");
+            return TRUE;
+        case CM_CREAR_CPNG_EN_CONSOLA:
+            printf("charDev: nombre cong >> ");
+            scanf("%s",name_cpng_console);
+            cpngs(name_cpng_console);
             return TRUE;
         case BTN_EJECUTAR:
             GetDlgItemText(hwndDlg, IDC_EDIT_INPUT, user1, 100);
@@ -204,58 +202,58 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case CM_CREAR_CPNG:
             CrearCPNG(hwndDlg);
             user1_cat = ".cpng";
-            strcpy(user1_copy, creadorCpng);
+            strcpy(user1_copy, name_creador_assets);
             strcat(user1_copy, user1_cat);
             Guardar(hEdit2, user1_copy);
             return TRUE;
         case CM_START_PROJECTS:
             nuevoProyecto(hwndDlg);
-            mkdir(ubicacionProyecto);
+            mkdir(ruta_de_proyecto);
                 strcpy(user1_cat, "/include");
-                strcpy(user1_copy, ubicacionProyecto);
+                strcpy(user1_copy, ruta_de_proyecto);
                 strcat(user1_copy, user1_cat);
                 mkdir(user1_copy);
                 strcpy(user1_cat, "/asset");
-                strcpy(user1_copy, ubicacionProyecto);
+                strcpy(user1_copy, ruta_de_proyecto);
                 strcat(user1_copy, user1_cat);
                 mkdir(user1_copy);
                 strcpy(user1_cat, "/charproyect.cp");
-                strcpy(user1_copy, ubicacionProyecto);
+                strcpy(user1_copy, ruta_de_proyecto);
                 strcat(user1_copy, user1_cat);
-                sFile2(user1_copy, "Nombre de proyecto: ");
-                sFile(user1_copy, nombreProyecto);
-                sFile2(user1_copy, "library: ");
-                sFile(user1_copy, "chardeveloping.h");
-                sFile2(user1_copy, "charDeveloping version: ");
-                sFile(user1_copy, "v6.5.2");
+                save_file_(user1_copy, "Nombre de proyecto: ");
+                save_file_jump_line(user1_copy, nombre_del_proyecto);
+                save_file_(user1_copy, "library: ");
+                save_file_jump_line(user1_copy, "chardeveloping.h");
+                save_file_(user1_copy, "charDeveloping version: ");
+                save_file_jump_line(user1_copy, "v6.5.2");
                 strcpy(user1_cat, "/main.c");
-                strcpy(user1_copy, ubicacionProyecto);
+                strcpy(user1_copy, ruta_de_proyecto);
                 strcat(user1_copy, user1_cat);
-                sFile(user1_copy, "#include \"include\\chardeveloping.h\"");
-                sFile(user1_copy, "");
-                sFile(user1_copy, "int main (void){");
-                sFile(user1_copy, "");
-                sFile(user1_copy, "    struct cpng player;");
-                sFile(user1_copy, "    player.id = 1;");
-                sFile(user1_copy, "    player.postition_X = 0;");
-                sFile(user1_copy, "    player.postition_Y = 20;");
-                sFile(user1_copy, "    strcpy(player.name_cpng,\"player\");");
-                sFile(user1_copy, "");
-                sFile2(user1_copy, "    set_title(\"");
-                sFile2(user1_copy, nombreProyecto);
-                sFile(user1_copy, "\");");
-                sFile(user1_copy, "    hiddenCursor(true);");
-                sFile(user1_copy, "    while(true){");
-                sFile(user1_copy, "         ");
-                sFile(user1_copy, "         str_cls();");
-                sFile(user1_copy, "         show_coordinates_cpng(&player);");
-                sFile(user1_copy, "         move_cpng(&player, KEY_A, KEY_D, KEY_S, KEY_W);");
-                sFile(user1_copy, "         ");
-                sFile(user1_copy, "    }");
-                sFile(user1_copy, "");
-                sFile(user1_copy, "    return 0;");
-                sFile(user1_copy, "}");
-                sFile(user1_copy, "");
+                save_file_jump_line(user1_copy, "#include \"include\\chardeveloping.h\"");
+                save_file_jump_line(user1_copy, "");
+                save_file_jump_line(user1_copy, "int main (void){");
+                save_file_jump_line(user1_copy, "");
+                save_file_jump_line(user1_copy, "    struct cpng player;");
+                save_file_jump_line(user1_copy, "    player.id = 1;");
+                save_file_jump_line(user1_copy, "    player.postition_X = 0;");
+                save_file_jump_line(user1_copy, "    player.postition_Y = 20;");
+                save_file_jump_line(user1_copy, "    strcpy(player.name_cpng,\"player\");");
+                save_file_jump_line(user1_copy, "");
+                save_file_(user1_copy, "    set_title(\"");
+                save_file_(user1_copy, nombre_del_proyecto);
+                save_file_jump_line(user1_copy, "\");");
+                save_file_jump_line(user1_copy, "    hiddenCursor(true);");
+                save_file_jump_line(user1_copy, "    while(true){");
+                save_file_jump_line(user1_copy, "         ");
+                save_file_jump_line(user1_copy, "         str_cls();");
+                save_file_jump_line(user1_copy, "         show_coordinates_cpng(&player);");
+                save_file_jump_line(user1_copy, "         move_cpng(&player, KEY_A, KEY_D, KEY_S, KEY_W);");
+                save_file_jump_line(user1_copy, "         ");
+                save_file_jump_line(user1_copy, "    }");
+                save_file_jump_line(user1_copy, "");
+                save_file_jump_line(user1_copy, "    return 0;");
+                save_file_jump_line(user1_copy, "}");
+                save_file_jump_line(user1_copy, "");
                 Sleep(TIMER_INTERVAL);
                 MessageBox(hwndDlg, "Proyecto creado con exito", "Creacion de proyecto", MB_ICONINFORMATION);
 
@@ -295,9 +293,9 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             {
                 GetDlgItemText(hwndDlg, IDC_EDIT_INPUT2, user2, 100);
                 StrGotoXY(33, 10);
-                yReadFile("textures.dat");
-                sFile2("textures.h", "//This coordinates ");
-                sFile("textures.h", user2);
+                read_file_("textures.dat");
+                save_file_("textures.h", "//This coordinates ");
+                save_file_jump_line("textures.h", user2);
                 if (remove("textures.dat") == -1)
                 {
                     Sleep(1500);
@@ -326,10 +324,10 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 scanf("%s", &user1);
                 printf("Data function: ");
                 scanf("%s", &user2);
-                sFile2(user2, user1);
-                sFile(user2, "{");
-                sFile(user2, "    ");
-                sFile(user2, "}");
+                save_file_(user2, user1);
+                save_file_jump_line(user2, "{");
+                save_file_jump_line(user2, "    ");
+                save_file_jump_line(user2, "}");
             }
             if (strcmp(user1, crearObject) == 0)
             {
@@ -348,15 +346,15 @@ BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             {
                 printf("Name Scene: ");
                 scanf("%s", &user1);
-                sFile2(registros, "Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG+this.load.charDeveloping.Escrity.Commands");
-                sFile(registros, user1);
-                sFile2("scenes.h", "void scene_");
-                sFile2("scenes.h", user1);
-                sFile("scenes.h", " (struct _scenes_ * Scenes){");
-                sFile("scenes.h", "");
-                sFile("scenes.h", "    StrLoad_scene_(Scenes);");
-                sFile("scenes.h", "");
-                sFile("scenes.h", "}");
+                save_file_(registros, "Registers: charDeveloping: this-*>createAFileCPNGStrucCPNG+this.load.charDeveloping.charDev.Commands");
+                save_file_jump_line(registros, user1);
+                save_file_("scenes.h", "void scene_");
+                save_file_("scenes.h", user1);
+                save_file_jump_line("scenes.h", " (struct _scenes_ * Scenes){");
+                save_file_jump_line("scenes.h", "");
+                save_file_jump_line("scenes.h", "    StrLoad_scene_(Scenes);");
+                save_file_jump_line("scenes.h", "");
+                save_file_jump_line("scenes.h", "}");
             }
             if (strcmp(user1, crearEditorCPNG) == 0)
             {
@@ -399,12 +397,14 @@ void InsertarMenu(HWND hWnd)
     AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
     AppendMenu(hMenu3, MF_STRING, CM_CREADOR_CPNGS, "&Crear CPNG file type");
     AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
-    AppendMenu(hMenu3, MF_STRING, CM_CREAR_CPNG, "&Crear cpng");
     AppendMenu(hMenu3, MF_STRING, CM_CREAR_SCENE, "&Crear scene");
     AppendMenu(hMenu3, MF_STRING, CM_CREAR_TEXTURE, "&Crear texture");
     AppendMenu(hMenu3, MF_SEPARATOR, 0, NULL);
-    AppendMenu(hMenu3, MF_STRING, CM_CREAR_IMG, "&Crear imagen(no funcional)");
-    AppendMenu(hMenu4, MF_STRING, CM_NOTES, "&Update");
+    //AppendMenu(hMenu3, MF_STRING, CM_CREAR_IMG, "&Crear imagen(no funcional)");
+    //Opciones para crear los assets
+    AppendMenu(hMenu4, MF_STRING, CM_CREAR_CPNG, "&Crear Cpng");
+    AppendMenu(hMenu4, MF_STRING, CM_CREAR_CPNG_EN_CONSOLA, "&Crear Cpng en consola");
+    //Opciones para proyectos
     AppendMenu(hMenu5, MF_STRING, CM_START_PROJECTS, "&Crear un nuevo proyecto");
     AppendMenu(hMenu6, MF_STRING, 0, "&Funciones");
     AppendMenu(hMenu6, MF_SEPARATOR, 0, NULL);
@@ -420,23 +420,19 @@ void InsertarMenu(HWND hWnd)
     AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu2, "&Archivos");
     AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu3, "&CharLibrary");
     AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu6, "&Funciones");
-    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu4, "&CharDeveloping");
+    AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu4, "&Assets");
     AppendMenu(hMenu1, MF_STRING | MF_POPUP, (UINT)hMenu5, "&Proyecto");
-    SetMenu(hWnd, hMenu1); /* Asigna el menú a la ventana hWnd */
+    SetMenu(hWnd, hMenu1);
 }
 // Procedimiento de diálogo de la ventana para guardar archivos
-INT_PTR CALLBACK SaveFileDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
+INT_PTR CALLBACK SaveFileDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam){
+    switch (uMsg){
     case WM_INITDIALOG:
         return TRUE;
-
     case WM_COMMAND:
-        switch (LOWORD(wParam))
-        {
+        switch (LOWORD(wParam)){
         case IDOK:
-            GetDlgItemText(hwndDlg, IDC_NAME_FILE, fileName, 100);
+            GetDlgItemText(hwndDlg, IDC_NAME_FILE, file_name_default, 100);
             EndDialog(hwndDlg, wParam);
             return TRUE;
         case IDCANCEL:
@@ -445,22 +441,17 @@ INT_PTR CALLBACK SaveFileDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
         }
         break;
     }
-
     return FALSE;
 }
 
-INT_PTR CALLBACK deleteFileDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
+INT_PTR CALLBACK deleteFileDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam){
+    switch (uMsg){
     case WM_INITDIALOG:
         return TRUE;
-
     case WM_COMMAND:
-        switch (LOWORD(wParam))
-        {
+        switch (LOWORD(wParam)){
         case IDOK:
-            GetDlgItemText(hwndDlg, IDC_DELETE_FILE, DeleteFiles, 100);
+            GetDlgItemText(hwndDlg, IDC_DELETE_FILE, delete_file_user, 100);
             EndDialog(hwndDlg, wParam);
             return TRUE;
         case IDCANCEL:
@@ -469,28 +460,23 @@ INT_PTR CALLBACK deleteFileDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
         }
         break;
     }
-
     return FALSE;
 }
 
-INT_PTR CALLBACK nuevoProyectoDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
+INT_PTR CALLBACK nuevoProyectoDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam){
+    switch (uMsg){
     case WM_INITDIALOG:
         return TRUE;
-
     case WM_COMMAND:
-        switch (LOWORD(wParam))
-        {
+        switch (LOWORD(wParam)){
         case IDOK:
-            GetDlgItemText(hwndDlg, IDC_NOMBRE_PROYECTO, nombreProyecto, 100);
-            GetDlgItemText(hwndDlg, IDC_UBICACION_PROYECTO, ubicacionProyecto, 100);
+            GetDlgItemText(hwndDlg, IDC_NOMBRE_PROYECTO, nombre_del_proyecto, 100);
+            GetDlgItemText(hwndDlg, IDC_UBICACION_PROYECTO, ruta_de_proyecto, 100);
             EndDialog(hwndDlg, wParam);
             return TRUE;
         case IDC_BTN_NUEVO_PROYECTO:
-            GetDlgItemText(hwndDlg,IDC_NOMBRE_PROYECTO, nombreProyecto, 100);
-            GetDlgItemText(hwndDlg,IDC_UBICACION_PROYECTO, ubicacionProyecto, 100);
+            GetDlgItemText(hwndDlg,IDC_NOMBRE_PROYECTO, nombre_del_proyecto, 100);
+            GetDlgItemText(hwndDlg,IDC_UBICACION_PROYECTO, ruta_de_proyecto, 100);
             EndDialog(hwndDlg, wParam);
             return TRUE;
         case IDC_BTN_CANCELAR_PROYECTO:
@@ -502,14 +488,11 @@ INT_PTR CALLBACK nuevoProyectoDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
         }
         break;
     }
-
     return FALSE;
 }
 
-INT_PTR CALLBACK crearCpngDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
+INT_PTR CALLBACK crearCpngDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam){
+    switch (uMsg){
     case WM_INITDIALOG:
         hEdit2 = CreateWindowEx(
             WS_EX_CLIENTEDGE,
@@ -525,31 +508,35 @@ INT_PTR CALLBACK crearCpngDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
             GetModuleHandle(NULL),
             NULL);
         return TRUE;
+   case WM_PAINT:
+        PAINTSTRUCT ps;
+        HDC hdc2;
+        hdc2 = BeginPaint(hwndDlg, &ps);
+        TextOut(hdc2, 10, 10, item_assets,  strlen(item_assets));
+        EndPaint(hwndDlg, &ps);
+        return TRUE;
     case WM_COMMAND:
-        switch (LOWORD(wParam))
-        {
+        switch (LOWORD(wParam)){
         case IDOK:
-            GetDlgItemText(hwndDlg, IDC_CREA_CPNG, creadorCpng, 200);
+            GetDlgItemText(hwndDlg, IDC_CREA_CPNG, name_creador_assets, 200);
             EndDialog(hwndDlg, wParam);
             return TRUE;
         case IDC_BTNG_GUARDAR_CPNG:
-            Guardar(hEdit2, creadorCpng);
+            Guardar(hEdit2, name_creador_assets);
             return TRUE;
         case IDCANCEL:
             EndDialog(hwndDlg, wParam);
             return TRUE;
         case IDC_BTN_CANCELAR_CPNG:
             EndDialog(hwndDlg, wParam);
+            return TRUE;
         }
         break;
     }
-
     return FALSE;
 }
-INT_PTR CALLBACK crearTextureDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
+INT_PTR CALLBACK crearTextureDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam){
+    switch (uMsg){
     case WM_INITDIALOG:
         hEdit2 = CreateWindowEx(
             WS_EX_CLIENTEDGE,
@@ -566,14 +553,13 @@ INT_PTR CALLBACK crearTextureDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
             NULL);
         return TRUE;
     case WM_COMMAND:
-        switch (LOWORD(wParam))
-        {
+        switch (LOWORD(wParam)){
         case IDOK:
-            GetDlgItemText(hwndDlg, IDC_CREA_SCENE, creadorCpng, 200);
+            GetDlgItemText(hwndDlg, IDC_CREA_SCENE, name_creador_assets, 200);
             EndDialog(hwndDlg, wParam);
             return TRUE;
         case IDC_BTNG_GUARDAR_TEXTURE:
-            Guardar(hEdit2, creadorCpng);
+            Guardar(hEdit2, name_creador_assets);
             return TRUE;
         case IDCANCEL:
             EndDialog(hwndDlg, wParam);
@@ -609,11 +595,11 @@ INT_PTR CALLBACK crearSceneDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
         switch (LOWORD(wParam))
         {
         case IDOK:
-            GetDlgItemText(hwndDlg, IDC_CREA_SCENE, creadorCpng, 200);
+            GetDlgItemText(hwndDlg, IDC_CREA_SCENE, name_creador_assets, 200);
             EndDialog(hwndDlg, wParam);
             return TRUE;
         case IDC_BTNG_GUARDAR_SCENE:
-            Guardar(hEdit2, creadorCpng);
+            Guardar(hEdit2, name_creador_assets);
             return TRUE;
         case IDCANCEL:
             EndDialog(hwndDlg, wParam);
@@ -671,26 +657,20 @@ void Guardar(HWND hctrl, char *fichero)
     }
 }
 
-BOOL leerArchivo(HWND hEdit, LPCTSTR lpFileName)
+BOOL leerArchivo(HWND hEdit, LPCTSTR lpfile_name_default)
 {
-    // Abre el archivo y obtiene su tamaño en bytes
-    HANDLE hFile = CreateFile(lpFileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    HANDLE hFile = CreateFile(lpfile_name_default, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     if (hFile != INVALID_HANDLE_VALUE)
     {
         DWORD dwSize = GetFileSize(hFile, NULL);
         if (dwSize != INVALID_FILE_SIZE)
         {
-            // Reserva memoria para almacenar el contenido del archivo
             LPVOID lpBuffer = malloc(dwSize + sizeof(TCHAR));
             if (lpBuffer)
             {
-                // Lee el contenido del archivo en la memoria reservada
                 DWORD dwRead;
                 ReadFile(hFile, lpBuffer, dwSize, &dwRead, NULL);
-                if (dwRead == dwSize)
-                {
-                    // Agrega un caracter n
-                    // Establece el contenido del control de edición de texto con el contenido del archivo
+                if (dwRead == dwSize){
                     SetWindowText(hEdit, (TCHAR *)lpBuffer);
                 }
                 free(lpBuffer);
@@ -702,49 +682,58 @@ BOOL leerArchivo(HWND hEdit, LPCTSTR lpFileName)
     return FALSE;
 }
 
-void marcarPalabrasPonerCodigo(HWND hEdit, TCHAR *Text)
-{
+INT_PTR CALLBACK nuevoCpngDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam){
+    switch (uMsg){
+    case WM_INITDIALOG:
+        return TRUE;
+    case WM_COMMAND:
+        switch (LOWORD(wParam)){
+        case IDOK:
+            EndDialog(hwndDlg, wParam);
+            return TRUE;
+        case IDCANCEL:
+            EndDialog(hwndDlg, wParam);
+            return TRUE;
+        }
+        break;
+    }
+    return FALSE;
+}
+
+void marcarPalabrasPonerCodigo(HWND hEdit, TCHAR *Text){
     int nCursorPos = (int)SendMessage(hEdit, EM_GETSEL, 0, 0);
     SendMessage(hEdit, EM_SETSEL, nCursorPos, nCursorPos);
     SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM)Text);
 }
 
 // Función que muestra la ventana de guardar archivo
-void SaveFile(HWND hwndParent)
-{
+void SaveFile(HWND hwndParent){
     DialogBoxParam(hInst, MAKEINTRESOURCE(ID_NUEVO_ARCHIVO), hwndParent, SaveFileDlgProc, 0);
 }
 //Funcion que muestra la ventana de eliminar archivo
-void deleteFiles(HWND hwndParent)
-{
+void delete_file(HWND hwndParent){
     DialogBoxParam(hInst, MAKEINTRESOURCE(DLG_DELETE_FILE), hwndParent, deleteFileDlgProc, 0);
 }
 //Funcion que muestra la ventana de crear proyecto
-void nuevoProyecto(HWND hwndParent)
-{
+void nuevoProyecto(HWND hwndParent){
     DialogBoxParam(hInst, MAKEINTRESOURCE(DLG_NUEVO_PROYECTO), hwndParent, nuevoProyectoDlgProc, 0);
 }
 //Funcion que muestra la ventana para crear cpngs
-void CrearCPNG(HWND hwndParent)
-{
+void CrearCPNG(HWND hwndParent){
     DialogBoxParam(hInst, MAKEINTRESOURCE(DLG_CREAR_CPNG), hwndParent, crearCpngDlgProc, 0);
 }
-void CrearTexture(HWND hwndParent)
-{
+void CrearTexture(HWND hwndParent){
     DialogBoxParam(hInst, MAKEINTRESOURCE(DLG_CREAR_TEXTURE), hwndParent, crearTextureDlgProc, 0);
 }
-void CrearScene(HWND hwndParent)
-{
+void CrearScene(HWND hwndParent){
     DialogBoxParam(hInst, MAKEINTRESOURCE(DLG_CREAR_SCENE), hwndParent, crearSceneDlgProc, 0);
 }
 //Funcion que muestra la ventana para crear cpngs
-void abreArchivo(HWND hwndParent)
-{
+void abreArchivo(HWND hwndParent){
     DialogBoxParam(hInst, MAKEINTRESOURCE(DLG_LEER_ARCHIVO), hwndParent, abreArchivoDlgProc, 0);
 }
 
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
-{
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd){
     hInst = hInstance;
     // The user interface is a modal dialog box
     return DialogBox(hInstance, MAKEINTRESOURCE(DLG_MAIN), NULL, (DLGPROC)DialogProc);

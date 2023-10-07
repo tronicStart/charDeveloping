@@ -13,6 +13,7 @@
 typedef void Override;
 typedef char Public;
 typedef char String[500];
+typedef char * string_;
 
 typedef struct
 {
@@ -82,10 +83,10 @@ void File(const char *file, const char *data)
 
     if (archivo == NULL)
     {
-        perror("Escrity ");
+        perror("charDev ");
         return;
     }
-    printf("Escrity: guardado: '%s'", file);
+    printf("charDev: guardado: '%s'", file);
     fprintf(archivo, "%s\n", data);
     fclose(archivo);
 }
@@ -114,7 +115,7 @@ static void StringReadFileModeRB(const char *URL)
     fclose(lectura);
 }
 
-void sFile(const char *file, const char *data)
+void save_file_jump_line(const char *file, const char *data)
 {
     FILE *archivo;
 
@@ -122,15 +123,15 @@ void sFile(const char *file, const char *data)
 
     if (archivo == NULL)
     {
-        perror("Escrity ");
+        perror("charDev ");
         return;
     }
-    printf("Escrity: guardado: '%s'", file);
+    printf("charDev: guardado: '%s'", file);
     fprintf(archivo, "%s\n", data);
     fclose(archivo);
 }
 
-void sFile2(const char *file, const char *data)
+void save_file_(const char *file, const char *data)
 {
     FILE *archivo;
 
@@ -139,12 +140,12 @@ void sFile2(const char *file, const char *data)
     if (archivo == NULL)
 
     {
-        perror("Escrity ");
+        perror("charDev ");
 
         return;
     }
 
-    printf("Escrity: guardado: '%s'", file);
+    printf("charDev: guardado: '%s'", file);
 
     fprintf(archivo, "%s", data);
 
@@ -160,20 +161,20 @@ void readFilesNormal(const char *URL, HWND hwnd)
 
     if (lectura == NULL)
     {
-        perror("Escrity ");
+        perror("charDev ");
         printf("Directorio o Archivo: [\" ");
         printf("%s", URL);
         printf(". \"] \n");
 
-        sFile("registers.rg", "Registers: Escrity: detect.error.badAdress!!!!file.noOpen");
-        sFile("registers.rg", "Registers: Escrity: Debug.bigErrorExit.Adress.Invalid.00000075.thead.deferred.module.PE.CS:0073 SS:0007b ES:0073 FS:0033 GS:0033b:");
-        MessageBox(hwnd, "Nose puede abrir el archivo, posibles casos:\n1.-Es posible que este mal escrito el nombre de archivo\n2.-Es posible que el archivo no exista.\n3.-Es posible que el input sea invalido.", "CharDeveloping : Stringgame : open file", MB_ICONERROR);
+        save_file_jump_line("registers.rg", "Registers: charDev: detect.error.badAdress!!!!file.noOpen");
+        save_file_jump_line("registers.rg", "Registers: charDev: Debug.bigErrorExit.Adress.Invalid.00000075.thead.deferred.module.PE.CS:0073 SS:0007b ES:0073 FS:0033 GS:0033b:");
+        MessageBox(hwnd, "Nose puede abrir el archivo, posibles casos:\n1.-Es posible que este mal escrito el nombre de archivo\n2.-Es posible que el archivo no exista.\n3.-Es posible que el input sea invalido.", "CharDeveloping : charDev : open file", MB_ICONERROR);
     }
     else
     {
-        sFile2("registers.rg", "Registers: Escrity: file.open.success.this.file=\"");
-        sFile2("registers.rg", URL);
-        sFile("registers.rg", "\"");
+        save_file_("registers.rg", "Registers: charDev: file.open.success.this.file=\"");
+        save_file_("registers.rg", URL);
+        save_file_jump_line("registers.rg", "\"");
         system("cls");
         printf("View file: \n");
         while (feof(lectura) == 0)
@@ -183,11 +184,11 @@ void readFilesNormal(const char *URL, HWND hwnd)
             MessageBox(hwnd, variable, "charDeveloping : view file", MB_ICONINFORMATION);
         }
     }
-    sFile("registers.rg", "Registers: Escrity: execute: fclose();.file");
+    save_file_jump_line("registers.rg", "Registers: charDev: execute: fclose();.file");
     fclose(lectura);
 }
 
-void yReadFile(const char *URL)
+void read_file_(const char *URL)
 {
     FILE *lectura;
     char variable[1025];
@@ -196,7 +197,7 @@ void yReadFile(const char *URL)
 
     if (lectura == NULL)
     {
-        perror("Escrity ");
+        perror("charDev ");
         printf("Directorio o Archivo: [\" ");
         printf("%s", URL);
         printf(". \"] \n");
@@ -502,13 +503,11 @@ static void charNewLines(int cand)
     }
 }
 
-static void Juego_Lee_Tecla()
-{
+static void wait_key(){
     getchar();
 }
 
-int StrGenereRandom(int inicio, int fin)
-{
+int StrGenereRandom(int inicio, int fin){
     srand(time(NULL));
     inicio = rand() % fin;
 
@@ -527,7 +526,6 @@ static void view_asset(int URL)
         printf("[\\n] = %d", URL);
         return;
     }
-
     char caracters[1024] = {'%', '\\', '|', '=', '[', ']', '<', '>', '{', '}', '@', '#', '$', '_', '&', '-', '+', '(', ')', '/', '*', '\"', '\'', ':', ';', '!', '?', '~', '`', 'N'};
     printf("[%c] = %d", caracters[URL], URL);
 }
@@ -549,7 +547,7 @@ void cpngs(char nombre_de_archivo[1024])
 
     if (db == NULL)
     {
-        perror("Stringgame ");
+        perror("charDev ");
     }
 
     while (opcion != 33)
@@ -578,234 +576,234 @@ void cpngs(char nombre_de_archivo[1024])
         if (opcion == 0)
         {
             fprintf(db, "%c", caracters[0]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[0]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[0]);
+            wait_key();
         }
         else if (opcion == 1)
         {
             fprintf(db, "%c", caracters[1]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[1]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[1]);
+            wait_key();
         }
         if (opcion == 2)
         {
             fprintf(db, "%c", caracters[2]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[2]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[2]);
+            wait_key();
         }
         else if (opcion == 3)
         {
             fprintf(db, "%c", caracters[3]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[3]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[3]);
+            wait_key();
         }
         if (opcion == 4)
         {
             fprintf(db, "%c", caracters[4]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[4]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[4]);
+            wait_key();
         }
         else if (opcion == 5)
         {
             fprintf(db, "%c", caracters[5]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[5]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[5]);
+            wait_key();
         }
         if (opcion == 6)
         {
             fprintf(db, "%c", caracters[6]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[6]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[6]);
+            wait_key();
         }
         else if (opcion == 7)
         {
             fprintf(db, "%c", caracters[7]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[7]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[7]);
+            wait_key();
         }
         if (opcion == 8)
         {
             fprintf(db, "%c", caracters[8]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[8]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[8]);
+            wait_key();
         }
         else if (opcion == 9)
         {
             fprintf(db, "%c", caracters[9]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[9]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[9]);
+            wait_key();
         }
         if (opcion == 10)
         {
             fprintf(db, "%c", caracters[10]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[10]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[10]);
+            wait_key();
         }
         else if (opcion == 11)
         {
             fprintf(db, "%c", caracters[11]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[11]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[11]);
+            wait_key();
         }
         if (opcion == 12)
         {
             fprintf(db, "%c", caracters[12]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[12]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[12]);
+            wait_key();
         }
         else if (opcion == 13)
         {
             fprintf(db, "%c", caracters[13]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[13]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[13]);
+            wait_key();
         }
         if (opcion == 14)
         {
             fprintf(db, "%c", caracters[14]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[14]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[14]);
+            wait_key();
         }
         else if (opcion == 15)
         {
             fprintf(db, "%c", caracters[15]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[15]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[15]);
+            wait_key();
         }
         if (opcion == 16)
         {
             fprintf(db, "%c", caracters[16]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[16]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[16]);
+            wait_key();
         }
         else if (opcion == 17)
         {
             fprintf(db, "%c", caracters[17]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[17]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[17]);
+            wait_key();
         }
         if (opcion == 18)
         {
             fprintf(db, "%c", caracters[18]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[18]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[18]);
+            wait_key();
         }
         else if (opcion == 19)
         {
             fprintf(db, "%c", caracters[19]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[19]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[19]);
+            wait_key();
         }
         if (opcion == 20)
         {
             fprintf(db, "%c", caracters[20]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[20]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[20]);
+            wait_key();
         }
         else if (opcion == 21)
         {
             fprintf(db, "%c", caracters[21]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[21]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[21]);
+            wait_key();
         }
         if (opcion == 22)
         {
             fprintf(db, "%c", caracters[22]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[22]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[22]);
+            wait_key();
         }
         else if (opcion == 23)
         {
             fprintf(db, "%c", caracters[23]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[23]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[23]);
+            wait_key();
         }
         if (opcion == 24)
         {
             fprintf(db, "%c", caracters[24]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[24]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[24]);
+            wait_key();
         }
         else if (opcion == 25)
         {
             fprintf(db, "%c", caracters[25]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[25]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[25]);
+            wait_key();
         }
         if (opcion == 26)
         {
             fprintf(db, "%c", caracters[26]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[26]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[26]);
+            wait_key();
         }
         else if (opcion == 27)
         {
             fprintf(db, "%c", caracters[27]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[27]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[27]);
+            wait_key();
         }
         if (opcion == 28)
         {
             fprintf(db, "%c", caracters[28]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[28]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[28]);
+            wait_key();
         }
         else if (opcion == 29)
         {
             fprintf(db, "%c", caracters[29]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[29]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[29]);
+            wait_key();
         }
         if (opcion == 30)
         {
             fprintf(db, "%c", caracters[30]);
-            printf("Stringgame: Se ha guardado el caracter: [%c]\n", caracters[30]);
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [%c]\n", caracters[30]);
+            wait_key();
         }
         else if (opcion == 31)
         {
             fprintf(db, " ");
-            printf("Stringgame: Se ha guardado el caracter: [ ]\n");
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [ ]\n");
+            wait_key();
         }
         if (opcion == 32)
         {
             fprintf(db, "\n");
-            printf("Stringgame: Se ha guardado el caracter: [\\n]\n");
-            Juego_Lee_Tecla();
+            printf("charDev: Se ha guardado el caracter: [\\n]\n");
+            wait_key();
         }
         else if (opcion == 100)
         {
-            //Juego_Lee_Tecla();
+            //wait_key();
 
             fprintf(db, "%c%c%c", caracters[1], caracters[0], caracters[0]);
 
-            printf("Stringgame: Se ha guardado los caracteres: %c%c%c", caracters[1], caracters[0], caracters[0]);
+            printf("charDev: Se ha guardado los caracteres: %c%c%c", caracters[1], caracters[0], caracters[0]);
 
-            Juego_Lee_Tecla();
+            wait_key();
         }
 
         if (opcion == 101)
 
         {
-            //Juego_Lee_Tecla();
+            //wait_key();
 
             fprintf(db, "%c%c%c", caracters[1], caracters[0], caracters[1]);
 
-            printf("Stringgame: Se ha guardado los caracteres: %c%c%c", caracters[1], caracters[0], caracters[1]);
+            printf("charDev: Se ha guardado los caracteres: %c%c%c", caracters[1], caracters[0], caracters[1]);
 
-            Juego_Lee_Tecla();
+            wait_key();
         }
 
         else if (opcion == 102)
 
         {
-            //Juego_Lee_Tecla();
+            //wait_key();
 
             fprintf(db, "%c%c%c", caracters[1], caracters[0], caracters[2]);
 
-            printf("Stringgame: Se ha guardado los caracteres: %c%c%c", caracters[1], caracters[0], caracters[2]);
+            printf("charDev: Se ha guardado los caracteres: %c%c%c", caracters[1], caracters[0], caracters[2]);
 
-            Juego_Lee_Tecla();
+            wait_key();
         }
 
         if (opcion == -1)
@@ -814,9 +812,9 @@ void cpngs(char nombre_de_archivo[1024])
 
             fprintf(db, "%c", caracters[Randomm]);
 
-            printf("Stringgame: Se ha guardado los caracteres: %c", caracters[Randomm]);
+            printf("charDev: Se ha guardado los caracteres: %c", caracters[Randomm]);
 
-            Juego_Lee_Tecla();
+            wait_key();
         }
     }
 
@@ -871,7 +869,7 @@ void create_scene_(char File[1024])
 
     if (db == NULL)
     {
-        perror("Stringgame ");
+        perror("charDev ");
     }
 
     else
@@ -922,7 +920,7 @@ void StrCreate_scene_(char File[1024])
 
     if (db == NULL)
     {
-        perror("Stringgame ");
+        perror("charDev ");
     }
 
     while (opcion != 23 || opcion == -1)
@@ -951,143 +949,143 @@ void StrCreate_scene_(char File[1024])
         if (opcion == 0)
         {
             fprintf(db, "%c", _scene_large[0]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[0]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[0]);
+            wait_key();
         }
         else if (opcion == 1)
         {
             fprintf(db, "%c", _scene_large[1]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[1]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[1]);
+            wait_key();
         }
         if (opcion == 2)
         {
             fprintf(db, "%c", _scene_large[2]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[2]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[2]);
+            wait_key();
         }
         else if (opcion == 3)
         {
             fprintf(db, "%c", _scene_large[3]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[3]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[3]);
+            wait_key();
         }
         if (opcion == 4)
         {
             fprintf(db, "%c", _scene_large[4]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[4]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[4]);
+            wait_key();
         }
         else if (opcion == 5)
         {
             fprintf(db, "%c", _scene_large[5]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[5]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[5]);
+            wait_key();
         }
         if (opcion == 6)
         {
             fprintf(db, "%c", _scene_large[6]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[6]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[6]);
+            wait_key();
         }
         else if (opcion == 7)
         {
             fprintf(db, "%c", _scene_large[7]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[7]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[7]);
+            wait_key();
         }
         if (opcion == 8)
         {
             fprintf(db, "%c", _scene_large[8]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[8]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[8]);
+            wait_key();
         }
         else if (opcion == 9)
         {
             fprintf(db, "%c", _scene_large[9]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[9]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[9]);
+            wait_key();
         }
         if (opcion == 10)
         {
             fprintf(db, "%c", _scene_large[10]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[10]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[10]);
+            wait_key();
         }
         else if (opcion == 11)
         {
             fprintf(db, "%c", _scene_large[11]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[11]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[11]);
+            wait_key();
         }
         if (opcion == 12)
         {
             fprintf(db, "%c", _scene_large[12]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[12]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[12]);
+            wait_key();
         }
         else if (opcion == 13)
         {
             fprintf(db, "%c", _scene_large[13]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[13]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[13]);
+            wait_key();
         }
         if (opcion == 14)
         {
             fprintf(db, "%c", _scene_large[14]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[14]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[14]);
+            wait_key();
         }
         else if (opcion == 15)
         {
             fprintf(db, "%c", _scene_large[15]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[15]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[15]);
+            wait_key();
         }
         if (opcion == 16)
         {
             fprintf(db, "%c", _scene_large[16]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[16]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[16]);
+            wait_key();
         }
         else if (opcion == 17)
         {
             fprintf(db, "%c", _scene_large[17]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[17]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[17]);
+            wait_key();
         }
         if (opcion == 18)
         {
             fprintf(db, "%c", _scene_large[18]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[18]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[18]);
+            wait_key();
         }
         else if (opcion == 19)
         {
             fprintf(db, "%c", _scene_large[19]);
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [%c]\n", _scene_large[19]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [%c]\n", _scene_large[19]);
+            wait_key();
         }
 
         if (opcion == 20)
         {
             fprintf(db, " ");
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [ ]\n");
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [ ]\n");
+            wait_key();
         }
         else if (opcion == 21)
         {
             fprintf(db, "\n");
-            printf("charDeveloping(Stringgame): Se ha guardado el caracter: [\\n]\n");
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado el caracter: [\\n]\n");
+            wait_key();
         }
 
         if (opcion == 22)
         {
             Randomm = StrGenereRandom(0, 20);
             fprintf(db, "%c", _scene_large[Randomm]);
-            printf("charDeveloping(Stringgame): Se ha guardado los caracteres: %c", _scene_large[Randomm]);
-            Juego_Lee_Tecla();
+            printf("charDeveloping(charDev): Se ha guardado los caracteres: %c", _scene_large[Randomm]);
+            wait_key();
         }
     }
     fclose(db);
@@ -1245,59 +1243,59 @@ void newProject(const char URL[1024], HWND hwndDlg, const char Name[1024])
     }
 
     //creación: del archivo mainScene.sce
-    sFile("mainScene.sce", "Main Scene. CharDeveloping");
+    save_file_jump_line("mainScene.sce", "Main Scene. CharDeveloping");
     //creación: del archivo main.c
-    sFile(MainFile, "#include \"include\\stringgame.h\"");
-    sFile(MainFile, "");
-    sFile(MainFile, "void paint_game (struct _scenes_ * Scene);");
-    sFile(MainFile, "");
-    sFile(MainFile, "int main (void){");
-    sFile(MainFile, "");
-    sFile(MainFile, "     //Struct of main scene");
-    sFile(MainFile, "     struct _scenes_ mainScene;");
-    sFile(MainFile, "");
-    sFile(MainFile, "     strcpy(mainScene.name,\"mainScene\");");
-    sFile(MainFile, "     mainScene.id = 0;");
-    sFile(MainFile, "     mainScene.actives = 1;//never 0");
-    sFile(MainFile, "");
-    sFile(MainFile, "     while(true){");
-    sFile(MainFile, "");
-    sFile(MainFile, "          paint_game(&mainScene);");
-    sFile(MainFile, "");
-    sFile(MainFile, "  }");
-    sFile(MainFile, "}");
-    sFile(MainFile, "");
-    sFile(MainFile, "void paint_game (struct _scenes_ * Scene){");
-    sFile(MainFile, "");
-    sFile(MainFile, "     StrLoad_scene_(Scene);");
-    sFile(MainFile, "");
-    sFile(MainFile, "}");
-    sFile(MainFile, "");
+    save_file_jump_line(MainFile, "#include \"include\\charDev.h\"");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "void paint_game (struct _scenes_ * Scene);");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "int main (void){");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "     //Struct of main scene");
+    save_file_jump_line(MainFile, "     struct _scenes_ mainScene;");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "     strcpy(mainScene.name,\"mainScene\");");
+    save_file_jump_line(MainFile, "     mainScene.id = 0;");
+    save_file_jump_line(MainFile, "     mainScene.actives = 1;//never 0");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "     while(true){");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "          paint_game(&mainScene);");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "  }");
+    save_file_jump_line(MainFile, "}");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "void paint_game (struct _scenes_ * Scene){");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "     StrLoad_scene_(Scene);");
+    save_file_jump_line(MainFile, "");
+    save_file_jump_line(MainFile, "}");
+    save_file_jump_line(MainFile, "");
     //creación: del archivo main.ty
-    sFile("main.ty", "/*Notas: Este archivo generado es un fichero inutil por el momento. Puedes eliminarlo*/");
-    sFile("main.ty", "crea:importation:std;");
-    sFile("main.ty", "func<paint_game>(?scene.Scene){");
-    sFile("main.ty", "     crea.load_scenes_(Scene);");
-    sFile("main.ty", "}");
-    sFile("main.ty", "TYP<main>(func){");
-    sFile("main.ty", "     ?scene.mainScene;");
-    sFile("main.ty", "     mainScene.ini.name::mainScene::end;");
-    sFile("main.ty", "     mainScene.ini.id = 1;");
-    sFile("main.ty", "     mainScene.ini.actives = 1;");
-    sFile("main.ty", "     while(True){");
-    sFile("main.ty", "          invocation.func.paint_game(mainScene.today);");
-    sFile("main.ty", "     }");
-    sFile("main.ty", "}");
-    sFile("main.ty", "");
+    save_file_jump_line("main.ty", "/*Notas: Este archivo generado es un fichero inutil por el momento. Puedes eliminarlo*/");
+    save_file_jump_line("main.ty", "crea:importation:std;");
+    save_file_jump_line("main.ty", "func<paint_game>(?scene.Scene){");
+    save_file_jump_line("main.ty", "     crea.load_scenes_(Scene);");
+    save_file_jump_line("main.ty", "}");
+    save_file_jump_line("main.ty", "TYP<main>(func){");
+    save_file_jump_line("main.ty", "     ?scene.mainScene;");
+    save_file_jump_line("main.ty", "     mainScene.ini.name::mainScene::end;");
+    save_file_jump_line("main.ty", "     mainScene.ini.id = 1;");
+    save_file_jump_line("main.ty", "     mainScene.ini.actives = 1;");
+    save_file_jump_line("main.ty", "     while(True){");
+    save_file_jump_line("main.ty", "          invocation.func.paint_game(mainScene.today);");
+    save_file_jump_line("main.ty", "     }");
+    save_file_jump_line("main.ty", "}");
+    save_file_jump_line("main.ty", "");
     //Creación: del archivo .dat
-    sFile2(Name, "Proyecto: ");
-    sFile2(Name, Name);
-    sFile(Name, "Archivo principal: ");
-    sFile2(Name, "main.c");
-    sFile(Name, "Archivo segundario: ");
-    sFile2(Name, "main.ty");
-    sFile(Name, "URL: ");
-    sFile2(Name, MainFile);
+    save_file_(Name, "Proyecto: ");
+    save_file_(Name, Name);
+    save_file_jump_line(Name, "Archivo principal: ");
+    save_file_(Name, "main.c");
+    save_file_jump_line(Name, "Archivo segundario: ");
+    save_file_(Name, "main.ty");
+    save_file_jump_line(Name, "URL: ");
+    save_file_(Name, MainFile);
 
     MessageBox(hwndDlg, "Se ha creado el projecto", "Nuevo projecto", MB_ICONINFORMATION);
 }
@@ -1392,273 +1390,273 @@ int creatorAssetMenu()
 //Funciones para guardar los archivos
 void CreateAssets (const char * registros, const char * user1, const char * user2){
     //Funcion proveniente del ID: CM_CREADOR_ASSET
-    sFile2(registros, "Registers: charDeveloping: this-*>createAFileObjectAsset+this");
-            sFile(registros, user1);
-            sFile2("Assets.h", "//this is a asset the ");
-            sFile("Assets.h", user1);
-            sFile2("Assets.h", "void ");
-            sFile2("Assets.h", "asset_");
-            sFile2("Assets.h", user1);
-            sFile("Assets.h", " (void){");
-            sFile("Assets.h", "    // TODO: Implement this function");
-            sFile2("Assets.h", "    struct asset ");
-            sFile2("Assets.h", user1);
-            sFile("Assets.h", ";");
-            sFile2("Assets.h", "    ");
-            sFile2("Assets.h", user1);
-            sFile("Assets.h", ".ID = 1;");
-            sFile2("Assets.h", "    ");
-            sFile2("Assets.h", user1);
-            sFile("Assets.h", ".color = 1;");
-            sFile2("Assets.h", "    ");
-            sFile2("Assets.h", "strcpy(");
-            sFile2("Assets.h", user1);
-            sFile2("Assets.h", ".name,\"asset_");
-            sFile2("Assets.h", user1);
-            sFile("Assets.h", "\");");
-            sFile2("Assets.h", "    ");
-            sFile2("Assets.h", "strcpy(");
-            sFile2("Assets.h", user1);
-            sFile2("Assets.h", ".data,");
-            sFile2("Assets.h", "\"");
-            sFile2("Assets.h", user2);
-            sFile("Assets.h", "\");");
-            sFile2("Assets.h", "    ");
-            sFile2("Assets.h", "StrAssetStart(&");
-            sFile2("Assets.h", user1);
-            sFile("Assets.h", ");");
-            sFile2("Assets.h", "    ");
-            sFile2("Assets.h", "StrAssetPaint(&");
-            sFile2("Assets.h", user1);
-            sFile("Assets.h", ");");
-            sFile2("Assets.h", "    ");
-            sFile2("Assets.h", "StrAssetEnd(&");
-            sFile2("Assets.h", user1);
-            sFile("Assets.h", ");");
-            sFile("Assets.h", "}");
-            sFile("Assets.h", "");
-            sFile2("assets.dat", "Name Asset: ");
-            sFile2("assets.dat", "asset_");
-            sFile("assets.dat", user1);
-            sFile("assets.dat", "");
-            sFile2("assets.dat", "Asset: ");
-            sFile("assets.dat", user2);
+    save_file_(registros, "Registers: charDeveloping: this-*>createAFileObjectAsset+this");
+            save_file_jump_line(registros, user1);
+            save_file_("Assets.h", "//this is a asset the ");
+            save_file_jump_line("Assets.h", user1);
+            save_file_("Assets.h", "void ");
+            save_file_("Assets.h", "asset_");
+            save_file_("Assets.h", user1);
+            save_file_jump_line("Assets.h", " (void){");
+            save_file_jump_line("Assets.h", "    // TODO: Implement this function");
+            save_file_("Assets.h", "    struct asset ");
+            save_file_("Assets.h", user1);
+            save_file_jump_line("Assets.h", ";");
+            save_file_("Assets.h", "    ");
+            save_file_("Assets.h", user1);
+            save_file_jump_line("Assets.h", ".ID = 1;");
+            save_file_("Assets.h", "    ");
+            save_file_("Assets.h", user1);
+            save_file_jump_line("Assets.h", ".color = 1;");
+            save_file_("Assets.h", "    ");
+            save_file_("Assets.h", "strcpy(");
+            save_file_("Assets.h", user1);
+            save_file_("Assets.h", ".name,\"asset_");
+            save_file_("Assets.h", user1);
+            save_file_jump_line("Assets.h", "\");");
+            save_file_("Assets.h", "    ");
+            save_file_("Assets.h", "strcpy(");
+            save_file_("Assets.h", user1);
+            save_file_("Assets.h", ".data,");
+            save_file_("Assets.h", "\"");
+            save_file_("Assets.h", user2);
+            save_file_jump_line("Assets.h", "\");");
+            save_file_("Assets.h", "    ");
+            save_file_("Assets.h", "StrAssetStart(&");
+            save_file_("Assets.h", user1);
+            save_file_jump_line("Assets.h", ");");
+            save_file_("Assets.h", "    ");
+            save_file_("Assets.h", "StrAssetPaint(&");
+            save_file_("Assets.h", user1);
+            save_file_jump_line("Assets.h", ");");
+            save_file_("Assets.h", "    ");
+            save_file_("Assets.h", "StrAssetEnd(&");
+            save_file_("Assets.h", user1);
+            save_file_jump_line("Assets.h", ");");
+            save_file_jump_line("Assets.h", "}");
+            save_file_jump_line("Assets.h", "");
+            save_file_("assets.dat", "Name Asset: ");
+            save_file_("assets.dat", "asset_");
+            save_file_jump_line("assets.dat", user1);
+            save_file_jump_line("assets.dat", "");
+            save_file_("assets.dat", "Asset: ");
+            save_file_jump_line("assets.dat", user2);
 }
 
 void createTextures (const char * user1, const char * user2){
     //función proveniente del ID: CM_CREADOR_TEXTURE
-    sFile2("textures.h", "//this is a texture the ");
-                sFile("textures.h", user1);
-                sFile("textures.h", "//This is very import texture , is the player");
-                sFile2("textures.h", "char * ");
-                sFile2("textures.h", "texture_");
-                sFile2("textures.h", user1);
-                sFile("textures.h", " (void){");
-                sFile("textures.h", "    // TODO: Implement this function");
-                sFile2("textures.h", "    struct texture ");
-                sFile2("textures.h", user1);
-                sFile("textures.h", ";");
-                sFile2("textures.h", "    ");
-                sFile2("textures.h", user1);
-                sFile("textures.h", ".ID = 1;");
-                sFile2("textures.h", "    ");
-                sFile2("textures.h", user1);
-                sFile("textures.h", ".mode = 1;");
-                sFile2("textures.h", "    ");
-                sFile2("textures.h", "strcpy(");
-                sFile2("textures.h", user1);
-                sFile2("textures.h", ".name");
-                sFile2("textures.h", ",\"Object_");
-                sFile2("textures.h", user1);
-                sFile("textures.h", "\");");
-                sFile2("textures.h", "    ");
-                sFile2("textures.h", "strcpy(");
-                sFile2("textures.h", user1);
-                sFile2("textures.h", ".nameFile");
-                sFile2("textures.h", ",\"");
-                sFile2("textures.h", user1);
-                sFile("textures.h", "\");");
-                sFile2("textures.h", "    ");
-                sFile2("textures.h", "strcpy(");
-                sFile2("textures.h", user1);
-                sFile2("textures.h", ".content");
-                sFile2("textures.h", ",\"");
-                sFile2("textures.h", user2);
-                sFile("textures.h", "\"); //Here you data or strings");
-                sFile2("textures.h", "    StrPrintTexture(&");
-                sFile2("textures.h", user1);
-                sFile("textures.h", ");");
-                sFile("textures.h", "}");
-                sFile("textures.h", "");
-                sFile("textures.dat", user2);
+    save_file_("textures.h", "//this is a texture the ");
+                save_file_jump_line("textures.h", user1);
+                save_file_jump_line("textures.h", "//This is very import texture , is the player");
+                save_file_("textures.h", "char * ");
+                save_file_("textures.h", "texture_");
+                save_file_("textures.h", user1);
+                save_file_jump_line("textures.h", " (void){");
+                save_file_jump_line("textures.h", "    // TODO: Implement this function");
+                save_file_("textures.h", "    struct texture ");
+                save_file_("textures.h", user1);
+                save_file_jump_line("textures.h", ";");
+                save_file_("textures.h", "    ");
+                save_file_("textures.h", user1);
+                save_file_jump_line("textures.h", ".ID = 1;");
+                save_file_("textures.h", "    ");
+                save_file_("textures.h", user1);
+                save_file_jump_line("textures.h", ".mode = 1;");
+                save_file_("textures.h", "    ");
+                save_file_("textures.h", "strcpy(");
+                save_file_("textures.h", user1);
+                save_file_("textures.h", ".name");
+                save_file_("textures.h", ",\"Object_");
+                save_file_("textures.h", user1);
+                save_file_jump_line("textures.h", "\");");
+                save_file_("textures.h", "    ");
+                save_file_("textures.h", "strcpy(");
+                save_file_("textures.h", user1);
+                save_file_("textures.h", ".nameFile");
+                save_file_("textures.h", ",\"");
+                save_file_("textures.h", user1);
+                save_file_jump_line("textures.h", "\");");
+                save_file_("textures.h", "    ");
+                save_file_("textures.h", "strcpy(");
+                save_file_("textures.h", user1);
+                save_file_("textures.h", ".content");
+                save_file_("textures.h", ",\"");
+                save_file_("textures.h", user2);
+                save_file_jump_line("textures.h", "\"); //Here you data or strings");
+                save_file_("textures.h", "    StrPrintTexture(&");
+                save_file_("textures.h", user1);
+                save_file_jump_line("textures.h", ");");
+                save_file_jump_line("textures.h", "}");
+                save_file_jump_line("textures.h", "");
+                save_file_jump_line("textures.dat", user2);
     
 }
 
 void createObject (const char * structs, const char * user1, const char * user2){
     
-    sFile(structs, "#ifndef _OBJECTS_H");
-                sFile(structs, "#define _OBJECTS_H");
-                sFile(structs, "#include \"include/stringgame.h\"");
-                sFile(structs, "");
-                sFile2(structs, "//This is object the ");
-                sFile(structs, user1);
-                sFile(structs, "");
-                sFile2(structs, "struct Object ");
-                sFile2(structs, user1);
-                sFile(structs, ";");
-                sFile(structs, "");
-                sFile2(structs, user1);
-                sFile(structs, ".ID = 1;");
-                sFile(structs, "");
-                sFile2(structs, user1);
-                sFile(structs, ".positionX = 0;");
-                sFile2(structs, user1);
-                sFile(structs, ".positionY = 0");
-                sFile2(structs, user1);
-                sFile(structs, ".BOXTop = 0;");
-                sFile(structs, "");
-                sFile2(structs, user1);
-                sFile(structs, ".BOXDown = 0;");
-                sFile(structs, "");
-                sFile2(structs, user1);
-                sFile(structs, ".BOXLetf = 1;");
-                sFile(structs, "");
-                sFile2(structs, user1);
-                sFile(structs, ".BOXright = 0;");
-                sFile(structs, "");
+    save_file_jump_line(structs, "#ifndef _OBJECTS_H");
+                save_file_jump_line(structs, "#define _OBJECTS_H");
+                save_file_jump_line(structs, "#include \"include/charDev.h\"");
+                save_file_jump_line(structs, "");
+                save_file_(structs, "//This is object the ");
+                save_file_jump_line(structs, user1);
+                save_file_jump_line(structs, "");
+                save_file_(structs, "struct Object ");
+                save_file_(structs, user1);
+                save_file_jump_line(structs, ";");
+                save_file_jump_line(structs, "");
+                save_file_(structs, user1);
+                save_file_jump_line(structs, ".ID = 1;");
+                save_file_jump_line(structs, "");
+                save_file_(structs, user1);
+                save_file_jump_line(structs, ".positionX = 0;");
+                save_file_(structs, user1);
+                save_file_jump_line(structs, ".positionY = 0");
+                save_file_(structs, user1);
+                save_file_jump_line(structs, ".BOXTop = 0;");
+                save_file_jump_line(structs, "");
+                save_file_(structs, user1);
+                save_file_jump_line(structs, ".BOXDown = 0;");
+                save_file_jump_line(structs, "");
+                save_file_(structs, user1);
+                save_file_jump_line(structs, ".BOXLetf = 1;");
+                save_file_jump_line(structs, "");
+                save_file_(structs, user1);
+                save_file_jump_line(structs, ".BOXright = 0;");
+                save_file_jump_line(structs, "");
                 
 }
 
 void createCpng (const char * user1_copy,const char * user1, const char * user2){
     
-    sFile2(user1_copy, "//this is a cpng the ");
-                sFile(user1_copy, user1);
-                sFile(user1_copy, "");
-                sFile2(user1_copy, "char cpng_");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, " (void){");
-                sFile(user1_copy, "");
-                sFile(user1_copy, "       // TODO: Implement this function");
-                sFile2(user1_copy, "    struct cpng ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ";");
-                sFile(user1_copy, "");
-                sFile(user1_copy, "    ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ".X = (int)NULL; // o 0");
-                sFile(user1_copy, "");
-                sFile(user1_copy, "    ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ".Y = (int)NULL; // o 0");
-                sFile(user1_copy, "");
-                sFile2(user1_copy, "    ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ".Top = 1;");
-                sFile2(user1_copy, "    ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ".Down = 1;");
-                sFile2(user1_copy, "    ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ".Letf = 1;");
-                sFile2(user1_copy, "    ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ".Right = 1;");
-                sFile2(user1_copy, "    ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ".ID = 1;");
-                sFile2(user1_copy, "    ");
-                sFile2(user1_copy, "strcpy(");
-                sFile2(user1_copy, user1);
-                sFile2(user1_copy, ".Name , \"");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, "\");");
-                sFile(user1_copy, "");
-                sFile2(user1_copy, "    ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ".color = 3;");
-                sFile(user1_copy, "");
-                sFile2(user1_copy, "    ");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ".range = 0;");
-                sFile2(user1_copy, "    ");
-                sFile2(user1_copy, "strcpy(");
-                sFile2(user1_copy, user1);
-                sFile2(user1_copy, ".data , \"");
-                sFile2(user1_copy, user2);
-                sFile(user1_copy, "\");");
-                sFile(user1_copy, "");
-                sFile2(user1_copy, "    StrStartCpng(&");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ");");
-                sFile2(user1_copy, "    StrPaintCpng(&");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ");");
-                sFile2(user1_copy, "    StrEndCpng(&");
-                sFile2(user1_copy, user1);
-                sFile(user1_copy, ");");
-                sFile(user1_copy, "");
-                sFile(user1_copy, "}");
+    save_file_(user1_copy, "//this is a cpng the ");
+                save_file_jump_line(user1_copy, user1);
+                save_file_jump_line(user1_copy, "");
+                save_file_(user1_copy, "char cpng_");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, " (void){");
+                save_file_jump_line(user1_copy, "");
+                save_file_jump_line(user1_copy, "       // TODO: Implement this function");
+                save_file_(user1_copy, "    struct cpng ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ";");
+                save_file_jump_line(user1_copy, "");
+                save_file_jump_line(user1_copy, "    ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ".X = (int)NULL; // o 0");
+                save_file_jump_line(user1_copy, "");
+                save_file_jump_line(user1_copy, "    ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ".Y = (int)NULL; // o 0");
+                save_file_jump_line(user1_copy, "");
+                save_file_(user1_copy, "    ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ".Top = 1;");
+                save_file_(user1_copy, "    ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ".Down = 1;");
+                save_file_(user1_copy, "    ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ".Letf = 1;");
+                save_file_(user1_copy, "    ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ".Right = 1;");
+                save_file_(user1_copy, "    ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ".ID = 1;");
+                save_file_(user1_copy, "    ");
+                save_file_(user1_copy, "strcpy(");
+                save_file_(user1_copy, user1);
+                save_file_(user1_copy, ".Name , \"");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, "\");");
+                save_file_jump_line(user1_copy, "");
+                save_file_(user1_copy, "    ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ".color = 3;");
+                save_file_jump_line(user1_copy, "");
+                save_file_(user1_copy, "    ");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ".range = 0;");
+                save_file_(user1_copy, "    ");
+                save_file_(user1_copy, "strcpy(");
+                save_file_(user1_copy, user1);
+                save_file_(user1_copy, ".data , \"");
+                save_file_(user1_copy, user2);
+                save_file_jump_line(user1_copy, "\");");
+                save_file_jump_line(user1_copy, "");
+                save_file_(user1_copy, "    StrStartCpng(&");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ");");
+                save_file_(user1_copy, "    StrPaintCpng(&");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ");");
+                save_file_(user1_copy, "    StrEndCpng(&");
+                save_file_(user1_copy, user1);
+                save_file_jump_line(user1_copy, ");");
+                save_file_jump_line(user1_copy, "");
+                save_file_jump_line(user1_copy, "}");
     
 }
 
 void createMainCode (const char * MainFile){
     
-    sFile(MainFile, "#include \"include\\stringgame.h\"");
-            sFile(MainFile, "");
-            sFile(MainFile, "void paint_game (struct _scenes_ * Scene);");
-            sFile(MainFile, "");
-            sFile(MainFile, "int main (void){");
-            sFile(MainFile, "");
-            sFile(MainFile, "     //Struct of main scene");
-            sFile(MainFile, "     struct _scenes_ mainScene;");
-            sFile(MainFile, "");
-            sFile(MainFile, "     strcpy(mainScene.name,\"mainScene\");");
-            sFile(MainFile, "     mainScene.id = 0;");
-            sFile(MainFile, "     mainScene.actives = 1;//never 0");
-            sFile(MainFile, "");
-            sFile(MainFile, "     while(true){");
-            sFile(MainFile, "");
-            sFile(MainFile, "          paint_game(&mainScene);");
-            sFile(MainFile, "");
-            sFile(MainFile, "  }");
-            sFile(MainFile, "}");
-            sFile(MainFile, "");
-            sFile(MainFile, "void paint_game (struct _scenes_ * Scene){");
-            sFile(MainFile, "");
-            sFile(MainFile, "     StrLoad_scene_(Scene);");
-            sFile(MainFile, "");
-            sFile(MainFile, "}");
-            sFile(MainFile, "");
+    save_file_jump_line(MainFile, "#include \"include\\charDev.h\"");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "void paint_game (struct _scenes_ * Scene);");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "int main (void){");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "     //Struct of main scene");
+            save_file_jump_line(MainFile, "     struct _scenes_ mainScene;");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "     strcpy(mainScene.name,\"mainScene\");");
+            save_file_jump_line(MainFile, "     mainScene.id = 0;");
+            save_file_jump_line(MainFile, "     mainScene.actives = 1;//never 0");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "     while(true){");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "          paint_game(&mainScene);");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "  }");
+            save_file_jump_line(MainFile, "}");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "void paint_game (struct _scenes_ * Scene){");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "     StrLoad_scene_(Scene);");
+            save_file_jump_line(MainFile, "");
+            save_file_jump_line(MainFile, "}");
+            save_file_jump_line(MainFile, "");
     
 }
 
 void createNewObject (const char * structs, const char * user1){
     
-            sFile2(structs, "//This is newObject the ");
-            sFile(structs, user1);
-            sFile(structs, "");
-            sFile2(structs, "struct newObject ");
-            sFile2(structs, user1);
-            sFile(structs, ";");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".ID = 1;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".positionX = 0;");
-            sFile(structs, user1);
-            sFile(structs, ".positionY = 0");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXTop = 0;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXDown = 0;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXLetf = 1;");
-            sFile(structs, "");
-            sFile2(structs, user1);
-            sFile(structs, ".BOXright = 0;");
-            sFile(structs, "");
+            save_file_(structs, "//This is newObject the ");
+            save_file_jump_line(structs, user1);
+            save_file_jump_line(structs, "");
+            save_file_(structs, "struct newObject ");
+            save_file_(structs, user1);
+            save_file_jump_line(structs, ";");
+            save_file_jump_line(structs, "");
+            save_file_(structs, user1);
+            save_file_jump_line(structs, ".ID = 1;");
+            save_file_jump_line(structs, "");
+            save_file_(structs, user1);
+            save_file_jump_line(structs, ".positionX = 0;");
+            save_file_jump_line(structs, user1);
+            save_file_jump_line(structs, ".positionY = 0");
+            save_file_(structs, user1);
+            save_file_jump_line(structs, ".BOXTop = 0;");
+            save_file_jump_line(structs, "");
+            save_file_(structs, user1);
+            save_file_jump_line(structs, ".BOXDown = 0;");
+            save_file_jump_line(structs, "");
+            save_file_(structs, user1);
+            save_file_jump_line(structs, ".BOXLetf = 1;");
+            save_file_jump_line(structs, "");
+            save_file_(structs, user1);
+            save_file_jump_line(structs, ".BOXright = 0;");
+            save_file_jump_line(structs, "");
     
 }

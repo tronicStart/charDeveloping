@@ -55,7 +55,9 @@ BEGIN
 
     CONTROL "Nombre del proyecto. . .", IDC_NOMBRE_PROYECTO, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
     CONTROL "Nombre de la carpeta. . .", IDC_UBICACION_PROYECTO, "EDIT", 0x10010000 , 10 , 30 , 120 , 14
+
     CONTROL "&Crear", IDC_BTN_NUEVO_PROYECTO, "Button", 0x10010000, 10, 100, 75, 15
+
     CONTROL "&Cancelar", IDC_BTN_CANCELAR_PROYECTO, "Button", 0x10010000, 140, 100, 75, 15
 
 END
@@ -84,7 +86,7 @@ STYLE 0x10CE0804
 
 BEGIN
 
-    CONTROL "Nombre. . .", IDC_CREA_CPNG, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
+    //CONTROL "Nombre. . .", IDC_CREA_CPNG, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
     CONTROL "&Guardar", IDC_BTNG_GUARDAR_CPNG ,"Button",  0x10010000, 60, 190,  75, 15
     CONTROL "&Cancelar", IDC_BTN_CANCELAR_CPNG, "Button", 0x10010000, 190, 190, 75, 15
 
@@ -102,6 +104,7 @@ BEGIN
 
     CONTROL "Nombre. . .", IDC_CREA_TEXTURE, "EDIT", 0x10010000 , 10 , 10 , 120 , 14
     CONTROL "&Guardar", IDC_BTNG_GUARDAR_TEXTURE ,"Button",  0x10010000, 60, 190,  75, 15
+
     CONTROL "&Cancelar", IDC_BTN_CANCELAR_TEXTURE, "Button", 0x10010000, 190, 190, 75, 15
 
 END
@@ -120,4 +123,19 @@ BEGIN
     CONTROL "&Guardar", IDC_BTNG_GUARDAR_SCENE ,"Button",  0x10010000, 60, 190,  75, 15
     CONTROL "&Cancelar", IDC_BTN_CANCELAR_SCENE, "Button", 0x10010000, 190,190, 75, 15
 
+END
+/*ventana para crear cpngs o assets*/
+DLG_NEW_CPNG DIALOGEX 6, 5, 325, 216
+
+CAPTION "Nuevo cpng"
+
+FONT 8, "Tahoma"
+
+STYLE 0x10CE0804
+
+BEGIN
+      
+    CONTROL "&Guardar", ID_BTN_GUARDAR_NEW_CPNG,"Button",  0x10010000, 60, 190,  75, 15
+    CONTROL "&Salir", ID_BTN_SALIR_NEW_CPNG, "Button", 0x10010000, 190,190, 75, 15
+      
 END

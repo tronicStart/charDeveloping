@@ -9,6 +9,7 @@
 #define DLG_LEER_ARCHIVO 156
 #define DLG_CREAR_TEXTURE 157
 #define DLG_CREAR_SCENE 158
+#define DLG_NEW_CPNG 159
 
 //ID of menu items
 #define ID_COMBOBOXEX   200
@@ -62,6 +63,9 @@
 #define CM_CREAR_SCENE 150
 #define CM_CREAR_TEXTURE 151
 #define CM_CREAR_IMG 152
+#define CM_CREAR_CPNG_EN_CONSOLA 154
+//ventana de nuevo cpng
+#define CM_NEW_CPNG 153
 
 // ID of Button Controls
 #define IDC_BTN_TEST 1001
@@ -98,14 +102,7 @@
 #define IDC_BTN_CANCELAR_PROYECTO 1032
 //Macros o declaraciones necesarias aparte
 #define TIMER_ID 1
-#define TIMER_INTERVAL 5000 //5 segundos
-
-
-
-
-
-
-
-
-
-
+#define TIMER_INTERVAL 2000 //5 segundos
+//Definiciones para la ventana nuevo cpng
+#define ID_BTN_GUARDAR_NEW_CPNG 1033
+#define ID_BTN_SALIR_NEW_CPNG 1034
