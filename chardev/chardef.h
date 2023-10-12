@@ -17,6 +17,8 @@
 #define CPNG_ERROR -2
 #define TEXTURE_ERROR -5
 #define ERROR -1
+#define GAME_TRUE 1
+#define GAME_FALSE 0
 #define KEY_A 'a'
 #define KEY_B 'b'
 #define KEY_C 'c'
@@ -86,6 +88,8 @@ typedef struct texture{
 typedef struct {
     int posX;
     int posY;
+    float positionX;
+    float positionY;
     int id_cpng;
     int color;
     int mode_save;
@@ -139,7 +143,7 @@ typedef struct{
     int (*saveDraw)(cpng *);
     int (*readDraw)(cpng *);
     int (*movRandDraw)(cpng * , int, int, int, int, int);
-    int (*movRandPosOp)(cpng * , int, int, int, int, int, int, *(callback)());
+    //int (*movRandPosOp)(cpng * , int, int, int, int, int, int, *(callback)());
     int (*movDrawFunc)(cpng * , const String, const String, const String, const String, const String, void (*callback)());
     int (*drawWait)(int);
     int (*deleteDraw_)(cpng *);
@@ -155,6 +159,7 @@ typedef struct{
     void (*addJumpsLines)(int);
     void (*hiddenCursor)(int);
     void (*addTitleConsole)(const String);
+    char (*getKey)();
 } Scene;
 
 #endif

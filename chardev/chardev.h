@@ -51,11 +51,11 @@ static void clsAscii(){
 }
 
 static void setColor (int color){
-    
+
     HANDLE out;
     out=GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(out,color);
-    
+
 }
 
 static void setPosXY (int X, int Y){
@@ -68,7 +68,7 @@ static void setPosXY (int X, int Y){
 }
 
 static void centerText(char* text){
-    
+
     int rows, columns;
     char buffer[256];
     FILE* terminal = popen("stty size", "r");
@@ -78,18 +78,18 @@ static void centerText(char* text){
     int x = (columns - strlen(text)) / 2;
     printf("\033[%dG", x + 1);
     printf("%s\n", text);
-    
+
 }
 
 static void PrintRandomChar (){
-    
+
     int i;
     srand(time(0));
     for (i = 0; i < 10; i++) {
         char letter = (rand() % 26) + 65;
         printf("%c\n", letter);
     }
-    
+
 }
 
 static char genereRandomChar(){
@@ -102,16 +102,16 @@ static char genereRandomChar(){
 }
 
 static int newRandom (int max){
-    
+
     int r;
     srand(time(NULL));
     r = rand() % max;
     return r;
-    
+
 }
-  
+
 static void dupliText(char* text, int times, int newline){
-    
+
     int i;
     for (i = 0; i < times; i++) {
         if (newline) {
@@ -257,7 +257,7 @@ static void colorRGBA(int R, int G, int B, int A){
             SetConsoleTextAttribute(out, 0);
         }
     }
-    
+
 }
 
 static int readFiles (const char * file){
@@ -331,13 +331,13 @@ int saveTexture (texture * Texture){
 }
 
 int readTexture (texture * Texture){
-    
+
     char extend[1024] = ".tex";
     char total[1024];
     char dataFile[1025];
     strcpy(total, Texture->file_texture);
     strcat(total, extend);
-    
+
     FILE * f = fopen(total, "r");
 
 	if (f == NULL){
@@ -354,13 +354,13 @@ int readTexture (texture * Texture){
 }
 
 static int readCpng (cpng * cpng){
-    
+
     char extend[1024] = ".cpng";
     char total[1024];
     char dataFile[1025];
     strcpy(total, cpng->name);
     strcat(total, extend);
-    
+
     FILE * f = fopen(total, "r");
 
 	if (f == NULL){
@@ -413,7 +413,7 @@ static int moveRandCpng (cpng * cpng, int num_max, int num_1, int num_2, int num
 }
 
 static int moveSimpleCpng (cpng * cpng, const String key_1, const String key_2, const String key_3, const String key_4){
-    
+
     char ch;
     if(cpng->id_cpng < 1){
         printf("charDev: 'id_cpng' is 0 or negative");
@@ -468,7 +468,7 @@ static int movReturs (cpng * cpng, const String key_1, const String key_2, const
 }
 
 static int moveSimpleCpngOp (cpng * cpng, const String key_1, const String key_2, const String key_3, const String key_4, const String key_5, void (*callback)()){
-    
+
     char ch;
     if(cpng->id_cpng < 1){
         printf("charDev: 'id_cpng' is 0 or negative");
@@ -498,7 +498,7 @@ static int moveSimpleCpngOp (cpng * cpng, const String key_1, const String key_2
 }
 
 static int moveCpng (cpng * cpng, const String key_1, const String key_2, const String key_3, const String key_4, const String key_5, const String key_6, const String key_7, const String key_8){
-    
+
     char ch;
     if(cpng->id_cpng < 1){
         printf("charDev: 'id_cpng' is 0 or negative");
@@ -539,7 +539,7 @@ static int moveCpng (cpng * cpng, const String key_1, const String key_2, const 
 }
 
 int moveSimpleCpng_changes (cpng * cpng, const int time, const String key_1, const String key_2, const String key_3, const String key_4){
-    
+
     char ch;
     String copy;
     copy = cpng->asset;
@@ -559,19 +559,19 @@ int moveSimpleCpng_changes (cpng * cpng, const int time, const String key_1, con
             if (ch == key_1) {
                 cpng->posX--;
                 cpng->asset = cpng->changes_x;
-                usleep(time);
+                Sleep(time);
             } else if (ch == key_2) {
                 cpng->posX++;
                 cpng->asset = cpng->changes_x;
-                usleep(time);
+                Sleep(time);
             } else if (ch == key_3) {
                 cpng->posY--;
                 cpng->asset = cpng->changes_y;
-                usleep(time);
+                Sleep(time);
             } else if (ch == key_4) {
                 cpng->posY++;
                 cpng->asset = cpng->changes_y;
-                usleep(time);
+                Sleep(time);
             }
         }
         cpng->asset = copy;
@@ -673,8 +673,9 @@ static int duplicDraw (cpng * cpng, int times, int newline){
         }
     }
 }
+
 static int time__ (int t){
-    usleep(t);
+    Sleep(t);
 }
 
 static void jumps (int l){
@@ -685,23 +686,23 @@ static void jumps (int l){
 }
 
 static void hiddenCursor (int confirmation){
-    
-    if(confirmation == true){
+
+    if(confirmation == 1){
         CONSOLE_CURSOR_INFO cci = {100, FALSE};
         SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cci);
     }
-    else if(confirmation == false){
+    else if(confirmation == 0){
     	CONSOLE_CURSOR_INFO cci = {100, TRUE};
         SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cci);
     }
-    
+
 }
 
 static setTitle (const String title){
     SetConsoleTitle(title);
 }
 
-static moveRandsOP (cpng * cpng, int num_max, int num_1, int num_2, int num_3, int num_4, int num_5, *(callback)()){
+/*static int _moveRandsOP (cpng * cpng, int num_max, int num_1, int num_2, int num_3, int num_4, int num_5, *(callback)()){
     int i = newRandom(num_max);
     if(cpng->id_cpng < 1){
         printf("charDev: 'id_cpng' is 0 or negative");
@@ -740,6 +741,14 @@ static moveRandsOP (cpng * cpng, int num_max, int num_1, int num_2, int num_3, i
             callback();
         }
     }
+}*/
+
+char _getKey (){
+    char ch;
+    if (kbhit()) {
+            ch = READKEY();
+    }
+    return ch;
 }
 
 void ini_game (Scene * d){
@@ -768,7 +777,8 @@ void ini_game (Scene * d){
     d->movDraw_ = moveCpng;
     d->addJumpsLines = jumps;
     d->movDrawPos = movReturs;
-    d->movRandPosOp = moveRandsOP;
+    //d->movRandPosOp = _moveRandsOP;
+    d->getKey = _getKey;
 }
 
 #endif
