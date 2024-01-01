@@ -4,4 +4,3 @@
 El estado actual del programa es muy lamemtable porque no se estan haciendo varias cosas.
 ## Sistemas operativos
 En la actualidad el programa solo funciona en windows pero a futuro se trabajara en versiones para otros sistemas operativos.
-Unite a nuestro servidor de discord para mas:(https://discord.gg/dxNyrrhWCK)
